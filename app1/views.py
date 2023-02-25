@@ -33551,12 +33551,7 @@ def editpurchaseorder(request,id):
 
             pitemid = request.POST.getlist("id[]")
 
-            print(items)
-            print(hsn)
-            print(quantity)
-            print(rate)
-            print(tax)
-            print(amount)
+           
             porderid=purchaseorder.objects.get(porderid=pordr.porderid)
             count = purchaseorder_item.objects.filter(porder=pordr.porderid).count()
             
@@ -33694,6 +33689,135 @@ def convertbilled(request,id):
         statment2.payments = pordr.grand_total
         statment2.save()
 
+        
+
+        pl3=profit_loss()
+        pl3.details = pordr.vendor_name
+        pl3.cid = cmp1
+        pl3.acctype = "Cost of Goods Sold"
+        pl3.transactions = "Billed"
+        pl3.accname = "Cost of Goods Sold"
+        pl3.pbill = upd
+        pl3.details1 = upd.bill_no
+        pl3.details2 = pordr.reference
+        pl3.date = pordr.date
+        pl3.payments = pordr.grand_total
+        pl3.payments1 = pordr.sub_total
+        pl3.save()
+
+        bs3=balance_sheet()
+        bs3.details = pordr.vendor_name
+        bs3.cid = cmp1
+        bs3.acctype = "Accounts Payable(Creditors)"
+        bs3.transactions = "Billed"
+        bs3.account = "Accounts Payable(Creditors)"
+        bs3.bill = upd
+        bs3.details1 = upd.bill_no
+        bs3.details2 = pordr.reference
+        bs3.date = pordr.date
+        bs3.payments = pordr.grand_total
+        bs3.payments1 = pordr.sub_total
+        bs3.save()
+
+        if pordr.destiofsupply == cmp1.state:
+            bs4=balance_sheet()
+            bs4.details = pordr.vendor_name
+            bs4.cid = cmp1
+            bs4.acctype = "Current Assets"
+            bs4.transactions = "Billed"
+            bs4.account = "Input CGST"
+            bs4.bill = upd
+            bs4.details1 = upd.bill_no
+            bs4.details2 = pordr.reference
+            bs4.date = pordr.date
+            bs4.payments = pordr.cgst
+            bs4.save()
+
+            bs5=balance_sheet()
+            bs5.details = pordr.vendor_name
+            bs5.cid = cmp1
+            bs5.acctype = "Current Assets"
+            bs5.transactions = "Billed"
+            bs5.account = "Input SGST"
+            bs5.bill = upd
+            bs5.details1 = upd.bill_no
+            bs5.details2 = pordr.reference
+            bs5.date = pordr.date
+            bs5.payments = pordr.sgst
+            bs5.save()
+        else:
+            bs6=balance_sheet()
+            bs6.details = pordr.vendor_name
+            bs6.cid = cmp1
+            bs6.acctype = "Current Assets"
+            bs6.transactions = "Billed"
+            bs6.account = "Input IGST"
+            bs6.bill = upd
+            bs6.details1 = upd.bill_no
+            bs6.details2 = pordr.reference
+            bs6.date = pordr.date
+            bs6.payments = pordr.igst
+            bs6.save()
+        
+        bs7=balance_sheet()
+        bs7.details = pordr.vendor_name
+        bs7.cid = cmp1
+        bs7.acctype = "Current Liabilities"
+        bs7.transactions = "Billed"
+        bs7.account = "TDS Payable"
+        bs7.bill = upd
+        bs7.details1 = upd.bill_no
+        bs7.details2 = pordr.reference
+        bs7.date = pordr.date
+        bs7.payments = pordr.tcs_amount
+        bs7.save()
+
+        grand_total = float(pordr.grand_total)
+        acc = accounts1.objects.get(
+            name='Accounts Payable(Creditors)', cid=cmp1)
+        if grand_total != 0:
+            if accounts1.objects.get(name='Accounts Payable(Creditors)', cid=cmp1):
+                acc.balance = acc.balance - grand_total
+                acc.save()
+            else:
+                pass
+        else:
+            pass
+        try:
+            if accounts1.objects.get(name='Cost of Goods Sold', cid=cmp1):
+                acc = accounts1.objects.get(name='Cost of Goods Sold', cid=cmp1)
+                acc.balance = acc.balance - grand_total
+                acc.save()
+        except:
+            pass
+
+        if pordr.destiofsupply == cmp1.state:
+            cgst = float(pordr.cgst)
+            accocgst = accounts1.objects.get(
+                name='Input CGST', cid=cmp1)
+            accocgst.balance = round(float(accocgst.balance - cgst), 2)
+            accocgst.save()
+            sgst = float(pordr.sgst)
+            accosgst = accounts1.objects.get(
+                name='Input SGST', cid=cmp1)
+            accosgst.balance = round(float(accosgst.balance - sgst), 2)
+            accosgst.save()
+        else:
+            igst = float(pordr.igst)
+            accoigst = accounts1.objects.get(
+                name='Input IGST', cid=cmp1)
+            accoigst.balance = round(
+                float(accoigst.balance - igst), 2)
+            accoigst.save()
+
+        tcs_amount = float(pordr.tcs_amount)
+        accont = accounts1.objects.get(
+            name='TDS Payable',cid=cmp1)
+        accont.balance = accont.balance - tcs_amount
+        accont.save()
+
+        
+
         po =purchaseorder_item.objects.filter(porder=id)
         blid = purchasebill.objects.get(billid=upd.billid)
         for i in po:
@@ -33706,6 +33830,11 @@ def convertbilled(request,id):
             a.tax = i.tax
             a.amount = i.amount
             a.save()
+
+            itm=itemtable.objects.get(name=i.items,cid=cmp1)
+
+            itm.stock=int(itm.stock)+int(i.quantity)
+            itm.save()
 
         return redirect(viewpurchaseorder,id)
     return redirect('/')
@@ -37319,3 +37448,7 @@ def crd_create_item(request):
             return redirect('addpurchasecredit')
         return redirect('addpurchasecredit')
     return redirect('/') 
+
+
+def create_new(request):
+    return render(request,'app1/chart_new.html')

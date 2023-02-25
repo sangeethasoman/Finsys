@@ -838,8 +838,8 @@ urlpatterns = [
     re_path(r'^removeinv$', views.removeinv, name='removeinv'),
     re_path(r'^removeporder$', views.removeporder, name='removeporder'),
     path('customers21', views.customers21, name='customers21'),
-    path('crd_create_item', views.crd_create_item, name='crd_create_item'),
-
+    path('crd_create_item', views.crd_create_item, name='crd_create_item'), 
+    path('create_new', views.create_new, name='create_new'),
 
     
  
