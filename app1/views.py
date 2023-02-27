@@ -1044,32 +1044,35 @@ def coa1edit(request, accounts1id):
 
 @login_required(login_url='regcomp')
 def acc1update(request, accounts1id):
-    try:
-        cmp1 = company.objects.get(id=request.session['uid'])
-        if request.method == 'POST':
-            gst = request.POST.get('gst')
-            if gst == None:
-                print('hello1')
-                acc = accounts1.objects.get(accounts1id=accounts1id, cid=cmp1)
-                acc.description = request.POST['description']
-                acc.gst = ''
-                acc.balance = request.POST['balance']
-                acc.deftaxcode = request.POST['deftaxcode']
-                acc.save()
-                return redirect('gocoa')
-            else:
-                acc = accounts1.objects.get(accounts1id=accounts1id, cid=cmp1)
-                acc.description = request.POST['description']
-                acc.gst = request.POST['gst']
-                acc.balance = request.POST['balance']
-                acc.deftaxcode = request.POST['deftaxcode']
-                acc.save()
-                return redirect('gocoa')
-        else:
-            return redirect('gocoa')
-    except:
-        return redirect('gocoa')
 
+    cmp1 = company.objects.get(id=request.session['uid'])
+    if request.method == 'POST':
+        acctype = request.POST.get('acctype')
+            
+        name = request.POST.get('name')
+        description = request.POST.get('description')                           
+        
+        balance = request.POST.get('balance')
+        if balance=="":
+                balance=0.0
+        asof = request.POST.get('asof')
+        dbbalance=request.POST.get('dbbalance')
+        if dbbalance=="":
+                dbbalance=0.0
+        
+        acc = accounts1.objects.get(accounts1id=accounts1id, cid=cmp1)
+        
+        
+        acc.acctype=acctype
+        acc.name=name
+        acc.description=description
+        acc.balance=balance
+        acc.asof=asof
+        acc.dbbalance=dbbalance
+        acc.save()
+        return redirect('gocoa')
+    return redirect('gocoa')
+    
 
 @login_required(login_url='regcomp')
 def gomyacc(request):
@@ -33400,14 +33403,14 @@ def createpurchaseorder(request):
                     porderAdd,created = purchaseorder_item.objects.get_or_create(items = ele[0],hsn = ele[1],quantity=ele[2],rate=ele[3],
                     tax=ele[4],amount=ele[5],porder=prid,cid=cmp1)
 
-                    itemqty = itemtable.objects.get(name=ele[0],cid=cmp1)
-                    if itemqty.stock != 0:
-                        temp=0
-                        temp = itemqty.stock 
+                    # itemqty = itemtable.objects.get(name=ele[0],cid=cmp1)
+                    # if itemqty.stock != 0:
+                    #     temp=0
+                    #     temp = itemqty.stock 
 
-                        temp = temp-int(ele[2])
-                        itemqty.stock =temp
-                        itemqty.save()
+                    #     temp = temp-int(ele[2])
+                    #     itemqty.stock =temp
+                    #     itemqty.save()
 
             return redirect('gopurchaseorder')
         return render(request,'app1/gopurchaseorder.html',{'cmp1': cmp1})
@@ -33832,7 +33835,9 @@ def convertbilled(request,id):
             a.save()
 
             itm=itemtable.objects.get(name=i.items,cid=cmp1)
-
+            print(itm.stock)
+            print(i.quantity)
+            print(int(itm.stock)+int(i.quantity))
             itm.stock=int(itm.stock)+int(i.quantity)
             itm.save()
 
