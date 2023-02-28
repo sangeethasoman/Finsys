@@ -34903,8 +34903,13 @@ def getbilldata(request):
 
             vend1 = vendor.objects.get(firstname=a,lastname=b,cid =cmp1)
             date = vend1.date
-            opb = vend1.openingbalance
-            print(opb )
+            opbs = vend1.openingbalance
+            
+            if opbs=="":
+                opb=None
+            else:
+                opb=opbs
+          
             obdue = vend1.opblnc_due
 
         x_data = list(billitm)
@@ -35010,6 +35015,29 @@ def createpurchasepymnt(request):
                 for ele in mapped:
                     billAdd,created = purchasepayment1.objects.get_or_create(billdate = ele[0],billno=ele[1],billamount=ele[2],
                     duedate=ele[3],amountdue=ele[4],payments=ele[5],pymnt=pyitm,cid=cmp1)
+                    print("ele[1]")
+                    print(ele[1])
+                    print("ele[4]")
+                    print(ele[4])
+                    if ele[0] != "Vendor Opening Balance":
+                   
+                        if purchasebill.objects.get(bill_no =ele[1], cid=cmp1,balance_due=ele[4]):
+                        
+                            invo = purchasebill.objects.get(bill_no=ele[1], cid=cmp1,balance_due=ele[4])
+                            
+                            invo.balance_due = float(ele[4]) - float(ele[5]) 
+                            invo.save()
+                    
+                            # if invo.baldue == 0.0:
+                            #     invo.status = "Paid"
+                
+                            #     invo.save()
+                            # else:
+                            #     pass
+                        else:
+                            pass
+                    else:
+                        pass
 
             paymentamount = float(request.POST['paymentamount'])
             accont = accounts1.objects.get(
