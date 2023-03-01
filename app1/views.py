@@ -15833,6 +15833,120 @@ def profitandlossfiltered(request):
     except:
         return redirect('profitandloss')
 
+@login_required(login_url='regcomp')
+def accpayables(request):
+    try:
+        cmp1 = company.objects.get(id=request.session["uid"])
+        ex = expences.objects.filter(cid=cmp1).values(
+            'payee').annotate(t1=Sum('grandtotal'))
+        pbl = purchasebill.objects.filter(cid=cmp1).values(
+            'vendor_name').annotate(t1=Sum('balance_due'),t2=Sum('grand_total'))
+
+        print(pbl)
+        cre = suplrcredit.objects.filter(cid=cmp1).values(
+            'supplier').annotate(t1=Sum('creditamount'))
+        op = bills.objects.filter(cid=cmp1, payornot='openbalance').values(
+            'payee').annotate(t1=Sum('grandtotal'))
+        bi = bills.objects.filter(cid=cmp1, payornot='debit').values(
+            'payee').annotate(t1=Sum('grandtotal'))
+        bi1 = bills.objects.filter(cid=cmp1, payornot='').values(
+            'payee').annotate(t1=Sum('grandtotal'))
+        tot = expences.objects.filter(
+            cid=cmp1).all().aggregate(t2=Sum('grandtotal'))
+        tot6 = purchasebill.objects.filter(
+            cid=cmp1).all().aggregate(t2=Sum('balance_due'),t3=Sum('grand_total'))
+        tot1 = suplrcredit.objects.filter(
+            cid=cmp1).all().aggregate(t2=Sum('creditamount'))
+        tot2 = bills.objects.filter(
+            cid=cmp1, payornot='debit').all().aggregate(t2=Sum('grandtotal'))
+        tot3 = bills.objects.filter(
+            cid=cmp1, payornot='').all().aggregate(t2=Sum('grandtotal'))
+        tot4 = bills.objects.filter(
+            cid=cmp1, payornot='openbalance').all().aggregate(t2=Sum('grandtotal'))
+
+        fromdates=request.user.date_joined.date()
+        todates=date.today()
+        context = {'expence': ex, 'cmp1': cmp1, 'tot': tot, 'tot1': tot1, 'cre': cre, 'op': op, 'bi': bi, 'bi1': bi1,
+                   'tot2': tot2, 'tot3': tot3, 'tot4': tot4,'pbl':pbl,'tot6': tot6,"fromdate":fromdates,"todate":todates}
+        return render(request, 'app1/accpayables.html', context)
+    except:
+        return redirect('godash')
+
+
+@login_required(login_url='regcomp')
+def accpayables1(request):
+    try:
+        cmp1 = company.objects.get(id=request.session["uid"])
+        toda = date.today()
+        tod = toda.strftime("%Y-%m-%d")
+        filmeth = request.POST['reportperiod']
+        if filmeth == 'Today':
+            fromdate = tod
+            todate = tod
+        elif filmeth == 'Custom':
+            fromdate = request.POST['fper']
+            todate = request.POST['tper']
+        elif filmeth == 'This month':
+            input_dt = date.today()
+            day_num = input_dt.strftime("%d")
+            res = input_dt - timedelta(days=int(day_num) - 1)
+            fromdate = str(res)
+
+            any_day=date.today()
+            next_month = any_day.replace(day=28) + datetime.timedelta(days=4)
+            d = next_month - datetime.timedelta(days=next_month.day)
+
+            todate = str(d)
+        elif filmeth == 'This financial year':
+            if int(toda.strftime("%m")) >= 1 and int(toda.strftime("%m")) <= 3:
+                pyear = int(toda.strftime("%Y")) - 1
+                fromdate = f'{pyear}-03-01'
+                todate = f'{toda.strftime("%Y")}-03-31'
+            else:
+                pyear = int(toda.strftime("%Y")) + 1
+                fromdate = f'{toda.strftime("%Y")}-03-01'
+                todate = f'{pyear}-03-31'
+        else:
+            fromdate = request.user.date_joined.date()
+            todate = date.today()
+        ex = expences.objects.filter(cid=cmp1, paymdate__gte=fromdate, paymdate__lte=todate).values('payee').annotate(
+            t1=Sum('grandtotal'))
+        pbl = purchasebill.objects.filter(cid=cmp1, date__gte=fromdate, date__lte=todate).values('vendor_name').annotate(
+            t1=Sum('balance_due'),t2=Sum('grand_total'))
+        cre = suplrcredit.objects.filter(cid=cmp1, paymdate__gte=fromdate, paymdate__lte=todate).values(
+            'supplier').annotate(t1=Sum('creditamount'))
+        op = bills.objects.filter(cid=cmp1, payornot='openbalance', paymdate__gte=fromdate,
+                                  paymdate__lte=todate).values('payee').annotate(t1=Sum('grandtotal'))
+        bi = bills.objects.filter(cid=cmp1, payornot='debit', paymdate__gte=fromdate, paymdate__lte=todate).values(
+            'payee').annotate(t1=Sum('grandtotal'))
+        bi1 = bills.objects.filter(cid=cmp1, payornot='', paymdate__gte=fromdate, paymdate__lte=todate).values(
+            'payee').annotate(t1=Sum('grandtotal'))
+        tot = expences.objects.filter(cid=cmp1, paymdate__gte=fromdate, paymdate__lte=todate).aggregate(
+            t2=Sum('grandtotal'))
+        tot6 = purchasebill.objects.filter(cid=cmp1, date__gte=fromdate, date__lte=todate).aggregate(
+            t2=Sum('balance_due'),t3=Sum('grand_total'))
+        tot1 = suplrcredit.objects.filter(cid=cmp1, paymdate__gte=fromdate, paymdate__lte=todate).aggregate(
+            t2=Sum('creditamount'))
+        tot2 = bills.objects.filter(cid=cmp1, payornot='debit', paymdate__gte=fromdate, paymdate__lte=todate).aggregate(
+            t2=Sum('grandtotal'))
+        tot3 = bills.objects.filter(cid=cmp1, payornot='', paymdate__gte=fromdate, paymdate__lte=todate).aggregate(
+            t2=Sum('grandtotal'))
+        tot4 = bills.objects.filter(cid=cmp1, payornot='openbalance', paymdate__gte=fromdate,
+                                    paymdate__lte=todate).aggregate(t2=Sum('grandtotal'))
+
+
+        try:
+            fromdates=datetime.datetime.strptime(fromdate, "%Y-%m-%d").date()
+            todates=datetime.datetime.strptime(todate, "%Y-%m-%d").date()
+        except:
+            fromdates=request.user.date_joined.date()
+            todates=date.today()
+        context = {'expence': ex, 'cmp1': cmp1, 'tot': tot, 'tot1': tot1, 'cre': cre, 'op': op, 'bi': bi, 'bi1': bi1,
+                   'tot2': tot2, 'tot3': tot3, 'tot4': tot4,'pbl':pbl,'tot6': tot6,"fromdate":fromdates,"todate":todates}
+        return render(request, 'app1/accpayables.html', context)
+    except:
+        return redirect('accpayables')
+
 
 @login_required(login_url='regcomp')
 def accreceivables(request):
@@ -16129,117 +16243,7 @@ def accreceivables1(request):
         return redirect('accreceivables')
 
 
-@login_required(login_url='regcomp')
-def accpayables(request):
-    try:
-        cmp1 = company.objects.get(id=request.session["uid"])
-        ex = expences.objects.filter(cid=cmp1).values(
-            'payee').annotate(t1=Sum('grandtotal'))
-        pbl = purchasebill.objects.filter(cid=cmp1).values(
-            'vendor_name').annotate(t1=Sum('balance_due'),t2=Sum('grand_total'))
-        cre = suplrcredit.objects.filter(cid=cmp1).values(
-            'supplier').annotate(t1=Sum('creditamount'))
-        op = bills.objects.filter(cid=cmp1, payornot='openbalance').values(
-            'payee').annotate(t1=Sum('grandtotal'))
-        bi = bills.objects.filter(cid=cmp1, payornot='debit').values(
-            'payee').annotate(t1=Sum('grandtotal'))
-        bi1 = bills.objects.filter(cid=cmp1, payornot='').values(
-            'payee').annotate(t1=Sum('grandtotal'))
-        tot = expences.objects.filter(
-            cid=cmp1).all().aggregate(t2=Sum('grandtotal'))
-        tot6 = purchasebill.objects.filter(
-            cid=cmp1).all().aggregate(t2=Sum('balance_due'),t3=Sum('grand_total'))
-        tot1 = suplrcredit.objects.filter(
-            cid=cmp1).all().aggregate(t2=Sum('creditamount'))
-        tot2 = bills.objects.filter(
-            cid=cmp1, payornot='debit').all().aggregate(t2=Sum('grandtotal'))
-        tot3 = bills.objects.filter(
-            cid=cmp1, payornot='').all().aggregate(t2=Sum('grandtotal'))
-        tot4 = bills.objects.filter(
-            cid=cmp1, payornot='openbalance').all().aggregate(t2=Sum('grandtotal'))
 
-        fromdates=request.user.date_joined.date()
-        todates=date.today()
-        context = {'expence': ex, 'cmp1': cmp1, 'tot': tot, 'tot1': tot1, 'cre': cre, 'op': op, 'bi': bi, 'bi1': bi1,
-                   'tot2': tot2, 'tot3': tot3, 'tot4': tot4,'pbl':pbl,'tot6': tot6,"fromdate":fromdates,"todate":todates}
-        return render(request, 'app1/accpayables.html', context)
-    except:
-        return redirect('godash')
-
-
-@login_required(login_url='regcomp')
-def accpayables1(request):
-    try:
-        cmp1 = company.objects.get(id=request.session["uid"])
-        toda = date.today()
-        tod = toda.strftime("%Y-%m-%d")
-        filmeth = request.POST['reportperiod']
-        if filmeth == 'Today':
-            fromdate = tod
-            todate = tod
-        elif filmeth == 'Custom':
-            fromdate = request.POST['fper']
-            todate = request.POST['tper']
-        elif filmeth == 'This month':
-            input_dt = date.today()
-            day_num = input_dt.strftime("%d")
-            res = input_dt - timedelta(days=int(day_num) - 1)
-            fromdate = str(res)
-
-            any_day=date.today()
-            next_month = any_day.replace(day=28) + datetime.timedelta(days=4)
-            d = next_month - datetime.timedelta(days=next_month.day)
-
-            todate = str(d)
-        elif filmeth == 'This financial year':
-            if int(toda.strftime("%m")) >= 1 and int(toda.strftime("%m")) <= 3:
-                pyear = int(toda.strftime("%Y")) - 1
-                fromdate = f'{pyear}-03-01'
-                todate = f'{toda.strftime("%Y")}-03-31'
-            else:
-                pyear = int(toda.strftime("%Y")) + 1
-                fromdate = f'{toda.strftime("%Y")}-03-01'
-                todate = f'{pyear}-03-31'
-        else:
-            fromdate = request.user.date_joined.date()
-            todate = date.today()
-        ex = expences.objects.filter(cid=cmp1, paymdate__gte=fromdate, paymdate__lte=todate).values('payee').annotate(
-            t1=Sum('grandtotal'))
-        pbl = purchasebill.objects.filter(cid=cmp1, date__gte=fromdate, date__lte=todate).values('vendor_name').annotate(
-            t1=Sum('balance_due'),t2=Sum('grand_total'))
-        cre = suplrcredit.objects.filter(cid=cmp1, paymdate__gte=fromdate, paymdate__lte=todate).values(
-            'supplier').annotate(t1=Sum('creditamount'))
-        op = bills.objects.filter(cid=cmp1, payornot='openbalance', paymdate__gte=fromdate,
-                                  paymdate__lte=todate).values('payee').annotate(t1=Sum('grandtotal'))
-        bi = bills.objects.filter(cid=cmp1, payornot='debit', paymdate__gte=fromdate, paymdate__lte=todate).values(
-            'payee').annotate(t1=Sum('grandtotal'))
-        bi1 = bills.objects.filter(cid=cmp1, payornot='', paymdate__gte=fromdate, paymdate__lte=todate).values(
-            'payee').annotate(t1=Sum('grandtotal'))
-        tot = expences.objects.filter(cid=cmp1, paymdate__gte=fromdate, paymdate__lte=todate).aggregate(
-            t2=Sum('grandtotal'))
-        tot6 = purchasebill.objects.filter(cid=cmp1, date__gte=fromdate, date__lte=todate).aggregate(
-            t2=Sum('balance_due'),t3=Sum('grand_total'))
-        tot1 = suplrcredit.objects.filter(cid=cmp1, paymdate__gte=fromdate, paymdate__lte=todate).aggregate(
-            t2=Sum('creditamount'))
-        tot2 = bills.objects.filter(cid=cmp1, payornot='debit', paymdate__gte=fromdate, paymdate__lte=todate).aggregate(
-            t2=Sum('grandtotal'))
-        tot3 = bills.objects.filter(cid=cmp1, payornot='', paymdate__gte=fromdate, paymdate__lte=todate).aggregate(
-            t2=Sum('grandtotal'))
-        tot4 = bills.objects.filter(cid=cmp1, payornot='openbalance', paymdate__gte=fromdate,
-                                    paymdate__lte=todate).aggregate(t2=Sum('grandtotal'))
-
-
-        try:
-            fromdates=datetime.datetime.strptime(fromdate, "%Y-%m-%d").date()
-            todates=datetime.datetime.strptime(todate, "%Y-%m-%d").date()
-        except:
-            fromdates=request.user.date_joined.date()
-            todates=date.today()
-        context = {'expence': ex, 'cmp1': cmp1, 'tot': tot, 'tot1': tot1, 'cre': cre, 'op': op, 'bi': bi, 'bi1': bi1,
-                   'tot2': tot2, 'tot3': tot3, 'tot4': tot4,'pbl':pbl,'tot6': tot6,"fromdate":fromdates,"todate":todates}
-        return render(request, 'app1/accpayables.html', context)
-    except:
-        return redirect('accpayables')
 
 
 def customisereport(request):
@@ -31385,10 +31389,7 @@ def stocksummary(request):
         fromdates=request.user.date_joined.date()
         todates=date.today()
 
-        # for i in item:
-        #     iname = i.name
-        #     st = stockadjust.objects.filter(item1=iname,cid=cmp1)
-        # st1=st
+        
         
         context = {'item':item,'cmp1':cmp1,"fromdate":fromdates,"todate":todates}
         return render(request, 'app1/stocksummary.html', context)
@@ -35013,32 +35014,11 @@ def createpurchasepymnt(request):
                 mapped=zip(billdate,billno,billamount,duedate,amountdue,payments)
                 mapped=list(mapped)
                 for ele in mapped:
+            
                     billAdd,created = purchasepayment1.objects.get_or_create(billdate = ele[0],billno=ele[1],billamount=ele[2],
                     duedate=ele[3],amountdue=ele[4],payments=ele[5],pymnt=pyitm,cid=cmp1)
-                    print("ele[1]")
-                    print(ele[1])
-                    print("ele[4]")
-                    print(ele[4])
-                    if ele[0] != "Vendor Opening Balance":
-                   
-                        if purchasebill.objects.get(bill_no =ele[1], cid=cmp1,balance_due=ele[4]):
-                        
-                            invo = purchasebill.objects.get(bill_no=ele[1], cid=cmp1,balance_due=ele[4])
-                            
-                            invo.balance_due = float(ele[4]) - float(ele[5]) 
-                            invo.save()
                     
-                            # if invo.baldue == 0.0:
-                            #     invo.status = "Paid"
-                
-                            #     invo.save()
-                            # else:
-                            #     pass
-                        else:
-                            pass
-                    else:
-                        pass
-
+            
             paymentamount = float(request.POST['paymentamount'])
             accont = accounts1.objects.get(
                 name='Accounts Payable(Creditors)',cid=cmp1)
