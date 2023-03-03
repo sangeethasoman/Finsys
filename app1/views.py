@@ -16139,7 +16139,7 @@ def accpayables(request):
             'payee').annotate(t1=Sum('grandtotal'))
         pbl = purchasebill.objects.filter(cid=cmp1).values(
             'vendor_name').annotate(t1=Sum('balance_due'),t2=Sum('grand_total'))
-        
+        print(pbl   )
         
         cre = suplrcredit.objects.filter(cid=cmp1).values(
             'supplier').annotate(t1=Sum('creditamount'))
@@ -31448,105 +31448,7 @@ def stocksummary1(request):
         context = {'item':item,'cmp1':cmp1,"fromdate":fromdates,"todate":todates}
         return render(request, 'app1/stocksummary.html', context)
 
-def streport(request,id):
-    if 'uid' in request.session:
-        if request.session.has_key('uid'):
-            uid = request.session['uid']
-        else:
-            return redirect('/')
-        cmp1 = company.objects.get(id=request.session['uid'])
 
-        toda = date.today()
-        tod = toda.strftime("%Y-%m-%d")
-
-        to=toda.strftime("%d-%m-%Y")
-
-        acc = itemstock.objects.filter(items=id,cid=cmp1)
-        
-
-        debit=0
-        credit=0
-        total =0
-
-        for i in acc :
-            if i.transactions =="Billed":
-                debit+=i.qty
-
-            if i.transactions =="Vendor Credits":
-                credit+=i.qty
-
-            if i.transactions =="Invoice":
-                credit+=i.qty
-
-        fdate =""
-        ldate =""
-
-
-        total = credit-debit
-
-        fromdates=request.user.date_joined.date()
-        todates=date.today()
-        context = {'acc':acc, 'cmp1':cmp1, 'to':to, 'fdate':fdate, 'ldate':ldate, 'debit':debit, 'credit':credit, 'total':total,"keys":id,"fromdate":fromdates, "todate":todates}
-        return render(request, 'app1/streport.html', context)
-    return redirect('/')  
-
-def streport_flt(request,id):
-    if 'uid' in request.session:
-        if request.session.has_key('uid'):
-            uid = request.session['uid']
-        else:
-            return redirect('/')
-        cmp1 = company.objects.get(id=request.session['uid'])
-
-        toda = date.today()
-        tod = toda.strftime("%Y-%m-%d")
-
-        to=toda.strftime("%d-%m-%Y")
-
-        filmeth = request.POST['reportperiod']
-        print(filmeth)
-        if filmeth == 'Custom':
-            fromdate = request.POST['fdate']
-            todate = request.POST['ldate']
-            
-        else:
-            fromdate = request.user.date_joined.date()
-            todate = date.today()
-           
-      
-        acc = itemstock.objects.filter(items=id,cid=cmp1,date__gte=fromdate, date__lte=todate,)
-
-     
-
-        debit=0
-        credit=0
-        total =0
-
-        for i in acc :
-            if i.transactions =="Billed":
-                debit+=i.qty
-
-            if i.transactions =="Vendor Credits":
-                credit+=i.qty
-
-            if i.transactions =="Invoice":
-                credit+=i.qty
-
-        fdate =""
-        ldate =""
-
-        total = credit-debit
-
-        try:
-            fromdates=datetime.datetime.strptime(fromdate, "%Y-%m-%d").date()
-            todates=datetime.datetime.strptime(todate, "%Y-%m-%d").date()
-        except:
-            fromdates=request.user.date_joined.date()
-            todates=date.today()
-
-        context = {'acc':acc, 'cmp1':cmp1, 'to':to, 'fdate':fdate, 'ldate':ldate, 'debit':debit, 'credit':credit, 'total':total,"keys":id,"fromdate":fromdates, "todate":todates}
-        return render(request, 'app1/streport.html', context)
-    return redirect('/')  
 
 @login_required(login_url='regcomp')
 def stockvaluation(request):
@@ -31613,6 +31515,106 @@ def stockvaluation1(request):
         
         context = {'item': item,'stock':stock,'cmp1':cmp1,"fromdate":fromdates,"todate":todates}
         return render(request, 'app1/stockvaluation.html', context)
+
+def streport(request,id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+
+        toda = date.today()
+        tod = toda.strftime("%Y-%m-%d")
+
+        to=toda.strftime("%d-%m-%Y")
+
+        acc = itemstock.objects.filter(items=id,cid=cmp1)
+        
+    
+        debit=0
+        credit=0
+        total =0
+
+        for i in acc :
+            if i.transactions =="Billed":
+                debit+=i.qty
+
+            if i.transactions =="Vendor Credits":
+                credit+=i.qty
+
+            if i.transactions =="Invoice":
+                credit+=i.qty
+
+        fdate =""
+        ldate =""
+
+
+        total = credit-debit
+
+        fromdates=request.user.date_joined.date()
+        todates=date.today()
+        context = {'acc':acc, 'cmp1':cmp1, 'to':to, 'fdate':fdate, 'ldate':ldate, 'debit':debit, 'credit':credit, 'total':total,"keys":id,"fromdate":fromdates, "todate":todates}
+        return render(request, 'app1/streport.html', context)
+    return redirect('/')  
+
+def streport_flt(request,id):
+    if 'uid' in request.session:
+        if request.session.has_key('uid'):
+            uid = request.session['uid']
+        else:
+            return redirect('/')
+        cmp1 = company.objects.get(id=request.session['uid'])
+
+        toda = date.today()
+        tod = toda.strftime("%Y-%m-%d")
+
+        to=toda.strftime("%d-%m-%Y")
+
+        filmeth = request.POST['reportperiod']
+     
+        if filmeth == 'Custom':
+            fromdate = request.POST['fdate']
+            todate = request.POST['ldate']
+            
+        else:
+            fromdate = request.user.date_joined.date()
+            todate = date.today()
+           
+      
+        acc = itemstock.objects.filter(items=id,cid=cmp1,date__gte=fromdate, date__lte=todate,)
+
+     
+
+        debit=0
+        credit=0
+        total =0
+
+        for i in acc :
+            if i.transactions =="Billed":
+                debit+=i.qty
+
+            if i.transactions =="Vendor Credits":
+                credit+=i.qty
+
+            if i.transactions =="Invoice":
+                credit+=i.qty
+
+        fdate =""
+        ldate =""
+
+        total = credit-debit
+
+        try:
+            fromdates=datetime.datetime.strptime(fromdate, "%Y-%m-%d").date()
+            todates=datetime.datetime.strptime(todate, "%Y-%m-%d").date()
+        except:
+            fromdates=request.user.date_joined.date()
+            todates=date.today()
+
+        context = {'acc':acc, 'cmp1':cmp1, 'to':to, 'fdate':fdate, 'ldate':ldate, 'debit':debit, 'credit':credit, 'total':total,"keys":id,"fromdate":fromdates, "todate":todates}
+        return render(request, 'app1/streport.html', context)
+    return redirect('/')  
      
 def stkvalreport(request,id):
     if 'uid' in request.session:
@@ -34928,6 +34930,7 @@ def gopurchasepymnt(request):
             return redirect('/')
         cmp1 = company.objects.get(id=request.session['uid'])
         py = purchasepayment.objects.filter(cid=cmp1)
+        print(py)
         return render(request,'app1/gopurchasepymnt.html',{'cmp1': cmp1,'py':py})
     return redirect('/') 
 
@@ -35086,9 +35089,10 @@ def viewpurchasepymnt(request,id):
         cmp1 = company.objects.get(id=request.session['uid'])
         paymt=purchasepayment.objects.get(pymntid=id)
         paymt1 = purchasepayment1.objects.all().filter(pymnt=id)
-
-        prl=purchasebill.objects.filter(bill_no=paymt.reference)
-        return render(request,'app1/viewpurchasepymnt.html',{'cmp1': cmp1,'paymt':paymt,'py':paymt1,'prl':prl,})
+    
+        
+        
+        return render(request,'app1/viewpurchasepymnt.html',{'cmp1': cmp1,'paymt':paymt,'py':paymt1})
     return redirect('gopurchasepymnt')
 
 

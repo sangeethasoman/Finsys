@@ -94,7 +94,7 @@
             </div>
             <div class="col-sm-4" style="margin-left: 600px; margin-top: -100px;">
                 <p style="background-color: green; font-size: 14px;color: white; text-align: center;" >&nbsp &nbspAmount<br>
-                &nbsp ₹ {{ paymt.amtcredit }}</p>
+                &nbsp ₹ {{ paymt.paymentamount }}</p>
             </div>
         </div>
         
@@ -108,23 +108,23 @@
                             <td  align="center"><strong>S.N</strong></td>
                             <td  align="center"><strong>Bill Date</strong></td>
                             <td  align="center"><strong>Bill Number</strong></td>
-                            <td  align="center"><strong>Total Amount</strong></td>
                             <td  align="center"><strong>Balance Due</strong></td>
+                            <td  align="center"><strong>Paid Amount</strong></td>
                         </tr>
                     </thead>
                  
                     <tbody>
         
-                        {% for p in prl %}
-                        <tr>
-                            <td height="30" align="center">{{ forloop.counter }}</td>
-                            <td align="center">{{ p.date }}</td>
-                            <td align="center">{{ p.bill_no }}</td>
-                            <td align="center">{{ p.grand_total }}</td>
-                            <td align="center">{{ p.balance_due }}</td>
-                         
-                        </tr>
-                        {% endfor %}
+                        {% for p in paymt1 %}
+                            <tr style=" font-size:13px; color:#000; padding:5px; font-family: 'Muli', sans-serif;">
+                                <td height="30" align="center">{{ forloop.counter }}</td>
+                                <td align="center">{{ p.billdate }}</td>
+                                <td align="center">{{ p.billno }}</td>
+                                <td align="center">{{ p.amountdue }}</td>
+                                <td align="center">{{ p.payments }}</td>
+                                <!-- <td align="center">{{ p.payments }}</td> -->
+                            </tr>
+                        {% endfor %} 
                         
                         
                     </tbody>
