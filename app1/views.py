@@ -31528,8 +31528,10 @@ def streport(request,id):
         tod = toda.strftime("%Y-%m-%d")
 
         to=toda.strftime("%d-%m-%Y")
+        
+        item = itemtable.objects.get(id=id)
 
-        acc = itemstock.objects.filter(items=id,cid=cmp1)
+        acc = itemstock.objects.filter(items=item.name,cid=cmp1)
         
     
         debit=0
@@ -31550,8 +31552,8 @@ def streport(request,id):
         ldate =""
 
 
-        total = credit-debit
-
+        total = debit-credit
+        
         fromdates=request.user.date_joined.date()
         todates=date.today()
         context = {'acc':acc, 'cmp1':cmp1, 'to':to, 'fdate':fdate, 'ldate':ldate, 'debit':debit, 'credit':credit, 'total':total,"keys":id,"fromdate":fromdates, "todate":todates}
@@ -31564,6 +31566,7 @@ def streport_flt(request,id):
             uid = request.session['uid']
         else:
             return redirect('/')
+        item = itemtable.objects.get(id=id)
         cmp1 = company.objects.get(id=request.session['uid'])
 
         toda = date.today()
@@ -31582,7 +31585,7 @@ def streport_flt(request,id):
             todate = date.today()
            
       
-        acc = itemstock.objects.filter(items=id,cid=cmp1,date__gte=fromdate, date__lte=todate,)
+        acc = itemstock.objects.filter(items=item.name,cid=cmp1,date__gte=fromdate, date__lte=todate,)
 
      
 
@@ -31603,7 +31606,7 @@ def streport_flt(request,id):
         fdate =""
         ldate =""
 
-        total = credit-debit
+        total = debit-credit
 
         try:
             fromdates=datetime.datetime.strptime(fromdate, "%Y-%m-%d").date()

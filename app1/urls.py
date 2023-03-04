@@ -759,8 +759,8 @@ urlpatterns = [
     path('bsreport_flt/<str:id>', views.bsreport_flt, name='bsreport_flt'),
     path('tbreport/<str:id>', views.tbreport, name='tbreport'),
     path('tbreport_flt/<str:id>', views.tbreport_flt, name='tbreport_flt'),
-    path('streport/<str:id>', views.streport, name='streport'),
-    path('streport_flt/<str:id>', views.streport_flt, name='streport_flt'),
+    path('streport/<int:id>', views.streport, name='streport'),
+    path('streport_flt/<int:id>', views.streport_flt, name='streport_flt'),
     path('stkvalreport/<str:id>', views.stkvalreport, name='stkvalreport'),
     path('stkvalreport_flt/<str:id>', views.stkvalreport_flt, name='stkvalreport_flt'),
 

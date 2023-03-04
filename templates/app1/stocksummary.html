@@ -97,12 +97,12 @@
                                     </thead>
                                     <tbody id="tb">
                                         {% for i in item %}
-                                            <tr class="tr" onclick="window.location='streport/{{ i.name }} ';">
-                                                <td class="center text-dark">{{ i.name }}</td>
+                                            <tr class="tr">
+                                                <td class="center text-dark"><a style="color: blue;" href="{% url 'streport' i.id%}">{{ i.name }}</a></td>
                                                 <td class="center text-dark 1st">{{ i.stockin }}</td>  
                                                 <td class="center text-dark">{{ i.stockout }}</td>         
                                                 <td class="center text-dark">{{i.stock}}</td>       
-                                            </tr>
+                                            </tr></a>
                                         {% endfor %}
                                         <thead>
                                             <tr>
