@@ -37474,3 +37474,13 @@ def crd_create_item(request):
 
 def create_new(request):
     return render(request,'app1/chart_new.html')
+
+#payroll
+@login_required(login_url='regcomp')
+def goaddemployee(request):
+    try:
+        cmp1 = company.objects.get(id=request.session["uid"])
+        context = {'cmp1': cmp1}
+        return render(request, 'app1/addemployee.html', context)
+    except:
+        return redirect('godash')

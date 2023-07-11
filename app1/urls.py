@@ -527,6 +527,10 @@ urlpatterns = [
 
     path('gstr11',views.gstr11,name='gstr11'),
 
+    #payroll
+
+    re_path(r'^goaddemployee$', views.goaddemployee, name='goaddemployee'),
+
 
     
     
