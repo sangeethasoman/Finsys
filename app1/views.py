@@ -37484,3 +37484,14 @@ def goaddemployee(request):
         return render(request, 'app1/addemployee.html', context)
     except:
         return redirect('godash')
+    
+
+#Render create employee page.
+@login_required(login_url='login')
+def addemployee(request): 
+ return render(request,'app1/addemployee.html')
+
+ #Render employee list page.
+@login_required(login_url='login')
+def listemployee(request): 
+ return render(request,'app1/listemployee.html')

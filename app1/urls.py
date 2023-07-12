@@ -527,9 +527,7 @@ urlpatterns = [
 
     path('gstr11',views.gstr11,name='gstr11'),
 
-    #payroll
-
-    re_path(r'^goaddemployee$', views.goaddemployee, name='goaddemployee'),
+    
 
 
     
@@ -854,5 +852,8 @@ urlpatterns = [
         path('Email-check',views.forgot_password,name='forgot_password'),
         path('Set-Password',views.change_to_new_password,name='change_to_new_password'),
         
-    
+#payroll
+
+    re_path(r'^addemployee$', views.addemployee, name='addemployee'),
+    re_path(r'^listemployee$', views.listemployee, name='listemployee'),
 ]
