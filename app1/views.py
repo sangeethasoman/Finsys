@@ -37477,8 +37477,9 @@ def create_new(request):
 
 #payroll
 @login_required(login_url='regcomp')
-def goaddemployee(request):
+def goaddpayrollemployee(request):
     try:
+        print('hjsbdf')
         cmp1 = company.objects.get(id=request.session["uid"])
         context = {'cmp1': cmp1}
         return render(request, 'app1/addemployee.html', context)
@@ -37486,12 +37487,94 @@ def goaddemployee(request):
         return redirect('godash')
     
 
-#Render create employee page.
-@login_required(login_url='login')
-def addemployee(request): 
- return render(request,'app1/addemployee.html')
+#Render create payrollemployee page. 
+@login_required(login_url='regcomp')
+def addpayrollemployee(request):
+    # try: 
+        cmpId = company.objects.get(id=request.session["uid"]) 
+        if request.method == 'POST':
+            title = request.POST['title']
+            firstname = request.POST['firstname'] 
+            lastname = request.POST['lastname']
+            alias = request.POST['alias']
+            companyname = request.POST['companyname']
+            print(companyname) 
+            location = request.POST['location']
+            gsttype = request.POST['gsttype']
+            gstin = request.POST['gstin']
+            panno = request.POST['panno']
+            openbalance = request.POST['openbalance']
+            email = request.POST['email']
+            website = request.POST['website']
+            mobile = request.POST['mobile']
+            employees = request.POST['employees']
+            joindate = request.POST['joindate']
+            image = request.POST['image']
+            salarydetails = request.POST['salarydetails']
+            effectivefrom = request.POST['effectivefrom']
+            hours = request.POST['hours']
+            rate = request.POST['rate']
+            amount = request.POST['amount']
+            employeeno = request.POST['employeeno']
+            designation = request.POST['designation']
+            function = request.POST['function']
+            gender = request.POST['gender']
+            dateofbirth = request.POST['dateofbirth']
+            bloodgroup = request.POST['bloodgroup']
+            fathersmothersname = request.POST['fathersmothersname']
+            spousename = request.POST['spousename']
+            address = request.POST['address']
+            generalemail = request.POST['generalemail']
+            generalphone = request.POST['generalphone']
+            bankdetails = request.POST['bankdetails']
+            acno = request.POST['acno']
+            ifsccode = request.POST['ifsccode']
+            bankname = request.POST['bankname']
+            # branchname = request.POST['branchname']
+            # transactiontype = request.POST['transactiontype']
+            # pannumber = request.POST['pannumber']
+            # universalaccountnumber = request.POST['universalaccountnumber']
+            # pfaccountnumber = request.POST['pfaccountnumber']
+            # praccountnumber = request.POST['praccountnumber']
+            # esinumber = request.POST['esinumber']
+            # street = request.POST['street']
+            # city = request.POST['city']
+            # state = request.POST['state']
+            # pincode = request.POST['pincode']
+            # country = request.POST['country']
+            # shipstreet = request.POST['shipstreet']
+            # shipcity = request.POST['shipcity']
+            # shipstate = request.POST['shipstate']
+            # shippincode = request.POST['shippincode']
+            # shipcountry = request.POST['shipcountry'] 
+            emppayroll = payrollemployee(title=title,firstname=firstname,
+                                         lastname=lastname,alias=alias,cid=cmpId,
+                                         company=companyname,location=location,
+                                         gsttype=gsttype,gstin=gstin,
+                                         panno=panno,openbalance=openbalance,
+                                         email=email,website=website,
+                                         mobile=mobile,employees=employees,
+                                         joindate=joindate,image=image,
+                                         salarydetails=salarydetails,effectivefrom=effectivefrom,
+                                         hours=hours,rate=rate,
+                                         amount=amount,employeeno=employeeno,
+                                         designation=designation,function=function,
+                                         gender=gender,dateofbirth=dateofbirth,
+                                         bloodgroup=bloodgroup,fathersmothersname=fathersmothersname,
+                                         spousename=spousename,address=address,
+                                         generalemail=generalemail,generalphone=generalphone,
+                                         bankdetails=bankdetails,acno=acno,ifsccode=ifsccode,
+                                         bankname=bankname
+                                         )
+            emppayroll.save()
+            #return render(request, 'app1/listpayrollemployee.html')
+            return redirect('goaddpayrollemployee')
+    # except:
+    #     return redirect('goaddpayrollemployee')
+    #     #return redirect('godash')
 
  #Render employee list page.
 @login_required(login_url='login')
-def listemployee(request): 
+def listpayrollemployee(request): 
  return render(request,'app1/listemployee.html')
+

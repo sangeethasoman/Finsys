@@ -853,7 +853,7 @@ urlpatterns = [
         path('Set-Password',views.change_to_new_password,name='change_to_new_password'),
         
 #payroll
-
-    re_path(r'^addemployee$', views.addemployee, name='addemployee'),
-    re_path(r'^listemployee$', views.listemployee, name='listemployee'),
+    re_path(r'^goaddpayrollemployee$', views.goaddpayrollemployee, name='goaddpayrollemployee'),
+    re_path(r'^addpayrollemployee$', views.addpayrollemployee, name='addpayrollemployee'),
+    re_path(r'^listpayrollemployee$', views.listpayrollemployee, name='listpayrollemployee'),
 ]
