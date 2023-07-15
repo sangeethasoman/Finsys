@@ -856,4 +856,5 @@ urlpatterns = [
     re_path(r'^goaddpayrollemployee$', views.goaddpayrollemployee, name='goaddpayrollemployee'),
     re_path(r'^addpayrollemployee$', views.addpayrollemployee, name='addpayrollemployee'),
     re_path(r'^listpayrollemployee$', views.listpayrollemployee, name='listpayrollemployee'),
+    re_path(r'^payrollemployeeprofile/(?P<employeeid>\d+)$', views.payrollemployeeprofile, name='payrollemployeeprofile'),
 ]

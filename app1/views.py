@@ -37476,10 +37476,10 @@ def create_new(request):
     return render(request,'app1/chart_new.html')
 
 #payroll
+#Render create payrollemployee page. 
 @login_required(login_url='regcomp')
 def goaddpayrollemployee(request):
     try:
-        print('hjsbdf')
         cmp1 = company.objects.get(id=request.session["uid"])
         context = {'cmp1': cmp1}
         return render(request, 'app1/addemployee.html', context)
@@ -37487,10 +37487,10 @@ def goaddpayrollemployee(request):
         return redirect('godash')
     
 
-#Render create payrollemployee page. 
+#Render add payrollemployee page. 
 @login_required(login_url='regcomp')
 def addpayrollemployee(request):
-    # try: 
+    try: 
         cmpId = company.objects.get(id=request.session["uid"]) 
         if request.method == 'POST':
             title = request.POST['title']
@@ -37512,6 +37512,7 @@ def addpayrollemployee(request):
             image = request.POST['image']
             salarydetails = request.POST['salarydetails']
             effectivefrom = request.POST['effectivefrom']
+            payhead = request.POST['payhead']
             hours = request.POST['hours']
             rate = request.POST['rate']
             amount = request.POST['amount']
@@ -37530,23 +37531,23 @@ def addpayrollemployee(request):
             acno = request.POST['acno']
             ifsccode = request.POST['ifsccode']
             bankname = request.POST['bankname']
-            # branchname = request.POST['branchname']
-            # transactiontype = request.POST['transactiontype']
-            # pannumber = request.POST['pannumber']
-            # universalaccountnumber = request.POST['universalaccountnumber']
-            # pfaccountnumber = request.POST['pfaccountnumber']
-            # praccountnumber = request.POST['praccountnumber']
-            # esinumber = request.POST['esinumber']
-            # street = request.POST['street']
-            # city = request.POST['city']
-            # state = request.POST['state']
-            # pincode = request.POST['pincode']
-            # country = request.POST['country']
-            # shipstreet = request.POST['shipstreet']
-            # shipcity = request.POST['shipcity']
-            # shipstate = request.POST['shipstate']
-            # shippincode = request.POST['shippincode']
-            # shipcountry = request.POST['shipcountry'] 
+            branchname = request.POST['branchname']
+            transactiontype = request.POST['transactiontype']
+            pannumber = request.POST['pannumber']
+            universalaccountnumber = request.POST['universalaccountnumber']
+            pfaccountnumber = request.POST['pfaccountnumber']
+            praccountnumber = request.POST['praccountnumber']
+            esinumber = request.POST['esinumber']
+            street = request.POST['street']
+            city = request.POST['city']
+            state = request.POST['state']
+            pincode = request.POST['pincode']
+            country = request.POST['country']
+            shipstreet = request.POST['shipstreet']
+            shipcity = request.POST['shipcity']
+            shipstate = request.POST['shipstate']
+            shippincode = request.POST['shippincode']
+            shipcountry = request.POST['shipcountry'] 
             emppayroll = payrollemployee(title=title,firstname=firstname,
                                          lastname=lastname,alias=alias,cid=cmpId,
                                          company=companyname,location=location,
@@ -37564,17 +37565,31 @@ def addpayrollemployee(request):
                                          spousename=spousename,address=address,
                                          generalemail=generalemail,generalphone=generalphone,
                                          bankdetails=bankdetails,acno=acno,ifsccode=ifsccode,
-                                         bankname=bankname
-                                         )
+                                         bankname=bankname,branchname=branchname,
+                                         transactiontype=transactiontype,pannumber=pannumber,
+                                         universalaccountnumber=universalaccountnumber,
+                                         pfaccountnumber=pfaccountnumber,praccountnumber=praccountnumber,
+                                         esinumber=esinumber,street=street,
+                                         city=city,state=state,
+                                         pincode=pincode,country=country,
+                                         shipstreet=shipstreet,shipcity=shipcity,
+                                         shipstate=shipstate,shippincode=shippincode,
+                                         shipcountry=shipcountry,payhead=payhead)
             emppayroll.save()
-            #return render(request, 'app1/listpayrollemployee.html')
-            return redirect('goaddpayrollemployee')
-    # except:
-    #     return redirect('goaddpayrollemployee')
-    #     #return redirect('godash')
+            return render(request, 'app1/listpayrollemployee.html')
+           
+    except:
+        return redirect('godash')
 
  #Render employee list page.
 @login_required(login_url='login')
-def listpayrollemployee(request): 
- return render(request,'app1/listemployee.html')
+def listpayrollemployee(request):  
+  employee=payrollemployee.objects.filter(cid_id=request.session["uid"])
+  return render(request,'app1/listemployee.html',{'employee':employee})
+
+@login_required(login_url='login')
+def payrollemployeeprofile(request,employeeid):  
+  print(employeeid)
+  employee=payrollemployee.objects.get(cid_id=request.session["uid"],employeeid=employeeid)
+  return render(request,'app1/payrollemployeeprofile.html',{'employee':employee})
 

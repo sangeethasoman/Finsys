@@ -172,30 +172,27 @@ body{
                             <thead>
                             <tr>
                                 <th>NAME</th>
-                                <th> EMPLOYEE TYPE</th>
+                                <th>EMPLOYEE TYPE</th>
                                 <th>PAN NO:</th>
                                 <th>PHONE</th>
                                 <th>EMAIL ID</th>
-                                <th>MOBILE NO</th>
                                 <th>SALARY</th>
                                 <th>SALARY DATE</th>
                                 
                             </tr>
                             </thead>
                             <tbody>
-                            {% for customer in customers %}
-                                {% if customer.cid_id == cmp1.cid %}
-                                    <tr  class="table-row " data-href="{% url 'customer_profile' customer.customerid %}">
-                                        <td>{{ customer.firstname }} {{ customer.lastname }}</td>
-                                        <td>{{ customer.gsttype }}</td>
-                                        <td>{{ customer.gstin }}</td>
-                                        <td>{{ customer.panno }}</td>
-                                        <td>{{ customer.email }}</td>
-                                        <td>{{ customer.mobile }}</td>
-                                        <td>{{customer.receivables}}</td>
+                            {% for emp in employee %}
+                                    <tr  class="table-row " data-href="payrollemployeeprofile/{{emp.employeeid}}">
+                                        <td>{{ emp.firstname }} {{ emp.lastname }}</td>
+                                        <td>{{ emp.employees }}</td>
+                                        <td>{{ emp.panno }}</td>
+                                        <td>{{ emp.mobile }}</td>
+                                        <td>{{ emp.email }}</td>
+                                        <td>{{ emp.amount }}</td>
+                                        <td>{{emp.effectivefrom}}</td>
                                         
                                     </tr>
-                                {% endif %}
                             {% endfor %}
                             </tbody>
                         </table>
