@@ -37484,7 +37484,7 @@ def goaddpayrollemployee(request):
         context = {'cmp1': cmp1}
         return render(request, 'app1/addemployee.html', context)
     except:
-        return redirect('godash')
+        return redirect('listpayrollemployee')
     
 
 #Render add payrollemployee page. 
@@ -37497,8 +37497,7 @@ def addpayrollemployee(request):
             firstname = request.POST['firstname'] 
             lastname = request.POST['lastname']
             alias = request.POST['alias']
-            companyname = request.POST['companyname']
-            print(companyname) 
+            companyname = request.POST['companyname'] 
             location = request.POST['location']
             gsttype = request.POST['gsttype']
             gstin = request.POST['gstin']
@@ -37509,7 +37508,9 @@ def addpayrollemployee(request):
             mobile = request.POST['mobile']
             employees = request.POST['employees']
             joindate = request.POST['joindate']
-            image = request.POST['image']
+            image=request.FILES.get('image')
+            if image == None:
+               image='default' 
             salarydetails = request.POST['salarydetails']
             effectivefrom = request.POST['effectivefrom']
             payhead = request.POST['payhead']
@@ -37576,10 +37577,10 @@ def addpayrollemployee(request):
                                          shipstate=shipstate,shippincode=shippincode,
                                          shipcountry=shipcountry,payhead=payhead)
             emppayroll.save()
-            return render(request, 'app1/listpayrollemployee.html')
+            return redirect('listpayrollemployee')
            
     except:
-        return redirect('godash')
+         return redirect('listpayrollemployee')
 
  #Render employee list page.
 @login_required(login_url='login')
@@ -37588,8 +37589,78 @@ def listpayrollemployee(request):
   return render(request,'app1/listemployee.html',{'employee':employee})
 
 @login_required(login_url='login')
-def payrollemployeeprofile(request,employeeid):  
-  print(employeeid)
+def payrollemployeeprofile(request,employeeid): 
   employee=payrollemployee.objects.get(cid_id=request.session["uid"],employeeid=employeeid)
   return render(request,'app1/payrollemployeeprofile.html',{'employee':employee})
+
+@login_required(login_url='login')
+def payrollemployeeedit(request,employeeid): 
+  employee=payrollemployee.objects.get(cid_id=request.session["uid"],employeeid=employeeid)
+  return render(request,'app1/payrollemployeeedit.html',{'employee':employee})
+
+@login_required(login_url='login')
+def editpayrollemployee(request,employeeid):  
+        if request.method == 'POST':
+            employee=payrollemployee.objects.get(cid_id=request.session["uid"],employeeid=employeeid)
+            employee.title = request.POST['title']
+            employee.firstname = request.POST['firstname'] 
+            employee.lastname = request.POST['lastname']
+            employee.alias = request.POST['alias']
+            employee.company = request.POST['companyname'] 
+            employee.location = request.POST['location']
+            employee.gsttype = request.POST['gsttype']
+            employee.gstin = request.POST['gstin']
+            employee.panno = request.POST['panno']
+            employee.openbalance = request.POST['openbalance']
+            employee.email = request.POST['email']
+            employee.website = request.POST['website']
+            employee.mobile = request.POST['mobile']
+            employee.employees = request.POST['employees']
+            employee.joindate = request.POST['joindate']
+            old= employee.image
+            new=request.FILES.get('image')
+            if old !=None and new==None:
+                employee.imagee=old
+            else:
+                employee.image=new 
+            employee.salarydetails = request.POST['salarydetails']
+            employee.effectivefrom = request.POST['effectivefrom']
+            employee.payhead = request.POST['payhead']
+            employee.hours = request.POST['hours']
+            employee.rate = request.POST['rate']
+            employee.amount = request.POST['amount']
+            employee.employeeno = request.POST['employeeno']
+            employee.designation = request.POST['designation']
+            employee.function = request.POST['function']
+            employee.gender = request.POST['gender']
+            employee.dateofbirth = request.POST['dateofbirth']
+            employee.bloodgroup = request.POST['bloodgroup']
+            employee.fathersmothersname = request.POST['fathersmothersname']
+            employee.spousename = request.POST['spousename']
+            employee.address = request.POST['address']
+            employee.generalemail = request.POST['generalemail']
+            employee.generalphone = request.POST['generalphone']
+            employee.bankdetails = request.POST['bankdetails']
+            employee.acno = request.POST['acno']
+            employee.ifsccode = request.POST['ifsccode']
+            employee.bankname = request.POST['bankname']
+            employee.branchname = request.POST['branchname']
+            employee.transactiontype = request.POST['transactiontype']
+            employee.pannumber = request.POST['pannumber']
+            employee.universalaccountnumber = request.POST['universalaccountnumber']
+            employee.pfaccountnumber = request.POST['pfaccountnumber']
+            employee.praccountnumber = request.POST['praccountnumber']
+            employee.esinumber = request.POST['esinumber']
+            employee.street = request.POST['street']
+            employee.city = request.POST['city']
+            employee.state = request.POST['state']
+            employee.pincode = request.POST['pincode']
+            employee.country = request.POST['country']
+            employee.shipstreet = request.POST['shipstreet']
+            employee.shipcity = request.POST['shipcity']
+            employee.shipstate = request.POST['shipstate']
+            employee.shippincode = request.POST['shippincode']
+            employee.shipcountry = request.POST['shipcountry'] 
+            employee.save()
+            return redirect('payrollemployeeprofile',employeeid)
 

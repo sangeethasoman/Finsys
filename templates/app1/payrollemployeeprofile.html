@@ -266,6 +266,9 @@
         <div class="card-body">
             <div class="card-title">
                 <center>
+                    <div class="form-group border border-dark text-center">
+                        <img src="{{ employee.image.url }}" style="width: 50%;height: 100px;">                       
+                    </div>  
                     <h2 class="mb-0">{{ employee.title }}. {{ employee.firstname }} {{ employee.lastname }}</h2>
                 </center>
                 <hr>
@@ -282,7 +285,7 @@
 
                     <div>
                         <center>
-                            <a href="" class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
+                            <a href="{% url 'payrollemployeeedit' employee.employeeid %}" class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
                                 role="button">
                                 Edit
                             </a>&nbsp;&nbsp;&nbsp;

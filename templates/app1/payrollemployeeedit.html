@@ -6,14 +6,14 @@
         <div class="card-body">
             <div class="card-title">
                 <center>
-                    <h3 class="mb-0">CREATE EMPLOYEE</h3>
+                    <h3 class="mb-0">EDIT EMPLOYEE</h3>
                 </center>
             </div>
             <hr />
         </div>
     </div>
     <div class="card radius-15" style="background-color: #243e54;">
-        <form action="addpayrollemployee" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
+        <form action="{% url 'editpayrollemployee' employee.employeeid %}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
             {% csrf_token %}
             {% if user.is_authenticated %}
             <div class="card-body">
@@ -34,13 +34,13 @@
                         </div>
                         <div class="col-md-4 mt-3">
                             <label for="firstname">First name</label>
-                            <input type="text" class="form-control" id="firstname" name="firstname" 
+                            <input type="text" class="form-control" id="firstname" name="firstname"  value="{{employee.firstname}}"
                                 style="background-color: #2f516f;color: white;">
                             <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="col-md-4 mt-3">
                             <label for="lastname">Last name</label>
-                            <input type="text" class="form-control" id="last_name" name="lastname" 
+                            <input type="text" class="form-control" id="last_name" name="lastname" value="{{employee.lastname}}" 
                                 style="background-color: #2f516f;color: white;">
                             <div class="valid-feedback">Looks good!</div>
                         </div>
@@ -48,19 +48,19 @@
                     <div class="row">
                         <div class="col-md-4 mt-3">
                             <label for="alias">Alias</label>
-                            <input type="text" class="form-control" id="alias" name="alias" 
+                            <input type="text" class="form-control" id="alias" name="alias" value="{{employee.alias}}"
                                 style="background-color: #2f516f;color: white;">
                             <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="col-md-4 mt-3">
                             <label for="companyname">Company</label>
-                            <input type="text" class="form-control" id="companyname" name="companyname" 
+                            <input type="text" class="form-control" id="companyname" name="companyname" value="{{employee.company}}"
                                 style="background-color: #2f516f;color: white;">
                             <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="col-md-4 mt-3">
                             <label for="location">Location</label>
-                            <input type="text" class="form-control" id="location" name="location" 
+                            <input type="text" class="form-control" id="location" name="location" value="{{employee.location}}"
                                 style="background-color: #2f516f;color: white;">
                             <div class="valid-feedback">Looks good!</div>
                         </div>
@@ -69,8 +69,8 @@
                     <div class="row">
                         <div class="col-md-4 mt-3">
                             <label for="gsttype">GST type</label>
-                            <select class="custom-select" id="gsttype" name="gsttype"
-                                onclick="hidinput('hello', this),disinput('hai', this) ,disinput2('hai1', this)   "
+                            <select class="custom-select" id="gsttype" name="gsttype" value="{{employee.gsttype}}"
+                                onclick="hidinput('hello', this),disinput('hai', this) ,disinput2('hai1', this)"
                                 style="background-color: #243e54; color: white;" >
                                 <option selected disabled value="">Choose...</option>
                                 <option>GST-registered-Regular</option>
@@ -88,8 +88,8 @@
                         <div class="col-md-4 mt-3" id="hello" style="display: none;">
                             <div>
                                 <label for="gstin">GSTIN</label>
-                                <input type="text" class="form-control" onchange="checkgst(this)" id="gstin" name="gstin"
-                                    style="background-color: #2f516f;color: white;" value="" placeholder="29APPCK7465F1Z1"
+                                <input type="text" class="form-control" onchange="checkgst(this)" id="gstin" name="gstin" value="{{employee.gstin}}"
+                                    style="background-color: #2f516f;color: white;"  placeholder="29APPCK7465F1Z1"
                                     >
                                 <div class="text-danger m-2" id="warngst"></div>
                             </div>
@@ -98,7 +98,7 @@
 
                         <div class="col-md-4 mt-3">
                             <label for="panno">PAN No.</label>
-                            <input type="text" class="form-control" id="panno" name="panno"
+                            <input type="text" class="form-control" id="panno" name="panno" value="{{employee.panno}}"
                                 style="background-color: #2f516f;color: white;" onchange="checkpan(this)"
                                 placeholder="APPCK7465F" >
                             <div class="text-danger m-2" id="warnpan"></div>
@@ -107,7 +107,7 @@
                         <div class="col-md-4 mt-3">
                             <div>
                                 <label for="openbalance">Opening Balance</label>
-                                <input type="number" class="form-control" value="" name="openbalance" 
+                                <input type="number" class="form-control"  name="openbalance" value="{{employee.openbalance}}"
                                     style="background-color: #2f516f;color: white;">
                                 <div class="text-danger m-2"></div>
                             </div>
@@ -117,19 +117,19 @@
                     <div class="row">
                         <div class="col-md-4 mt-3">
                             <label for="email">Email</label>
-                            <input type="email" class="form-control" id="email" name="email"
+                            <input type="email" class="form-control" id="email" name="email" value="{{employee.email}}"
                                 style="background-color: #2f516f;color: white;" placeholder="finsys@mail.com">
                             <div class="invalid-feedback">Please provide a valid Email</div>
                         </div>
                         <div class="col-md-4 mt-3">
                             <label for="website">Website</label>
-                            <input type="text" class="form-control" id="website" placeholder="www.finsys.com"
+                            <input type="text" class="form-control" id="website" placeholder="www.finsys.com" value="{{employee.website}}"
                                 onchange="checkweb(this)" name="website" style="background-color: #2f516f;color: white;">
                             <div id="warnweb" class="text-danger"></div>
                         </div>
                         <div class="col-md-4 mt-3">
                             <label for="mobile">Mobile</label>
-                            <input type="text" class="form-control" id="mobile" onchange="checkphone(this)"
+                            <input type="text" class="form-control" id="mobile" onchange="checkphone(this)" value="{{employee.mobile}}"
                                 name="mobile" style="background-color: #2f516f;color: white;">
                             <div class="text-danger m-2" id="warnphone"></div>
                         </div>
@@ -138,7 +138,7 @@
                     <div class="row">
                         <div class="col-md-4 mt-3">
                             <label for="Employees">Employees</label>
-                            <select name="employees" id="Employees" class="form-control" onchange="DefineSalaryShow()">
+                            <select name="employees" id="Employees" class="form-control" value="{{employee.employees}}" onchange="DefineSalaryShow()">
                                 <option value="Fixed">Fixed</option>
                                 <option value="Timebased">Time Based</option>
                                 <option value="Temporary">Temporary</option>
@@ -147,22 +147,21 @@
                         </div>
                         <div class="col-md-4 mt-3">
                             <label for="join_date">Date Of Joining</label>
-                            <input type="date" class="form-control" id="join_date" name="joindate" 
+                            <input type="date" class="form-control" id="join_date" name="joindate" value="{{employee.joindate}}"
                                 style="background-color: #2f516f;color: white;">
                             <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="col-md-4 mt-3 pt-4">
                             <label>Define Salary Details :</label>&nbsp;&nbsp;
-                            
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="no" name="salarydetails"
-                                    onchange="show2(this.value)" value="No" checked>
-                                <label class="form-check-label">No</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="yes" name="salarydetails"
+                                <input class="form-check-input" type="radio" id="yes" name="salarydetails" 
                                     onchange="show(this.value)" value="Yes">
                                 <label class="form-check-label">Yes</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="no" name="salarydetails"
+                                    onchange="show2(this.value)" value="No">
+                                <label class="form-check-label">No</label>
                             </div>
                         </div>
                     </div>
@@ -173,7 +172,7 @@
                                     <img id="file-ip-1-preview">
                                 </div>
                                 <label for="file-ip-1">Upload Image</label>
-                                <input type="file" id="file-ip-1" class="form-control" name="image" accept="image/*"
+                                <input type="file" id="file-ip-1" class="form-control" name="image" accept="image/*" value="{{employee.image}}"
                                      onchange="showPreview(event);" />
                             </div>
                         </div>
@@ -183,19 +182,19 @@
                         <div class="row mt-3">
                             <div class="col-md-4">
                                 <label for="sal_name">Name</label>
-                                <input type="text" readonly class="form-control" id="sal_name" name="sal_name"
+                                <input type="text" readonly class="form-control" id="sal_name" name="sal_name" value="{{employee.sal_name}}"
                                     style="background-color: #2f516f; color: white;">
                             </div>
                             <div class="col-md-4">
                                 <label for="sal_employees">Employee</label>
-                                <input type="text" readonly class="form-control" id="sal_employees"
+                                <input type="text" readonly class="form-control" id="sal_employees" value="{{employee.sal_employees}}"
                                     onchange="checkweb(this)" name="sal_employees"
                                     style="background-color: #2f516f; color: white;">
                                 <div id="sal_employees" class="text-danger"></div>
                             </div>
                             <div class="col-md-4">
                                 <label for="payhead">Pay Head</label>
-                                <select name="payhead" id="payhead" class="form-control">
+                                <select name="payhead" id="payhead" class="form-control" value="{{employee.payhead}}">
                                     <option value="Cash">Cash</option>
                                     <option value="BankThrough">Bank</option>
                                 </select>
@@ -206,26 +205,26 @@
                         <div class="row mt-3">
                             <div class="col-3 md-4">
                                 <label for="effectivefrom">Effective From</label>
-                                <input type="date" class="form-control" id="effectivefrom" name="effectivefrom"
+                                <input type="date" class="form-control" id="effectivefrom" name="effectivefrom" value="{{employee.effectivefrom}}"
                                     style="background-color: #2f516f; color: white;" min="0" value="0">
                                 <div class="text-danger m-2" id="effectivefrom"></div>
                             </div>
                             <div class="col-3 md-4 time_based_show">
                                 <label for="hours">Hours</label>
-                                <input type="number" class="form-control" id="hours" name="hours"
+                                <input type="number" class="form-control" id="hours" name="hours" value="{{employee.hours}}"
                                     style="background-color: #2f516f; color: white;" min="0" value="0">
                                 <div class="text-danger m-2" id="Hours"></div>
                             </div>
                             <div class="col-3 md-4 time_based_show">
                                 <label for="rate">Rate</label>
-                                <input type="number" class="form-control" id="rate" name="rate"
+                                <input type="number" class="form-control" id="rate" name="rate" value="{{employee.rate}}"
                                     style="background-color: #2f516f; color: white;" min="0" value="0">
                                 <div class="text-danger m-2" id="Rate"></div>
                             </div>
                             
                             <div class="col-3 md-4">
                                 <label for="amount">Amount</label>
-                                <input type="number" class="form-control" id="amount" name="amount"
+                                <input type="number" class="form-control" id="amount" name="amount" value="{{employee.amount}}"
                                     style="background-color: #2f516f; color: white;" min="0" value="0">
                                 <div class="text-danger m-2" id="Amount"></div>
                             </div>
@@ -244,13 +243,13 @@
                         <div class="row">
                             <div class="col-6 md-4 mt-3">
                                 <label for="employeeno">Employee No:</label>
-                                <input type="text" class="form-control" id="employeeno" name="employeeno" 
+                                <input type="text" class="form-control" id="employeeno" name="employeeno"  value="{{employee.employeeno}}"
                                     style="background-color: #2f516f;color: white;">
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-6 md-4 mt-3">
                                 <label for="designation">Designation</label>
-                                <input type="text" class="form-control" id="designation" name="designation" 
+                                <input type="text" class="form-control" id="designation" name="designation"  value="{{employee.designation}}"
                                     style="background-color: #2f516f;color: white;">
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
@@ -258,13 +257,13 @@
                         <div class="row">
                             <div class="col-6 md-4 mt-3">
                                 <label for="function">Function</label>
-                                <input type="text" class="form-control" id="function" name="function" 
+                                <input type="text" class="form-control" id="function" name="function"  value="{{employee.function}}"
                                     style="background-color: #2f516f;color: white;">
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-6 md-4 mt-3">
                                 <label for="gender">Gender</label>
-                                <select name="gender" id="gender" class="form-control">
+                                <select name="gender" id="gender" class="form-control"  value="{{employee.gender}}">
                                     <option value="Unknown">Unknown</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
@@ -276,14 +275,14 @@
                         <div class="row">
                             <div class="col-6 md-4 mt-3">
                                 <label for="dateofbirth">Date Of Birth</label>
-                                <input type="date" class="form-control" id="dateofbirth" name="dateofbirth" 
+                                <input type="date" class="form-control" id="dateofbirth" name="dateofbirth"  value="{{employee.dateofbirth}}"
                                     style="background-color: #2f516f;color: white;">
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
 
                             <div class="col-6 md-4 mt-3">
                                 <label for="bloodgroup">Blood Group</label>
-                                <select name="bloodgroup" id="bloodgroup" class="form-control">
+                                <select name="bloodgroup" id="bloodgroup" class="form-control"  value="{{employee.bloodgroup}}">
                                     <option value="O+ve">O+ve</option>
                                     <option value="O-ve">O-ve</option>
                                     <option value="A+ve">A+ve</option>
@@ -301,13 +300,13 @@
                         <div class="row">
                             <div class="col-6 md-4 mt-3">
                                 <label for="fathersmothersname">Father's/Mother's Name</label>
-                                <input type="text" class="form-control" id="fathersmothersname" name="fathersmothersname"
+                                <input type="text" class="form-control" id="fathersmothersname" name="fathersmothersname"  value="{{employee.fathersmothersname}}"
                                      style="background-color: #2f516f;color: white;">
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                             <div class="col-6 md-4 mt-3">
                                 <label for="spousename">Spouse Name</label>
-                                <input type="text" class="form-control" id="spousename" name="spousename" 
+                                <input type="text" class="form-control" id="spousename" name="spousename"  value="{{employee.spousename}}"
                                     style="background-color: #2f516f;color: white;">
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
@@ -316,21 +315,21 @@
                             <div class="col-12 md-4 mt-3">
                                 <label for="address">Address</label>
                                 <textarea class="form-control" id="address" name="address" 
-                                    style="background-color: #2f516f;color: white;"></textarea>
+                                    style="background-color: #2f516f;color: white;">{{employee.address}}</textarea>
                                 <div class="valid-feedback">Looks good!</div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6 md-4 mt-3">
                                 <label for="email">Email Id</label>
-                                <input type="email" class="form-control" id="email" name="generalemail"
+                                <input type="email" class="form-control" id="email" name="generalemail"  value="{{employee.generalemail}}"
                                     style="background-color: #2f516f;color: white;" placeholder="finsys@mail.com">
                                 <div class="invalid-feedback">Please provide a valid Email</div>
                             </div>
 
                             <div class="col-6 md-4 mt-3">
                                 <label for="phone">Phone</label>
-                                <input type="text" class="form-control" id="phone" onchange="checkphone(this)"
+                                <input type="text" class="form-control" id="phone" onchange="checkphone(this)"  value="{{employee.generalphone}}"
                                     name="generalphone" style="background-color: #2f516f;color: white;">
                                 <div class="text-danger m-2" id="warnphone"></div>
                             </div>
@@ -341,7 +340,7 @@
                     <div class="col-md-6">
                         <div class="col -12-md-4 pt-4">
                             <label for="drp_Bank_Details">Provide Bank Details </label>
-                            <select name="bankdetails" id="drp_Bank_Details" class="form-control"
+                            <select name="bankdetails" id="drp_Bank_Details" class="form-control"  value="{{employee.bankdetails}}"
                                 onchange="toggleDivVisibility()">
                                 <option value="No">No</option>
                                 <option value="Yes">Yes</option>
@@ -357,13 +356,13 @@
                                 <div class="row mt-3">
                                     <div class="col-6 md-4">
                                         <label for="bank_num">A/C No:</label>
-                                        <input type="text" class="form-control" id="bank_num" name="acno"
+                                        <input type="text" class="form-control" id="bank_num" name="acno" value="{{employee.acno}}"
                                             style="background-color: #2f516f; color: white;">
                                         <div class="text-danger"></div>
                                     </div>
                                     <div class="col-6 md-4">
                                         <label for="IFSCCode">IFSC Code</label>
-                                        <input type="text" class="form-control" id="IFSCCode" name="ifsccode"
+                                        <input type="text" class="form-control" id="IFSCCode" name="ifsccode" value="{{employee.ifsccode}}"
                                             style="background-color: #2f516f; color: white;">
                                         <div class="text-danger"></div>
                                     </div>
@@ -371,14 +370,14 @@
                                 <div class="row mt-3">
                                     <div class="col-6 md-4">
                                         <label for="BankName">Bank Name</label>
-                                        <input type="text" class="form-control" id="BankName" name="bankname"
+                                        <input type="text" class="form-control" id="BankName" name="bankname" value="{{employee.bankname}}"
                                             style="background-color: #2f516f; color: white;">
                                         <div class="text-danger"></div>
                                     </div>
 
                                     <div class="col-6 md-4">
                                         <label for="bank_Branch_Name">Branch Name</label>
-                                        <input type="text" class="form-control" id="bank_Branch_Name" name="branchname"
+                                        <input type="text" class="form-control" id="bank_Branch_Name" name="branchname" value="{{employee.branchname}}"
                                             style="background-color: #2f516f; color: white;">
                                         <div class="text-danger"></div>
                                     </div>
@@ -388,7 +387,7 @@
                                         <h5 class="mb-0">For Banking</h5>
                                         <hr>
                                         <label for="transactiontype" class="mt-3"> Transaction Type</label>
-                                        <select name="transactiontype" id="transactiontype" class="form-control">
+                                        <select name="transactiontype" id="transactiontype" class="form-control" value="{{employee.transactiontype}}">
                                             <option value="Unknown">Unknown</option>
                                             <option value="Yes">End of List</option>
                                             <option value="No">Cheque</option>
@@ -412,15 +411,15 @@
                             <div class="row">
                                 <div class="col">
                                     <label for="pannumber">PAN Number </label>
-                                    <input type="text" class="form-control" id="pannumber" name="pannumber"
+                                    <input type="text" class="form-control" id="pannumber" name="pannumber" value="{{employee.pannumber}}"
                                         placeholder="ABCDE1234A" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" 
                                         style="background-color: #2f516f;color: white;">
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                                 <div class="col">
                                     <label for="aadhaarnumber">Aadhaar Number </label>
-                                    <input type="text" class="form-control pan" id="aadhaarnumber" name="aadhaarnumber"
-                                        size=20" placeholder="1234 1234 1234" pattern="[0-9]{4} [0-9]{4} [0-9]{4}" 
+                                    <input type="text" class="form-control pan" id="aadhaarnumber" name="aadhaarnumber" value="{{employee.aadhaarnumber}}"
+                                        size="20" placeholder="1234 1234 1234" pattern="[0-9]{4} [0-9]{4} [0-9]{4}" 
                                         style="background-color: #2f516f;color: white;">
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
@@ -429,13 +428,13 @@
                             <div class="row">
                                 <div class="col">
                                     <label for="universalaccountnumber">Universal Account Number </label>
-                                    <input type="text" class="form-control" id="universalaccountnumber"
+                                    <input type="text" class="form-control" id="universalaccountnumber" value="{{employee.universalaccountnumber}}"
                                         name="universalaccountnumber" style="background-color: #2f516f;color: white;">
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                                 <div class="col">
                                     <label for="pfaccountnumber">PF Account Number</label>
-                                    <input type="text" class="form-control" id="pfaccountnumber" name="pfaccountnumber"
+                                    <input type="text" class="form-control" id="pfaccountnumber" name="pfaccountnumber" value="{{employee.pfaccountnumber}}"
                                         style="background-color: #2f516f;color: white;">
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
@@ -444,13 +443,13 @@
                             <div class="row">
                                 <div class="col">
                                     <label for="praccountnumber">PR Account Number</label>
-                                    <input type="text" class="form-control" id="praccountnumber" name="praccountnumber"
+                                    <input type="text" class="form-control" id="praccountnumber" name="praccountnumber" value="{{employee.praccountnumber}}"
                                         style="background-color: #2f516f;color: white;">
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
                                 <div class="col">
                                     <label for="esinumber">ESI Number </label>
-                                    <input type="text" class="form-control" id="esinumber" name="esinumber"
+                                    <input type="text" class="form-control" id="esinumber" name="esinumber" value="{{employee.esinumber}}"
                                         style="background-color: #2f516f;color: white;">
                                     <div class="valid-feedback">Looks good!</div>
                                 </div>
@@ -466,15 +465,15 @@
                     <div class="col-md-6 mt-5">
                         <div class="row">
                             <div class="col-md-12 card-title">
-                                <h5 class="mb-0">Billing Address</h5>
+                                <h5 class="mb-0">Temporary Address</h5>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12 mt-3">
                                 <div class="form-row">
                                     <label for="street">Street</label>
-                                    <textarea class="form-control street" id="street" name="street"
-                                        style="background-color: #2f516f;color: white;"></textarea>
+                                    <textarea class="form-control street" id="street" name="street"  
+                                        style="background-color: #2f516f;color: white;">{{employee.street}}</textarea>
                                     <div class="invalid-feedback">Please provide a valid Street</div>
                                 </div>
                             </div>
@@ -483,7 +482,7 @@
                             <div class="col-md-6 mt-3">
                                 <div class="form-row">
                                     <label for="city">City</label>
-                                    <input type="text" class="form-control" id="city" name="city"
+                                    <input type="text" class="form-control" id="city" name="city"  value="{{employee.city}}"
                                         style="background-color: #2f516f;color: white;" placeholder="City">
                                     <div class="invalid-feedback">Please provide a valid City</div>
                                 </div>
@@ -491,7 +490,7 @@
                             <div class="col-md-6 mt-3">
                                 <div class="form-row">
                                     <label for="state">State</label>
-                                    <select type="text" class="form-control" id="state" name="state" 
+                                    <select type="text" class="form-control" id="state" name="state"  value="{{employee.state}}"
                                         style="background-color: #2f516f; color: white;">
                                         <option value="" disabled selected>Choose</option>
                                         <option value="Andaman and Nicobar Islads">Andaman and Nicobar
@@ -544,7 +543,7 @@
                             <div class="col-md-6 mt-3">
                                 <div class="form-row">
                                     <label for="pinco">Pin Code</label>
-                                    <input type="text" class="form-control" id="pinco" name="pincode"
+                                    <input type="text" class="form-control" id="pinco" name="pincode"  value="{{employee.pincode}}"
                                         style="background-color: #2f516f;color: white;" placeholder="PIN code">
                                     <div class="invalid-feedback">Please provide a valid Pin Code</div>
                                 </div>
@@ -552,7 +551,7 @@
                             <div class="col-md-6 mt-3">
                                 <div class="form-row">
                                     <label for="country">Country</label>
-                                    <input type="text" class="form-control" id="country" name="country"
+                                    <input type="text" class="form-control" id="country" name="country"  value="{{employee.country}}"
                                         style="background-color: #2f516f;color: white;" placeholder="Country">
                                     <div class="invalid-feedback">Please provide a valid Country</div>
                                 </div>
@@ -562,7 +561,7 @@
                     <div class="col-md-6 mt-5">
                         <div class="row">
                             <div class="col-md-12 d-flex">
-                                <h5>Shipping Address</h5>
+                                <h5>Permanent Address</h5>
                                 <input class="ml-4 mb-2 ml-2" type="checkbox" onclick="poppins()" id="okay" name="okay">
                                 <label class="ml-2 mb-2 ml-2 mb-0" for="okay">Same As Billing Address</label>
                             </div>
@@ -572,7 +571,7 @@
                                 <div class="form-row">
                                     <label for="shipstreet">Street</label>
                                     <textarea class="form-control" id="shipstreet" name="shipstreet"
-                                        style="background-color: #2f516f;color: white;"></textarea>
+                                        style="background-color: #2f516f;color: white;">{{employee.shipstreet}}</textarea>
                                     <div class="invalid-feedback">Please provide a valid Street</div>
                                 </div>
                             </div>
@@ -581,7 +580,7 @@
                             <div class="col-md-6 mt-3">
                                 <div class="form-row">
                                     <label for="shipcity">City</label>
-                                    <input type="text" class="form-control" id="shipcity" name="shipcity"
+                                    <input type="text" class="form-control" id="shipcity" name="shipcity"  value="{{employee.shipcity}}"
                                         style="background-color: #2f516f;color: white;" placeholder="City">
                                     <div class="invalid-feedback">Please provide a valid City</div>
                                 </div>
@@ -589,7 +588,7 @@
                             <div class="col-md-6 mt-3">
                                 <div class="form-row">
                                     <label for="shipstate">State</label>
-                                    <select type="text" class="form-control" id="shipstate" name="shipstate" 
+                                    <select type="text" class="form-control" id="shipstate" name="shipstate"  value="{{employee.shipstate}}"
                                         style="background-color: #2f516f; color: white;">
                                         <option id="shipst" selected>Choose</option>
                                         <option value="Andaman and Nicobar Islads">Andaman and Nicobar
@@ -642,7 +641,7 @@
                             <div class="col-md-6 mt-3">
                                 <div class="form-row">
                                     <label for="shippinco">Pin Code</label>
-                                    <input type="text" class="form-control" id="shippinco" name="shippincode"
+                                    <input type="text" class="form-control" id="shippinco" name="shippincode"  value="{{employee.shippincode}}"
                                         style="background-color: #2f516f;color: white;" placeholder="PIN code">
                                     <div class="invalid-feedback">Please provide a valid Pin Code</div>
                                 </div>
@@ -650,7 +649,7 @@
                             <div class="col-md-6 mt-3">
                                 <div class="form-row">
                                     <label for="shipcountry">Country</label>
-                                    <input type="text" class="form-control" id="shipcountry" name="shipcountry"
+                                    <input type="text" class="form-control" id="shipcountry" name="shipcountry"  value="{{employee.shipcountry}}"
                                         style="background-color: #2f516f;color: white;" placeholder="Country">
                                     <div class="invalid-feedback">Please provide a valid Country</div>
                                 </div>
@@ -661,7 +660,7 @@
                 <div class="row mt-3">
                     <div class="col">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" 
+                            <input class="form-check-input" type="checkbox" id="invalidCheck" 
                                 style="background-color: #2f516f;">
                             <label>Agree to Terms and Conditions</label>
                             <div class="invalid-feedback">You must agree before submitting.</div>
@@ -672,7 +671,7 @@
                     <div class="col-md-4"></div>
                     <div class="col-md-4">
                         <button class="btn btn-outline-info rounded-pill text-grey w-100 mt-3 mb-3" type="submit">
-                            CREATE
+                            UPDATE
                         </button>
                     </div>
                     <div class="col-md-4"></div>
@@ -894,5 +893,27 @@
             preview.style.display = "block";
         }
     }
+        $(document).ready(function() { 
+         $("#title").val("{{employee.title}}");
+         $("#gsttype").val("{{employee.gsttype}}");
+         $("#Employees").val("{{employee.employees}}");
+         $("#drp_Bank_Details").val("{{employee.bankdetails}}");
+         $("#gender").val("{{employee.gender}}");
+         $("#bloodgroup").val("{{employee.bloodgroup}}");
+         $("#state").val("{{employee.state}}");
+         $("#shipstate").val("{{employee.shipstate}}");
+         if("{{employee.salarydetails}}" == 'Yes')
+         {
+          $('input:radio[name="salarydetails"][value="Yes"]').prop('checked', true);
+           show('Yes')
+         }
+         else{
+            $('input:radio[name="salarydetails"][value="No"]').prop('checked', true);
+            show2('No')
+         }
+         DefineSalaryShow();
+         toggleDivVisibility();
+        });
+
 </script>
 {% endblock %}
