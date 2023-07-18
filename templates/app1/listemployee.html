@@ -102,7 +102,7 @@ body{
                         
                         <div class="col-md-4">
                             <div class="wrap" style="width: 60%; margin-top: 8px;">
-                                <form action="{% url 'gosearch' %}" method="POST">{% csrf_token %}
+                                <form action="{% url 'gopayrollsearch' %}" method="POST">{% csrf_token %}
                                 <div class="search">
                                     
                                    <input type="text" class="searchTerm" name="search">
@@ -115,20 +115,9 @@ body{
                              </div>
                              
                         </div>
+                    </form>
                         <div class="col-md-4">
-                          
-                            <select class="form-control btn btn-outline-info dropdown-toggle text-grey" aria-label=".form-select-lg example" style="width: 40%; margin-top: 8px;" name="type">
-                                
-                                <option value="1" selected>All</option>
-                                <option value="2" >Name</option>
-                                <option value="3" >Active</option>
-                                <option value="4" >Inactive</option>
-                             </select>
-
-                              
-
-
-                            </form>
+                           
                             </div>
                             <div class="col-md-2" style="width: 40%; margin-top: 8px;">
 
@@ -137,12 +126,18 @@ body{
                                             data-toggle="dropdown">filter by
                                     </button>
                                     <div class="dropdown-menu" style="background-color: black;">
-                                        <a class="dropdown-item" href="{% url 'gocustomers' %}"
+                                        <a class="dropdown-item" href="{% url 'gopayrollfilter' '0' '0' %}"
                                            style="height: 40px; font-size: 15px; color: white; text-align: center;" >All</a>
-                                        <a class="dropdown-item" href="{% url 'gocustomers1' %}"
+                                        <a class="dropdown-item" href="{% url 'gopayrollfilter' 'status' 'Active' %}"
                                            style="height: 40px; font-size: 15px; color: white; text-align: center;" >Active</a>
-                                        <a class="dropdown-item" href="{% url 'gocustomers2' %}"
+                                        <a class="dropdown-item" href="{% url 'gopayrollfilter' 'status' 'Inactive' %}"
                                            style="height: 40px; font-size: 15px; color: white; text-align: center;">Inactive</a>
+                                           <a class="dropdown-item" href="{% url 'gopayrollfilter' 'employees' 'Fixed' %}"
+                                           style="height: 40px; font-size: 15px; color: white; text-align: center;">Fixed</a>
+                                           <a class="dropdown-item" href="{% url 'gopayrollfilter' 'employees' 'Timebased' %}"
+                                           style="height: 40px; font-size: 15px; color: white; text-align: center;">Time Based</a>
+                                           <a class="dropdown-item" href="{% url 'gopayrollfilter' 'employees' 'Temporary' %}"
+                                           style="height: 40px; font-size: 15px; color: white; text-align: center;">Temporary</a>
                                         
                                         
                                 </div> 
@@ -183,7 +178,7 @@ body{
                             </thead>
                             <tbody>
                             {% for emp in employee %}
-                                    <tr  class="table-row " data-href="payrollemployeeprofile/{{emp.employeeid}}">
+                                    <tr  class="table-row " data-href="{% url 'payrollemployeeprofile' emp.employeeid%}">
                                         <td>{{ emp.firstname }} {{ emp.lastname }}</td>
                                         <td>{{ emp.employees }}</td>
                                         <td>{{ emp.panno }}</td>

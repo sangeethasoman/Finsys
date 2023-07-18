@@ -145,53 +145,7 @@
         padding: 12px
     }
 </style>
-<script>
 
-    function Overview() {
-
-        document.getElementById('overview').style.display = 'block';
-        document.getElementById('details').style.display = 'none';
-        document.getElementById('statment').style.display = 'none';
-        document.getElementById('transation').style.display = 'none';
-        document.getElementById('form1').style.display = 'none';
-
-    }
-    function Details() {
-        document.getElementById('overview').style.display = 'none';
-        document.getElementById('details').style.display = 'block';
-        document.getElementById('statment').style.display = 'none';
-        document.getElementById('transation').style.display = 'none';
-        document.getElementById('form1').style.display = 'none';
-    }
-    function Statment() {
-        document.getElementById('overview').style.display = 'none';
-        document.getElementById('details').style.display = 'none';
-        document.getElementById('statment').style.display = 'block';
-        document.getElementById('transation').style.display = 'none';
-        document.getElementById('form1').style.display = 'block';
-
-    }
-    function transaction() {
-        document.getElementById('overview').style.display = 'none';
-        document.getElementById('details').style.display = 'none';
-        document.getElementById('statment').style.display = 'none';
-        document.getElementById('transation').style.display = 'block';
-        document.getElementById('form1').style.display = 'none';
-
-
-
-    }
-    function filterDate(element) {
-        if (element.value == 'Custom') {
-            document.getElementById('frdate').style.display = 'block';
-            document.getElementById('todate').style.display = 'block';
-        } else {
-            document.getElementById('frdate').style.display = 'none';
-            document.getElementById('todate').style.display = 'none';
-        }
-    }
-
-</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.min.js"></script>
 
@@ -238,7 +192,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="" method="POST" enctype="multipart/form-data">{% csrf_token %}
+            <form action="{% url 'employee_add_file' employee.employeeid %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
                 <div class="modal-body">
                     <input type="file" class="form-control" name="file">
                 </div>
@@ -253,13 +207,38 @@
 
 
 
-
-<!-- /modal-->
-
-
-
-
-
+<!-- Add Comments Modal -->
+<div class="modal fade" id="commentModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Comments</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <form action="{% url 'employeecomments' employee.employeeid %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <textarea type="text" class="form-control" name="comments">
+                        {% if employee.comments != None%}
+                        {{ employee.comments}}
+                        {% endif %}
+                    
+                    </textarea>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <div class="page-content ">
     <div class="card radius-15">
@@ -273,11 +252,7 @@
                 </center>
                 <hr>
                 <div class="btn-group" style="float: left; ">
-
-                    <a style="padding: 10px; cursor: pointer;" onclick="Details()">Details</a>
-                    <a style="padding: 10px; cursor: pointer;" onclick="Overview()"> Overview</a>
-                    <a style="padding: 10px; cursor: pointer;" onclick="transaction()"> Transactions</a>
-                    <a style="padding: 10px; cursor: pointer;" onclick="Statment()"> Statement</a>
+             
                 </div>
                 <div class="btn-group" style="float: right; ">
 
@@ -285,21 +260,23 @@
 
                     <div>
                         <center>
+                            <a  data-toggle="modal" class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
+                            data-target="#commentModal">Comments</a>
                             <a href="{% url 'payrollemployeeedit' employee.employeeid %}" class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
                                 role="button">
                                 Edit
                             </a>&nbsp;&nbsp;&nbsp;
-                            {% if employee.status == act%}
-                            <a href="" class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
+                            {% if employee.status == "Active"%}
+                            <a href="{% url 'active_emp' employee.employeeid 'Inactive' %}" class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
                                 role="button">Inactivate</a> &nbsp;&nbsp;&nbsp;
                             {% else %}
-                            <a href="" class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
+                            <a href="{% url 'active_emp' employee.employeeid 'Active' %}" class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
                                 role="button">Activate</a> &nbsp;&nbsp;&nbsp;
                             {% endif %}
 
                             <a class="btn btn-outline-info rounded-pill text-grey mt-3 mb-3" role="button">
 
-                                <form action="">
+                                <form action="{% url 'deletepayrollemp' employee.employeeid %}">
                                     <i class="fa fa-trash-o delete"> Delete</i>
                                     <input name="_method" type="hidden" value="DELETE">
 
@@ -317,7 +294,7 @@
                         <a class="dropdown-item" style="cursor: pointer;" data-toggle="modal"
                             data-target="#exampleModal">Attach file</a>
                         {% if employee.file != "default.jpg" %}
-                        <a class="dropdown-item fa fa-download" style="cursor: pointer;" download href="">Download
+                        <a class="dropdown-item fa fa-download" style="cursor: pointer;" download href="{{employee.file.url }}">Download
                             file</a>
                         {% endif %}
 
@@ -642,6 +619,7 @@
                             </div>
                         </div>
                     </div>
+                    
                     <!-- openbalance modal -->
 
 
@@ -1193,6 +1171,7 @@
             });
     });
 
-</script>
+
+</script>   
 
 {% endblock %}

@@ -856,8 +856,14 @@ urlpatterns = [
     re_path(r'^goaddpayrollemployee$', views.goaddpayrollemployee, name='goaddpayrollemployee'),
     re_path(r'^addpayrollemployee$', views.addpayrollemployee, name='addpayrollemployee'),
     re_path(r'^listpayrollemployee$', views.listpayrollemployee, name='listpayrollemployee'),
-    re_path(r'^payrollemployeeprofile/(?P<employeeid>\d+)$', views.payrollemployeeprofile, name='payrollemployeeprofile'),
+    path('payrollemployeeprofile/<int:employeeid>', views.payrollemployeeprofile, name='payrollemployeeprofile'),
     path('payrollemployeeedit/<int:employeeid>', views.payrollemployeeedit, name='payrollemployeeedit'),
     path('editpayrollemployee/<int:employeeid>', views.editpayrollemployee, name='editpayrollemployee'), 
+    re_path(r'^gopayrollsearch',views.gopayrollsearch,name='gopayrollsearch'),
+    path('gopayrollfilter/<str:filters>/<str:values>', views.gopayrollfilter, name='gopayrollfilter'),
+    path('active_emp/<str:employeeid>/<str:status>', views.active_emp, name='active_emp'),
+    path('deletepayrollemp/<int:employeeid>', views.deletepayrollemp, name='deletepayrollemp'),
+    path('employee_add_file/<int:employeeid>', views.employee_add_file, name='employee_add_file'),
+    path('employeecomments/<int:employeeid>', views.employeecomments, name='employeecomments'),
 
 ]

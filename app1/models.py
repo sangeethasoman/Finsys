@@ -1729,3 +1729,5 @@ class payrollemployee(models.Model):
     shipcountry = models.CharField(max_length=100,null=True)
     payhead = models.CharField(max_length=100,null=True)
     status = models.CharField(max_length=100,default='Active')
+    file = models.FileField(upload_to='payrollemployee',default="")
+    comments = models.CharField(max_length=250,null=True)

@@ -37664,3 +37664,76 @@ def editpayrollemployee(request,employeeid):
             employee.save()
             return redirect('payrollemployeeprofile',employeeid)
 
+@login_required(login_url='regcomp')
+def gopayrollsearch(request):
+    if request.method == "POST": 
+        if  request.POST['search'] != "":
+                employee = payrollemployee.objects.filter(cid_id=request.session["uid"],firstname=request.POST['search'])
+                return render(request,'app1/listemployee.html',{'employee':employee})
+        else:
+            return redirect('listpayrollemployee')
+
+@login_required(login_url='regcomp')
+def gopayrollfilter(request,filters,values):
+       if filters == 'status':
+            employee = payrollemployee.objects.filter(cid_id=request.session["uid"], status = values)
+            return render(request,'app1/listemployee.html',{'employee':employee})
+       elif filters == 'employees':
+            employee = payrollemployee.objects.filter(cid_id=request.session["uid"],employees=values)
+            return render(request,'app1/listemployee.html',{'employee':employee})
+       else:
+            employee = payrollemployee.objects.filter(cid_id=request.session["uid"])
+            return render(request,'app1/listemployee.html',{'employee':employee})
+
+
+@login_required(login_url='regcomp')
+def active_emp(request,employeeid,status):
+    
+    employee=payrollemployee.objects.get(cid_id=request.session["uid"],employeeid=employeeid)
+    if status == "Active":
+        employee.status="Active"
+    else:
+         employee.status="Inactive"
+
+    employee.save()
+    return redirect('payrollemployeeprofile',employeeid)
+
+@login_required(login_url='regcomp')
+def deletepayrollemp(request, employeeid):
+    try:
+        employee = payrollemployee.objects.get(cid_id=request.session["uid"],employeeid=employeeid)
+        employee.delete()
+        return redirect('listpayrollemployee')
+    except:
+        return redirect('listpayrollemployee')
+
+@login_required(login_url='regcomp')
+def employee_add_file(request, employeeid):
+    employee = payrollemployee.objects.get(cid_id=request.session["uid"], employeeid=employeeid)
+    
+    if request.method == 'POST': 
+        if len(request.FILES) != 0:
+            if employee.file != "default.jpg":
+                os.remove(employee.file.path)
+                
+            employee.file = request.FILES['file']
+        
+        employee.save()
+    
+    return redirect('payrollemployeeprofile', employeeid)
+
+
+@login_required(login_url='regcomp')
+def employeecomments(request, employeeid):
+    if request.method == 'POST':
+        employee = payrollemployee.objects.get(cid_id=request.session["uid"], employeeid=employeeid)
+        employee.comments = request.POST['comments']
+        employee.save()
+        return redirect('payrollemployeeprofile', employeeid)
+
+
+      
+
+
+
+
