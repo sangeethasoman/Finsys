@@ -52,71 +52,19 @@
                                 style="background-color: #2f516f;color: white;">
                             <div class="valid-feedback">Looks good!</div>
                         </div>
+                       
                         <div class="col-md-4 mt-3">
-                            <label for="companyname">Company</label>
-                            <input type="text" class="form-control" id="companyname" name="companyname" value="{{employee.company}}"
-                                style="background-color: #2f516f;color: white;">
-                            <div class="valid-feedback">Looks good!</div>
-                        </div>
-                        <div class="col-md-4 mt-3">
-                            <label for="location">Location</label>
+                            <label for="location">Company Location</label>
                             <input type="text" class="form-control" id="location" name="location" value="{{employee.location}}"
                                 style="background-color: #2f516f;color: white;">
                             <div class="valid-feedback">Looks good!</div>
                         </div>
                         <div class="col-md-4 mt-3"></div>
                     </div>
+                   
                     <div class="row">
                         <div class="col-md-4 mt-3">
-                            <label for="gsttype">GST type</label>
-                            <select class="custom-select" id="gsttype" name="gsttype" value="{{employee.gsttype}}"
-                                onclick="hidinput('hello', this),disinput('hai', this) ,disinput2('hai1', this)"
-                                style="background-color: #243e54; color: white;" >
-                                <option selected disabled value="">Choose...</option>
-                                <option>GST-registered-Regular</option>
-                                <option>GST-registered-Composition</option>
-                                <option>GST-unregistered</option>
-                                <option>Consumer</option>
-                                <option>Overseas</option>
-                                <option>SEZ</option>
-                                <option>Deemed exports - EOU's STP's EHTP's etc</option>
-                                <option>Exempt</option>
-                            </select>
-                            <div class="invalid-feedback">Please select a valid registration type.</div>
-                        </div>
-
-                        <div class="col-md-4 mt-3" id="hello" style="display: none;">
-                            <div>
-                                <label for="gstin">GSTIN</label>
-                                <input type="text" class="form-control" onchange="checkgst(this)" id="gstin" name="gstin" value="{{employee.gstin}}"
-                                    style="background-color: #2f516f;color: white;"  placeholder="29APPCK7465F1Z1"
-                                    >
-                                <div class="text-danger m-2" id="warngst"></div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-4 mt-3">
-                            <label for="panno">PAN No.</label>
-                            <input type="text" class="form-control" id="panno" name="panno" value="{{employee.panno}}"
-                                style="background-color: #2f516f;color: white;" onchange="checkpan(this)"
-                                placeholder="APPCK7465F" >
-                            <div class="text-danger m-2" id="warnpan"></div>
-                        </div>
-
-                        <div class="col-md-4 mt-3">
-                            <div>
-                                <label for="openbalance">Opening Balance</label>
-                                <input type="number" class="form-control"  name="openbalance" value="{{employee.openbalance}}"
-                                    style="background-color: #2f516f;color: white;">
-                                <div class="text-danger m-2"></div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 mt-3">
-                            <label for="email">Email</label>
+                            <label for="email"> Company Email Id</label>
                             <input type="email" class="form-control" id="email" name="email" value="{{employee.email}}"
                                 style="background-color: #2f516f;color: white;" placeholder="finsys@mail.com">
                             <div class="invalid-feedback">Please provide a valid Email</div>
@@ -321,14 +269,14 @@
                         </div>
                         <div class="row">
                             <div class="col-6 md-4 mt-3">
-                                <label for="email">Email Id</label>
+                                <label for="email">Personal Email Id</label>
                                 <input type="email" class="form-control" id="email" name="generalemail"  value="{{employee.generalemail}}"
                                     style="background-color: #2f516f;color: white;" placeholder="finsys@mail.com">
                                 <div class="invalid-feedback">Please provide a valid Email</div>
                             </div>
 
                             <div class="col-6 md-4 mt-3">
-                                <label for="phone">Phone</label>
+                                <label for="phone">Emergency Contact No:</label>
                                 <input type="text" class="form-control" id="phone" onchange="checkphone(this)"  value="{{employee.generalphone}}"
                                     name="generalphone" style="background-color: #2f516f;color: white;">
                                 <div class="text-danger m-2" id="warnphone"></div>
@@ -465,7 +413,7 @@
                     <div class="col-md-6 mt-5">
                         <div class="row">
                             <div class="col-md-12 card-title">
-                                <h5 class="mb-0">Temporary Address</h5>
+                                <h5 class="mb-0">Permanant Address</h5>
                             </div>
                         </div>
                         <div class="row">
@@ -561,9 +509,9 @@
                     <div class="col-md-6 mt-5">
                         <div class="row">
                             <div class="col-md-12 d-flex">
-                                <h5>Permanent Address</h5>
+                                <h5>Temporary Address</h5>
                                 <input class="ml-4 mb-2 ml-2" type="checkbox" onclick="poppins()" id="okay" name="okay">
-                                <label class="ml-2 mb-2 ml-2 mb-0" for="okay">Same As Billing Address</label>
+                                <label class="ml-2 mb-2 ml-2 mb-0" for="okay">Same As Permenant Address</label>
                             </div>
                         </div>
                         <div class="row">

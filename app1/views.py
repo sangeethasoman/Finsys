@@ -37497,12 +37497,7 @@ def addpayrollemployee(request):
             firstname = request.POST['firstname'] 
             lastname = request.POST['lastname']
             alias = request.POST['alias']
-            companyname = request.POST['companyname'] 
             location = request.POST['location']
-            gsttype = request.POST['gsttype']
-            gstin = request.POST['gstin']
-            panno = request.POST['panno']
-            openbalance = request.POST['openbalance']
             email = request.POST['email']
             website = request.POST['website']
             mobile = request.POST['mobile']
@@ -37551,9 +37546,7 @@ def addpayrollemployee(request):
             shipcountry = request.POST['shipcountry'] 
             emppayroll = payrollemployee(title=title,firstname=firstname,
                                          lastname=lastname,alias=alias,cid=cmpId,
-                                         company=companyname,location=location,
-                                         gsttype=gsttype,gstin=gstin,
-                                         panno=panno,openbalance=openbalance,
+                                         location=location,
                                          email=email,website=website,
                                          mobile=mobile,employees=employees,
                                          joindate=joindate,image=image,
@@ -37606,12 +37599,7 @@ def editpayrollemployee(request,employeeid):
             employee.firstname = request.POST['firstname'] 
             employee.lastname = request.POST['lastname']
             employee.alias = request.POST['alias']
-            employee.company = request.POST['companyname'] 
             employee.location = request.POST['location']
-            employee.gsttype = request.POST['gsttype']
-            employee.gstin = request.POST['gstin']
-            employee.panno = request.POST['panno']
-            employee.openbalance = request.POST['openbalance']
             employee.email = request.POST['email']
             employee.website = request.POST['website']
             employee.mobile = request.POST['mobile']

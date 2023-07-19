@@ -192,7 +192,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{% url 'employee_add_file' employee.employeeid %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+            <form action="{% url 'employee_add_file' employee.employeeid %}" method="POST"
+                enctype="multipart/form-data">{% csrf_token %}
                 <div class="modal-body">
                     <input type="file" class="form-control" name="file">
                 </div>
@@ -218,7 +219,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            
+
             <form action="{% url 'employeecomments' employee.employeeid %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="modal-body">
@@ -229,10 +230,10 @@
                     
                     </textarea>
                 </div>
-                
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    
+
                     <button type="submit" class="btn btn-primary">Save</button>
                 </div>
             </form>
@@ -245,14 +246,13 @@
         <div class="card-body">
             <div class="card-title">
                 <center>
-                    <div class="form-group border border-dark text-center">
-                        <img src="{{ employee.image.url }}" style="width: 50%;height: 100px;">                       
-                    </div>  
+                   
                     <h2 class="mb-0">{{ employee.title }}. {{ employee.firstname }} {{ employee.lastname }}</h2>
+                    
                 </center>
                 <hr>
                 <div class="btn-group" style="float: left; ">
-             
+
                 </div>
                 <div class="btn-group" style="float: right; ">
 
@@ -260,17 +260,21 @@
 
                     <div>
                         <center>
-                            <a  data-toggle="modal" class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
-                            data-target="#commentModal">Comments</a>
-                            <a href="{% url 'payrollemployeeedit' employee.employeeid %}" class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
+                            <a data-toggle="modal"
+                                class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
+                                data-target="#commentModal">Comments</a>
+                            <a href="{% url 'payrollemployeeedit' employee.employeeid %}"
+                                class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
                                 role="button">
                                 Edit
                             </a>&nbsp;&nbsp;&nbsp;
                             {% if employee.status == "Active"%}
-                            <a href="{% url 'active_emp' employee.employeeid 'Inactive' %}" class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
+                            <a href="{% url 'active_emp' employee.employeeid 'Inactive' %}"
+                                class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
                                 role="button">Inactivate</a> &nbsp;&nbsp;&nbsp;
                             {% else %}
-                            <a href="{% url 'active_emp' employee.employeeid 'Active' %}" class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
+                            <a href="{% url 'active_emp' employee.employeeid 'Active' %}"
+                                class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
                                 role="button">Activate</a> &nbsp;&nbsp;&nbsp;
                             {% endif %}
 
@@ -294,7 +298,8 @@
                         <a class="dropdown-item" style="cursor: pointer;" data-toggle="modal"
                             data-target="#exampleModal">Attach file</a>
                         {% if employee.file != "default.jpg" %}
-                        <a class="dropdown-item fa fa-download" style="cursor: pointer;" download href="{{employee.file.url }}">Download
+                        <a class="dropdown-item fa fa-download" style="cursor: pointer;" download
+                            href="{{employee.file.url }}">Download
                             file</a>
                         {% endif %}
 
@@ -369,29 +374,27 @@
                         <div class="p-5">
                             <div class="d-flex justify-content-between align-items-center mb-5">
                                 <h1 class="fw-bold mb-0 text-black">{{ employee.title }}. {{ employee.firstname }} {{ employee.lastname }}</h1>
-                                   
-
-
+                                  <img src="{{ employee.image.url }}" style="width: 50%;height: 100px;">
                             </div>
                             <hr class="my-4">
                             <div class="row mb-4 d-flex justify-content-between align-items-center">
                                 <div class="col-md-2 mt-3">
-                                    <h6 class="mb-0">Company</h6>
-                                </div>
-                                <div class="col-md-4 mt-3">
-                                    <p class="mb-0">{{ employee.company }}</p>
-                                </div>
-                                <div class="col-md-2 mt-3 vl">
                                     <h6 class="mb-0">Designation</h6>
                                 </div>
                                 <div class="col-md-4 mt-3">
                                     <p class="mb-0">{{ employee.designation }}</p>
                                 </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">Employee No:</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ employee.employeeno }}</p>
+                                </div>
 
                             </div>
                             <div class="row mb-4 d-flex justify-content-between align-items-center">
 
-                                <div class="col-md-2 mt-3 vl">
+                                <div class="col-md-2 mt-3">
                                     <h6 class="mb-0">Email</h6>
                                 </div>
                                 <div class="col-md-4 mt-3">
@@ -403,590 +406,189 @@
                                 <div class="col-md-4 mt-3">
                                     <p class="mb-0">{{ employee.website }}</p>
                                 </div>
+                               
+                            </div>
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
                                 <div class="col-md-2 mt-3">
-                                    <h6 class="mb-0">Mobile</h6>
+                                    <h6 class="mb-0">Company Location</h6>
                                 </div>
                                 <div class="col-md-4 mt-3">
-                                    <p class="mb-0">{{ employee.mobile }}</p>
+                                    <p class="mb-0">{{ employee.location }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">Effective From</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ employee.effectivefrom }}</p>
                                 </div>
                             </div>
                             <div class="row mb-4 d-flex justify-content-between align-items-center">
-
-                                    <div class="col-md-2 mt-3 vl">
-                                        <h6 class="mb-0">Employee No:</h6>
-                                    </div>
-                                    <div class="col-md-4 mt-3">
-                                        <p class="mb-0">{{ employee.employeeno }}</p>
-                                    </div>
-                                    <div class="col-md-2 mt-3 vl">
-                                        <h6 class="mb-0">Date Of Joining</h6>
-                                    </div>
-                                    <div class="col-md-4 mt-3">
-                                        <p class="mb-0">{{ employee.joindate }}</p>
-                                    </div>
-                                    <div class="col-md-2 mt-3">
-                                        <h6 class="mb-0">Employee Type</h6>
-                                    </div>
-                                    <div class="col-md-4 mt-3">
-                                        <p class="mb-0">{{ employee.employees }}</p>
-                                    </div>
-                            </div>
-                                    <hr class="my-4">
-                                    <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                        <div class="col-md-4 mt-3">
-                                            <h5
-                                                style="border-bottom: 1px solid rgba(128, 128, 128, 0.6); width: fit-content;">
-                                                Billing Address</h5>
-                                        </div>
-                                        <div class="col-md-4 mt-3"></div>
-                                        <div class="col-md-4 mt-3"></div>
-
-                                        <div class="col-md-2 mt-3">
-                                            <h6 class="mb-0">Street</h6>
-                                        </div>
-                                        <div class="col-md-4 mt-3">
-                                            <p class="mb-0">{{ employee.street }}</p>
-                                        </div>
-                                        <div class="col-md-2 mt-3 vl">
-                                            <h6 class="mb-0">City</h6>
-                                        </div>
-                                        <div class="col-md-4 mt-3">
-                                            <p class="mb-0">{{ employee.city }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                        <div class="col-md-2 mt-3">
-                                            <h6 class="mb-0">State</h6>
-                                        </div>
-                                        <div class="col-md-2 mt-3">
-                                            <p class="mb-0">{{ employee.state }}</p>
-                                        </div>
-                                        <div class="col-md-2 mt-3 vl">
-                                            <h6 class="mb-0">Pincode</h6>
-                                        </div>
-                                        <div class="col-md-2 mt-3">
-                                            <p class="mb-0">{{ employee.pincode }}</p>
-                                        </div>
-                                        <div class="col-md-2 mt-3 vl">
-                                            <h6 class="mb-0">Country</h6>
-                                        </div>
-                                        <div class="col-md-2 mt-3">
-                                            <p class="mb-0">{{ employee.country }}</p>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                        <div class="col-md-4 mt-3">
-                                            <h5
-                                                style="border-bottom: 1px solid rgba(128, 128, 128, 0.6); width: fit-content;">
-                                                Shipping Address</h5>
-                                        </div>
-                                        <div class="col-md-4 mt-3"></div>
-                                        <div class="col-md-4 mt-3"></div>
-
-                                        <div class="col-md-2 mt-3">
-                                            <h6 class="mb-0">Street</h6>
-                                        </div>
-                                        <div class="col-md-4 mt-3">
-                                            <p class="mb-0">{{ employee.shipstreet }}</p>
-                                        </div>
-                                        <div class="col-md-2 mt-3 vl">
-                                            <h6 class="mb-0">City</h6>
-                                        </div>
-                                        <div class="col-md-4 mt-3">
-                                            <p class="mb-0">{{ employee.shipcity }}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                        <div class="col-md-2 mt-3">
-                                            <h6 class="mb-0">State</h6>
-                                        </div>
-                                        <div class="col-md-2 mt-3">
-                                            <p class="mb-0">{{ employee.shipstate }}</p>
-                                        </div>
-                                        <div class="col-md-2 mt-3 vl">
-                                            <h6 class="mb-0">Pincode</h6>
-                                        </div>
-                                        <div class="col-md-2 mt-3">
-                                            <p class="mb-0">{{ employee.shippincode }}</p>
-                                        </div>
-                                        <div class="col-md-2 mt-3 vl">
-                                            <h6 class="mb-0">Country</h6>
-                                        </div>
-                                        <div class="col-md-2 mt-3">
-                                            <p class="mb-0">{{ employee.shipcountry }}</p>
-                                        </div>
-                                    </div>
-                                    <hr class="my-4">
+                                <div class="col-md-2 mt-3">
+                                    <h6 class="mb-0">Date Of Joining</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ employee.joindate }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">Employee Type</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ employee.employees }}</p>
                                 </div>
                             </div>
-                            <div class="col-lg-4 bg-grey">
-                                <div class="p-5">
+                            
+                            <hr class="my-4">
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-4 mt-3">
+                                    <h5 style="border-bottom: 1px solid rgba(128, 128, 128, 0.6); width: fit-content;">
+                                        Permanant Address </h5>
+                                </div>
+                                <div class="col-md-4 mt-3"></div>
+                                <div class="col-md-4 mt-3"></div>
 
-                                    <h3 class="fw-bold mb-5 mt-2 pt-1">GST</h3>
-                                    <hr class="my-4">
-                                    <div class="d-flex justify-content-between mb-4">
-                                        <h5 class="">GSTIN</h5>
-                                        <h6>{{ employee.gstin }}</h6>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-4">
-                                        <h5 class="mb-3">GST Type</h5>
-                                        {{employee.gsttype }}
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-4">
-                                        <h5 class="">PAN Number</h5>
-                                        <h6>{{ employee.panno }}</h6>
-                                    </div>
-
-                                    <div class="d-flex justify-content-between mb-4">
-                                        <h5 class="">Opening Balance</h5>
-                                        <h6>{{ employee.openbalance }}</h6>
-                                    </div>
-                                    <div class="d-flex justify-content-between mb-4">
-                                        <h5 class="">Status</h5>
-                                        <h6>{{ employee.status }}</h6>
-                                    </div>
-                                    <hr class="my-4">
-
-
+                                <div class="col-md-2 mt-3">
+                                    <h6 class="mb-0">Street</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ employee.street }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">City</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ employee.city }}</p>
                                 </div>
                             </div>
-                        </div>
-
-                    </div>
-
-                    <div id="overview" style="display: none;">
-                        <div class="container-fluid">
-                            <!-- <div class="row"><div class="col-lg-3"><div class="text-muted">Payment due period</div> 
-                        <div>Due on Receipt</div></div>
-                         </div> -->
-                            <div class="row ml-0 mt-6">
-                                <p class="" style="margin-top: 50px; font-size: 20px;">Receivables</p>
-                            </div>
-                            <table class="table table-responsive-md mt-4 table-hover">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center;">CURRENCY</th>
-                                        <th style="text-align: center;">OUTSTANDING RECEIVABLES</th>
-                                        <th style="text-align: center;">UNUSED CREDITS</th>
-
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-
-                                    <tr class="table-row " data-href="">
-                                        <td style="text-align: center;">INR- Indian Rupee</td>
-                                        <td style="text-align: center;">{{customer.receivables}}</td>
-                                        <td style="text-align: center;">{{sum2}}</td>
-                                    </tr>
-
-
-                                </tbody>
-
-                            </table>
-
-
-                            <div class="row ml-0 mt-6"><a data-toggle="modal" data-target="#openmodal"
-                                    style="margin-top: 15px; margin-bottom: 10px; margin-left: 20px; cursor: pointer;  font-size: 16px;">View
-                                    Opening Balance</a></div>
-                        </div>
-
-                    </div>
-
-                    <!-- openbalance modal -->
-                    <div class="modal fade" id="openmodal" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Edit Opening Balance</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-2 mt-3">
+                                    <h6 class="mb-0">State</h6>
                                 </div>
-                                <form method="POST" action="">{% csrf_token %}
-                                    <div class="modal-body">
-                                        <input type="number" class="form-control" value="{{customer.opening_balance}}"
-                                            name="openbalance">
-
-                                    </div>
-                                    <div class="modal-footer">
-
-                                        <button type="submit" class="btn btn-primary">Edit</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- openbalance modal -->
-
-
-
-
-
-
-                    <div id="statment" style="display: none;">
-
-
-
-                        <div class="container-fluid">
-
-
-
-                            <div class="py-5">
-
-
-                                <div class="row hidden-md-up" style="margin-top: 15px;">
-                                    <div class="col-md-7" style="margin: auto;">
-                                        <div class="card">
-                                            <div id="whatToPrint">
-                                                <div class="card-block">
-                                                    <div class="card-body">
-                                                        <div class="container bootdey">
-                                                            <div class="row">
-                                                                <div class="col-sm-12 col-sm-offset-1"
-                                                                    style="padding:20px;">
-                                                                    <div class="widget-box">
-                                                                        <div class="widget-header widget-header-large">
-                                                                            <h6 class="widget-title ">
-                                                                                Statement of Accounts<br>
-                                                                                <input id="df" value="{{tod}}"
-                                                                                    style="border: none; background-color:#444; width: 13%;">to
-                                                                                <input type="text" id="dl"
-                                                                                    value="{{tod}}"
-                                                                                    style="border: none; background-color: none; background-color:#444;">
-                                                                            </h6>
-
-
-                                                                        </div>
-
-                                                                        <div class="widget-body">
-                                                                            <div class="widget-main padding-24">
-                                                                                <div class="row" style="padding:20px;">
-                                                                                    <div class="col-sm-12">
-                                                                                        <div class="col-6">
-                                                                                            <div style="width:30px;">
-                                                                                                <img
-                                                                                                    src="/media/images/default.png">
-                                                                                            </div>
-
-                                                                                        </div>
-
-                                                                                        <div class="col-6">
-                                                                                            <p
-                                                                                                style="font-size:10px;color:black;">
-                                                                                                {{cmp1.city}} <br>
-                                                                                                {{cmp1.pincode}}<br>
-                                                                                                {{cmp1.state}},India
-                                                                                                <br>
-                                                                                                {{cmp1.cemail}}
-                                                                                                <br>
-                                                                                                {{cmp1.pincode}}<br>
-                                                                                            </p>
-
-                                                                                        </div>
-                                                                                        <hr>
-                                                                                    </div><!-- /.col -->
-
-
-                                                                                </div><!-- /.row -->
-
-                                                                                <div class="row col-12">
-                                                                                    <div class="col-6">
-                                                                                        <p
-                                                                                            style="font-size:10px;color:black;">
-                                                                                            To,<br>{{customer.firstname}}
-                                                                                            {{customer.lastname}}<br>
-                                                                                            {{customer.street}},{{customer.city}}<br>
-                                                                                            {{customer.state}},{{customer.country}}<br>
-                                                                                            {{customer.pincode }}<br>
-                                                                                            {{customer.email}}
-                                                                                            <br>
-                                                                                            {{customer.phone}}<br>
-                                                                                        </p>
-                                                                                    </div>
-                                                                                    <div class="col-6">
-                                                                                        <table
-                                                                                            style="font-size:10px;color:black;">
-                                                                                            <tr>
-                                                                                                <td>Account Summary</td>
-                                                                                            </tr>
-
-                                                                                            <tr>
-                                                                                                <td>Opening balance</td>
-                                                                                                <td> <input type="text"
-                                                                                                        id="open"
-                                                                                                        value="{{bal_amount}}"
-                                                                                                        style="border: none;">
-                                                                                                </td>
-                                                                                            </tr>
-
-                                                                                            <tr>
-                                                                                                <td>Invoiced Amount</td>
-                                                                                                <td> <input type="text"
-                                                                                                        id="invamount"
-                                                                                                        value="{{invoiced}}"
-                                                                                                        style="border: none;">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr
-                                                                                                style="border-bottom: 1px solid black; width:100%;">
-                                                                                                <td>Amount received</td>
-                                                                                                <td> <input type="text"
-                                                                                                        id="received"
-                                                                                                        value="{{re}}"
-                                                                                                        style="border: none;">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td>Balance Due</td>
-                                                                                                <td> <input type="text"
-                                                                                                        id="due"
-                                                                                                        value="{{baldue}}"
-                                                                                                        style="border: none;">
-                                                                                                </td>
-                                                                                            </tr>
-
-                                                                                        </table>
-
-                                                                                    </div>
-                                                                                </div><br>
-                                                                              
-                                                                                <div class="col-md-12 tab_logic">
-                                                                                    <table border="0" id="tab_logic"
-                                                                                        class=" table-striped"
-                                                                                        width="100%"
-                                                                                        style="font-size:10px;color:black;">
-                                                                                        <thead class="thead-dark">
-                                                                                            <tr>
-                                                                                                <th>Date</th>
-                                                                                                <th>Transactions</th>
-                                                                                                <th>Details</th>
-                                                                                                <th>Amount</th>
-                                                                                                <th>Payments</th>
-                                                                                                <th>Balance</th>
-                                                                                            </tr>
-                                                                                        </thead>
-                                                                                        <tbody>
-
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-
-
-
-
-                                                                                <div class="hr hr8 hr-double hr-dotted">
-                                                                                </div>
-
-
-
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-md-2 mt-3">
+                                    <p class="mb-0">{{ employee.state }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">Pincode</h6>
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <p class="mb-0">{{ employee.pincode }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">Country</h6>
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <p class="mb-0">{{ employee.country }}</p>
                                 </div>
                             </div>
+                            <hr>
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-4 mt-3">
+                                    <h5 style="border-bottom: 1px solid rgba(128, 128, 128, 0.6); width: fit-content;">
+                                        Temporary Address</h5>
+                                </div>
+                                <div class="col-md-4 mt-3"></div>
+                                <div class="col-md-4 mt-3"></div>
+
+                                <div class="col-md-2 mt-3">
+                                    <h6 class="mb-0">Street</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ employee.shipstreet }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">City</h6>
+                                </div>
+                                <div class="col-md-4 mt-3">
+                                    <p class="mb-0">{{ employee.shipcity }}</p>
+                                </div>
+                            </div>
+                            <div class="row mb-4 d-flex justify-content-between align-items-center">
+                                <div class="col-md-2 mt-3">
+                                    <h6 class="mb-0">State</h6>
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <p class="mb-0">{{ employee.shipstate }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">Pincode</h6>
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <p class="mb-0">{{ employee.shippincode }}</p>
+                                </div>
+                                <div class="col-md-2 mt-3 vl">
+                                    <h6 class="mb-0">Country</h6>
+                                </div>
+                                <div class="col-md-2 mt-3">
+                                    <p class="mb-0">{{ employee.shipcountry }}</p>
+                                </div>
+                            </div>
+                            <hr class="my-4">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 bg-grey">
+                        <div class="p-5">
+
+                            <h3 class="fw-bold mb-5 mt-2 pt-1">Personal Details</h3>
+                            <hr class="my-4">
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Personal Email Id</h6>
+                                {{ employee.generalemail }}
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Website</h6>
+                                {{employee.website }}
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Contact</h6>
+                                {{ employee.mobile }}
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Gender</h6>
+                                {{ employee.gender }}
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Date Of Birth</h6>
+                                {{ employee.dateofbirth }}
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Blood Group</h6>
+                                {{ employee.bloodgroup }}
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Name Of Father/Mother</h6>
+                                {{ employee.fathersmothersname }}
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Name Of Spouse</h6>
+                                {{ employee.spousename }}
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Emergency Contact No:</h6>
+                                {{ employee.generalphone }}
+                            </div>
+                            <hr class="my-4">
 
 
                         </div>
                     </div>
-
-
-                    <div id="transation" style="display: none;">
-
-                        <div style=" margin-top: 20px;">
-
-                            <a style="padding: 10px; cursor: pointer; font-size: 20px;" onclick="dispinv()">Invoice</a>
-                            <a href="" class="fa fa-plus" style="float: right; margin-right: 20px;">Add new</a>
-
-                        </div>
-                        <div id="invtable" style="display:none;">
-
-                            <table class="table table-responsive-md mt-3 table-hover">
-                                <thead>
-                                    <tr>
-
-                                        <th style="text-align: center;">INVOICE DATE</th>
-                                        <th style="text-align: center;">INVOICE NO</th>
-                                        <th style="text-align: center;">ORDER NO</th>
-
-                                        <th style="text-align: center;">STATUS</th>
-                                        <th style="text-align: center;">DUE DATE</th>
-                                        <th style="text-align: center;">GRAND TOTAL</th>
-                                        <th style="text-align: center;">BALANCE DUE</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for invoices in invs %}
-                                    {% if invoices.cid_id == cmp1.cid %}
-
-                                    <tr tr class="table-row " data-href="">
-                                        <td style="text-align: center;">{{ invoices.invoicedate }}</td>
-                                        <th style="text-align: center;">{{ invoices.invoiceno }}</th>
-                                        <td style="text-align: center;">{{ invoices.invoice_orderno }}</td>
-
-                                        <td style="text-align: center;">{{ invoices.status }}</td>
-                                        <td style="text-align: center;">{{ invoices.duedate }}</td>
-                                        <td style="text-align: center;">{{ invoices.grandtotal }}</td>
-                                        <td style="text-align: center;">{{ invoices.baldue }}</td>
-
-
-                                    </tr>
-                                    {% endif %}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-
-
-                        </div>
-                        <br>
-                        <div style=" margin-top: 20px;">
-
-                            <a style="padding: 10px; cursor: pointer; font-size: 20px;" onclick="dispay()">Customer
-                                Payment</a>
-                            <a href="" class="fa fa-plus" style="float: right; margin-right: 20px;">Add new</a>
-
-                        </div>
-                        <div id="paytable" style="display:none;">
-
-                            <table class="table table-responsive-md mt-4 table-hover">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center;">Date</th>
-                                        <th style="text-align: center;">Payment No</th>
-                                        <th style="text-align: center;">Reference Number</th>
-
-                                        <th style="text-align: center;">Applied Amount</th>
-                                        <th style="text-align: center;">Amount</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for i in payme %}
-                                    {% if i.cid_id == cmp1.cid %}
-                                    <tr class="table-row " data-href="">
-                                        <th style="text-align: center;">{{ i.paymdate | date:'d-m-Y' }}</th>
-                                        <td style="text-align: center;">{{ i.refno }}</td>
-                                        <td style="text-align: center;"> {{ i.referno }}</td>
-
-                                        <td style="text-align: center;"> {{ i.amtapply }}</td>
-                                        <td style="text-align: center;">{{ i.amtcredit }}</td>
-
-                                    </tr>
-                                    {% endif %}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                        <br>
-                        <div style=" margin-top: 20px;">
-
-                            <a style="padding: 10px; cursor: pointer; font-size: 20px;" onclick="disest()">Estimate</a>
-                            <a href="" class="fa fa-plus" style="float: right; margin-right: 20px;">Add new</a>
-
-                        </div>
-                        <div id="esttable" style="display:none;">
-
-                            <table class="table table-responsive-md mt-4 table-hover">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center;">Date</th>
-                                        <th style="text-align: center;">Estimate No</th>
-                                        <th style="text-align: center;">Reference Number</th>
-
-                                        <th style="text-align: center;">Status</th>
-                                        <th style="text-align: center;">Amount</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for estimate in est1 %}
-                                    {% if estimate.cid_id == cmp1.cid %}
-                                    <tr class="table-row " data-href="">
-                                        <th style="text-align: center;">{{ estimate.estimatedate | date:'d-m-Y' }}</th>
-                                        <td style="text-align: center;">{{ estimate.estimateno }}</td>
-                                        <td style="text-align: center;"> {{ estimate.reference_number }}</td>
-
-                                        <td style="text-align: center;"> {{ estimate.status }}</td>
-                                        <td style="text-align: center;">{{ estimate.estimatetotal }}</td>
-
-                                    </tr>
-                                    {% endif %}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-
-                        </div>
-
-                        <br>
-                        <div style=" margin-top: 20px;">
-
-                            <a style="padding: 10px; cursor: pointer; font-size: 20px;" onclick="dissale()">Sales
-                                Order</a>
-                            <a href="" class="fa fa-plus" style="float: right; margin-right: 20px;">Add new</a>
-
-                        </div>
-                        <div id="saletable" style="display:none;">
-
-                            <table class="table table-responsive-md mt-4 table-hover">
-                                <thead>
-                                    <tr>
-                                        <th style="text-align: center;">Date</th>
-                                        <th style="text-align: center;">Sales Order No</th>
-                                        <th style="text-align: center;">Reference Number</th>
-                                        <th style="text-align: center;">Coustomer Name</th>
-                                        <th style="text-align: center;">Status</th>
-                                        <th style="text-align: center;">Amount</th>
-                                        <!-- <th style="text-align: center;">ACTION</th> -->
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for sale in sel1 %}
-                                    {% if sale.cid_id == cmp1.cid %}
-                                    <tr tr class="table-row " data-href="">
-                                        <th style="text-align: center;">{{ sale.saledate | date:'d-m-Y' }}</th>
-                                        <td style="text-align: center;">{{ sale.shipmentdate }}</td>
-                                        <td style="text-align: center;"> {{ sale.reference_number }}</td>
-                                        <td style="text-align: center;">{{ sale.salename }}</td>
-                                        <td style="text-align: center;"> {{ sale.status }}</td>
-                                        <td style="text-align: center;">{{ sale.salestotal }}</td>
-
-                                    </tr>
-                                    {% endif %}
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-
-                        </div>
-
-
-                    </div>
-
-
-
-
-
                 </div>
 
             </div>
+
+  
+
+           
+
+
+
+
+
+           
+
+
+
+       
+
 
 
 
@@ -994,7 +596,16 @@
 
 
         </div>
+
     </div>
+
+
+
+
+
+
+</div>
+</div>
 </div>
 <script>
     function dispinv() {
@@ -1172,6 +783,6 @@
     });
 
 
-</script>   
+</script>
 
 {% endblock %}
