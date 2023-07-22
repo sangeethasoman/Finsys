@@ -149,11 +149,7 @@ body{
                             
                        
 
-                        <!-- <div class="col-md-2">
-                            <a href="{% url 'goaddcust' %}" >
-                                <button >Add Customer</button>
-                            </a>
-                        </div> -->
+                       
 
                         <div class="btn-group col-md-2">
                             <a href="{% url 'goaddpayrollemployee' %}" id="myBtn" class="btn btn-outline-info text-grey" style="margin-top: 8px;" role="button">New</a>
@@ -170,7 +166,7 @@ body{
                                 <th>EMPLOYEE TYPE</th>
                                 <th>PAN NO:</th>
                                 <th>PHONE</th>
-                                <th>EMAIL ID</th>
+                                <th>COMPANY EMAIL ID</th>
                                 <th>SALARY</th>
                                 <th>SALARY DATE</th>
                                 
@@ -237,7 +233,7 @@ body{
                var wb = XLSX.utils.table_to_book(elt, { sheet: "sheet1" });
                return dl ?
                  XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
-                 XLSX.writeFile(wb, fn || ('Customers.' + (type || 'xlsx')));
+                 XLSX.writeFile(wb, fn || ('Employees.' + (type || 'xlsx')));
             }
             </script>
     {% endif %}

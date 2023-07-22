@@ -37503,9 +37503,10 @@ def addpayrollemployee(request):
             mobile = request.POST['mobile']
             employees = request.POST['employees']
             joindate = request.POST['joindate']
-            image=request.FILES.get('image')
-            if image == None:
-               image='default' 
+            try:
+                img1 = request.FILES['image']
+            except:
+                img1 = 'default' 
             salarydetails = request.POST['salarydetails']
             effectivefrom = request.POST['effectivefrom']
             payhead = request.POST['payhead']
@@ -37539,17 +37540,17 @@ def addpayrollemployee(request):
             state = request.POST['state']
             pincode = request.POST['pincode']
             country = request.POST['country']
-            shipstreet = request.POST['shipstreet']
-            shipcity = request.POST['shipcity']
-            shipstate = request.POST['shipstate']
-            shippincode = request.POST['shippincode']
-            shipcountry = request.POST['shipcountry'] 
+            tempstreet = request.POST['tempstreet']
+            tempcity = request.POST['tempcity']
+            tempstate = request.POST['tempstate']
+            temppincode = request.POST['temppincode']
+            tempcountry = request.POST['tempcountry'] 
             emppayroll = payrollemployee(title=title,firstname=firstname,
                                          lastname=lastname,alias=alias,cid=cmpId,
                                          location=location,
                                          email=email,website=website,
                                          mobile=mobile,employees=employees,
-                                         joindate=joindate,image=image,
+                                         joindate=joindate,
                                          salarydetails=salarydetails,effectivefrom=effectivefrom,
                                          hours=hours,rate=rate,
                                          amount=amount,employeeno=employeeno,
@@ -37566,9 +37567,12 @@ def addpayrollemployee(request):
                                          esinumber=esinumber,street=street,
                                          city=city,state=state,
                                          pincode=pincode,country=country,
-                                         shipstreet=shipstreet,shipcity=shipcity,
-                                         shipstate=shipstate,shippincode=shippincode,
-                                         shipcountry=shipcountry,payhead=payhead)
+                                         tempstreet=tempstreet,tempcity=tempcity,
+                                         tempstate=tempstate,temppincode=temppincode,
+                                         tempcountry=tempcountry,payhead=payhead)
+            if img1 != 'default':
+                emppayroll.image = img1
+
             emppayroll.save()
             return redirect('listpayrollemployee')
            
@@ -37578,18 +37582,22 @@ def addpayrollemployee(request):
  #Render employee list page.
 @login_required(login_url='login')
 def listpayrollemployee(request):  
+  cmp1 = company.objects.get(id=request.session["uid"])
   employee=payrollemployee.objects.filter(cid_id=request.session["uid"])
-  return render(request,'app1/listemployee.html',{'employee':employee})
+  return render(request,'app1/listemployee.html',{'employee':employee,'cmp1':cmp1})
 
 @login_required(login_url='login')
 def payrollemployeeprofile(request,employeeid): 
-  employee=payrollemployee.objects.get(cid_id=request.session["uid"],employeeid=employeeid)
-  return render(request,'app1/payrollemployeeprofile.html',{'employee':employee})
+  cmp1 = company.objects.get(id=request.session["uid"])
+  employee = payrollemployee.objects.get(cid_id=request.session["uid"],employeeid=employeeid)
+  comments = payrollcomments.objects.filter(cid_id=request.session["uid"],empid_id=employeeid)
+  return render(request,'app1/payrollemployeeprofile.html',{'employee': employee,'cmp1': cmp1,'comments': comments})
 
 @login_required(login_url='login')
 def payrollemployeeedit(request,employeeid): 
+  cmp1 = company.objects.get(id=request.session["uid"])
   employee=payrollemployee.objects.get(cid_id=request.session["uid"],employeeid=employeeid)
-  return render(request,'app1/payrollemployeeedit.html',{'employee':employee})
+  return render(request,'app1/payrollemployeeedit.html',{'employee':employee,'cmp1':cmp1})
 
 @login_required(login_url='login')
 def editpayrollemployee(request,employeeid):  
@@ -37608,9 +37616,10 @@ def editpayrollemployee(request,employeeid):
             old= employee.image
             new=request.FILES.get('image')
             if old !=None and new==None:
-                employee.imagee=old
+                employee.image=old
             else:
                 employee.image=new 
+                
             employee.salarydetails = request.POST['salarydetails']
             employee.effectivefrom = request.POST['effectivefrom']
             employee.payhead = request.POST['payhead']
@@ -37644,11 +37653,11 @@ def editpayrollemployee(request,employeeid):
             employee.state = request.POST['state']
             employee.pincode = request.POST['pincode']
             employee.country = request.POST['country']
-            employee.shipstreet = request.POST['shipstreet']
-            employee.shipcity = request.POST['shipcity']
-            employee.shipstate = request.POST['shipstate']
-            employee.shippincode = request.POST['shippincode']
-            employee.shipcountry = request.POST['shipcountry'] 
+            employee.tempstreet = request.POST['tempstreet']
+            employee.tempcity = request.POST['tempcity']
+            employee.tempstate = request.POST['tempstate']
+            employee.temppincode = request.POST['temppincode']
+            employee.tempcountry = request.POST['tempcountry'] 
             employee.save()
             return redirect('payrollemployeeprofile',employeeid)
 
@@ -37656,22 +37665,24 @@ def editpayrollemployee(request,employeeid):
 def gopayrollsearch(request):
     if request.method == "POST": 
         if  request.POST['search'] != "":
+                cmp1 = company.objects.get(id=request.session["uid"])
                 employee = payrollemployee.objects.filter(cid_id=request.session["uid"],firstname=request.POST['search'])
-                return render(request,'app1/listemployee.html',{'employee':employee})
+                return render(request,'app1/listemployee.html',{'employee':employee,'cmp1':cmp1})
         else:
             return redirect('listpayrollemployee')
 
 @login_required(login_url='regcomp')
 def gopayrollfilter(request,filters,values):
+       cmp1 = company.objects.get(id=request.session["uid"])
        if filters == 'status':
             employee = payrollemployee.objects.filter(cid_id=request.session["uid"], status = values)
-            return render(request,'app1/listemployee.html',{'employee':employee})
+            return render(request,'app1/listemployee.html',{'employee':employee,'cmp1':cmp1})
        elif filters == 'employees':
             employee = payrollemployee.objects.filter(cid_id=request.session["uid"],employees=values)
-            return render(request,'app1/listemployee.html',{'employee':employee})
+            return render(request,'app1/listemployee.html',{'employee':employee,'cmp1':cmp1})
        else:
             employee = payrollemployee.objects.filter(cid_id=request.session["uid"])
-            return render(request,'app1/listemployee.html',{'employee':employee})
+            return render(request,'app1/listemployee.html',{'employee':employee,'cmp1':cmp1})
 
 
 @login_required(login_url='regcomp')
@@ -37714,11 +37725,20 @@ def employee_add_file(request, employeeid):
 @login_required(login_url='regcomp')
 def employeecomments(request, employeeid):
     if request.method == 'POST':
-        employee = payrollemployee.objects.get(cid_id=request.session["uid"], employeeid=employeeid)
-        employee.comments = request.POST['comments']
-        employee.save()
+        emp = payrollemployee.objects.get(cid_id=request.session["uid"], employeeid=employeeid) 
+        cmp = company.objects.get(id=request.session["uid"])
+        comments= payrollcomments(empid=emp,cid=cmp,comment=request.POST['comments'])
+        comments.save()
         return redirect('payrollemployeeprofile', employeeid)
 
+@login_required(login_url='regcomp')
+def deleteemployeecomments(request,employeeid, commentid):
+    try:
+        comment = payrollcomments.objects.get(cid_id=request.session["uid"],empid = employeeid,commentid=commentid)
+        comment.delete()
+        return redirect('payrollemployeeprofile', employeeid)
+    except:
+        return redirect('payrollemployeeprofile', employeeid) 
 
       
 

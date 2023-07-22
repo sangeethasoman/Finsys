@@ -865,5 +865,6 @@ urlpatterns = [
     path('deletepayrollemp/<int:employeeid>', views.deletepayrollemp, name='deletepayrollemp'),
     path('employee_add_file/<int:employeeid>', views.employee_add_file, name='employee_add_file'),
     path('employeecomments/<int:employeeid>', views.employeecomments, name='employeecomments'),
+    path('deleteemployeecomments/<int:employeeid>/<int:commentid>', views.deleteemployeecomments, name='deleteemployeecomments'),
 
 ]

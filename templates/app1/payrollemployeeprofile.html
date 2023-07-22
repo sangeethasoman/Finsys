@@ -1,7 +1,6 @@
 {% extends 'app1/base.html' %}
 {% block body %}
-{% load static %}
-
+{% load static %} 
 <style>
     .card-registration .select-input.form-control[readonly]:not([disabled]) {
         font-size: 1rem;
@@ -223,12 +222,28 @@
             <form action="{% url 'employeecomments' employee.employeeid %}" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="modal-body">
-                    <textarea type="text" class="form-control" name="comments">
-                        {% if employee.comments != None%}
-                        {{ employee.comments}}
-                        {% endif %}
-                    
-                    </textarea>
+                    <textarea type="text" class="form-control" name="comments"></textarea>
+                    <div class="container-fluid">
+                        
+                        <table class="table table-responsive-md mt-4">
+                            <thead>
+                            <tr>
+                                <th>sl no.</th>
+                                <th>Comments</th>
+                                <th>Delete</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for com in comments %}
+                                    <tr  class="table-row">
+                                        <td>{{forloop.counter }}</td>
+                                        <td>{{com.comment}}</td>
+                                        <td><a href="{% url 'deleteemployeecomments' employee.employeeid com.commentid %}">Delete</a></td>
+                                    </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
@@ -299,7 +314,7 @@
                             data-target="#exampleModal">Attach file</a>
                         {% if employee.file != "default.jpg" %}
                         <a class="dropdown-item fa fa-download" style="cursor: pointer;" download
-                            href="{{employee.file.url }}">Download
+                            href="{{employee.file }}">Download
                             file</a>
                         {% endif %}
 
@@ -372,9 +387,10 @@
 
                     <div class="col-lg-8">
                         <div class="p-5">
+                           
                             <div class="d-flex justify-content-between align-items-center mb-5">
                                 <h1 class="fw-bold mb-0 text-black">{{ employee.title }}. {{ employee.firstname }} {{ employee.lastname }}</h1>
-                                  <img src="{{ employee.image.url }}" style="width: 50%;height: 100px;">
+                                  <img src="{{ employee.image.url }}" style="width: 15%; height: 97px; border-radius: 50px">
                             </div>
                             <hr class="my-4">
                             <div class="row mb-4 d-flex justify-content-between align-items-center">
@@ -492,13 +508,13 @@
                                     <h6 class="mb-0">Street</h6>
                                 </div>
                                 <div class="col-md-4 mt-3">
-                                    <p class="mb-0">{{ employee.shipstreet }}</p>
+                                    <p class="mb-0">{{ employee.tempstreet }}</p>
                                 </div>
                                 <div class="col-md-2 mt-3 vl">
                                     <h6 class="mb-0">City</h6>
                                 </div>
                                 <div class="col-md-4 mt-3">
-                                    <p class="mb-0">{{ employee.shipcity }}</p>
+                                    <p class="mb-0">{{ employee.tempcity }}</p>
                                 </div>
                             </div>
                             <div class="row mb-4 d-flex justify-content-between align-items-center">
@@ -506,19 +522,19 @@
                                     <h6 class="mb-0">State</h6>
                                 </div>
                                 <div class="col-md-2 mt-3">
-                                    <p class="mb-0">{{ employee.shipstate }}</p>
+                                    <p class="mb-0">{{ employee.tempstate }}</p>
                                 </div>
                                 <div class="col-md-2 mt-3 vl">
                                     <h6 class="mb-0">Pincode</h6>
                                 </div>
                                 <div class="col-md-2 mt-3">
-                                    <p class="mb-0">{{ employee.shippincode }}</p>
+                                    <p class="mb-0">{{ employee.temppincode }}</p>
                                 </div>
                                 <div class="col-md-2 mt-3 vl">
                                     <h6 class="mb-0">Country</h6>
                                 </div>
                                 <div class="col-md-2 mt-3">
-                                    <p class="mb-0">{{ employee.shipcountry }}</p>
+                                    <p class="mb-0">{{ employee.tempcountry }}</p>
                                 </div>
                             </div>
                             <hr class="my-4">
