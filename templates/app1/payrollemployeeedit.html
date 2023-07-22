@@ -366,7 +366,7 @@
                                 </div>
                                 <div class="col">
                                     <label for="aadhaarnumber">Aadhaar Number </label>
-                                    <input type="text" class="form-control pan" id="aadhaarnumber" name="aadhaarnumber" value="{{employee.aadhaarnumber}}"
+                                    <input type="text" class="form-control pan" id="aadhaarnumber" name="adharnumber" value="{{employee.adharnumber}}"
                                         size="20" placeholder="1234 1234 1234" pattern="[0-9]{4} [0-9]{4} [0-9]{4}" 
                                         style="background-color: #2f516f;color: white;" required>
                                     
@@ -402,6 +402,30 @@
                                     
                                 </div>
                             </div>
+                            <div class="row mt-3">
+                                <div class="col">
+                                    <label for="tdsapplicable">TDS Applicable</label>
+                                    <select name="tdsapp" id="tdsapplicable" class="form-control"
+                                        onchange="toggleDivTds()">
+                                        <option value="No">No</option>
+                                        <option value="Yes">Yes</option>
+                                    </select>
+                                    
+                                </div>
+                                <div class="col"  id="div-tds" style="display: none;">
+                                    <label for="tdsamtperc">TDS Type</label>
+                                    <select name="tdstype" id="tdsamtperc" class="form-control">
+                                        <option value="amount">Amount</option>
+                                        <option value="percentage">Percentage</option>
+
+                                    </select>
+                                    <label for="tds"></label>
+                                    <input type="text" class="form-control" id="tds" name="tds" value="{{employee.tds}}"
+                                        style="background-color: #2f516f; color: white;">
+                                    
+                                </div>
+                            </div>
+                            
                         </div>
 
 
@@ -806,6 +830,18 @@
         }
     }
 
+    function toggleDivTds() {
+        var selectElement = document.getElementById("tdsapplicable");
+        var selectedValue = selectElement.value;
+        var tdsDiv = document.getElementById("div-tds");
+
+        if (selectedValue === "Yes") {
+            tdsDiv.style.display = "block";  // Show the div
+        } else {
+            tdsDiv.style.display = "none";   // Hide the div 
+        }
+    }
+
     function DefineSalaryShow() {
         if (document.getElementById('Employees').value != 'Timebased') {
             $('#amount').prop('readonly', false);
@@ -853,6 +889,8 @@
          $("#state").val("{{employee.state}}");
          $("#tempstate").val("{{employee.tempstate}}");
          $("#transactiontype").val("{{employee.transactiontype}}");
+         $("#tdsapplicable").val("{{employee.istds}}");
+         $("#tdsamtperc").val("{{employee.tdstype}}");
          if("{{employee.salarydetails}}" == 'Yes')
          {
           $('input:radio[name="salarydetails"][value="Yes"]').prop('checked', true);
@@ -864,7 +902,7 @@
          }
          DefineSalaryShow();
          toggleDivVisibility();
-
+         toggleDivTds();
         var preview = document.getElementById("file-ip-1-preview"); 
         preview.style.display = "block";
         preview.style.width = "100px";

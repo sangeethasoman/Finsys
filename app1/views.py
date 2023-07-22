@@ -37535,6 +37535,9 @@ def addpayrollemployee(request):
             pfaccountnumber = request.POST['pfaccountnumber']
             praccountnumber = request.POST['praccountnumber']
             esinumber = request.POST['esinumber']
+            tdsapp = request.POST['tdsapp']
+            tdstype = request.POST['tdstype']
+            tds = request.POST['tds']
             street = request.POST['street']
             city = request.POST['city']
             state = request.POST['state']
@@ -37545,6 +37548,7 @@ def addpayrollemployee(request):
             tempstate = request.POST['tempstate']
             temppincode = request.POST['temppincode']
             tempcountry = request.POST['tempcountry'] 
+            adharnumber = request.POST['adharnumber'] 
             emppayroll = payrollemployee(title=title,firstname=firstname,
                                          lastname=lastname,alias=alias,cid=cmpId,
                                          location=location,
@@ -37564,12 +37568,14 @@ def addpayrollemployee(request):
                                          transactiontype=transactiontype,pannumber=pannumber,
                                          universalaccountnumber=universalaccountnumber,
                                          pfaccountnumber=pfaccountnumber,praccountnumber=praccountnumber,
-                                         esinumber=esinumber,street=street,
+                                         esinumber=esinumber,istds=tdsapp,
+                                         tdstype=tdstype,tds=tds,street=street,
                                          city=city,state=state,
                                          pincode=pincode,country=country,
                                          tempstreet=tempstreet,tempcity=tempcity,
                                          tempstate=tempstate,temppincode=temppincode,
-                                         tempcountry=tempcountry,payhead=payhead)
+                                         tempcountry=tempcountry,payhead=payhead,
+                                         adharnumber=adharnumber)
             if img1 != 'default':
                 emppayroll.image = img1
 
@@ -37648,6 +37654,9 @@ def editpayrollemployee(request,employeeid):
             employee.pfaccountnumber = request.POST['pfaccountnumber']
             employee.praccountnumber = request.POST['praccountnumber']
             employee.esinumber = request.POST['esinumber']
+            employee.istds = request.POST['tdsapp']
+            employee.tdstype = request.POST['tdstype']
+            employee.tds = request.POST['tds']
             employee.street = request.POST['street']
             employee.city = request.POST['city']
             employee.state = request.POST['state']
@@ -37658,6 +37667,7 @@ def editpayrollemployee(request,employeeid):
             employee.tempstate = request.POST['tempstate']
             employee.temppincode = request.POST['temppincode']
             employee.tempcountry = request.POST['tempcountry'] 
+            employee.adharnumber = request.POST['adharnumber'] 
             employee.save()
             return redirect('payrollemployeeprofile',employeeid)
 

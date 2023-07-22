@@ -1726,6 +1726,9 @@ class payrollemployee(models.Model):
     status = models.CharField(max_length=100,default='Active')
     file = models.FileField(upload_to='payrollemployee',default="")
     adharnumber = models.CharField(max_length=250,null=True)
+    istds = models.CharField(max_length=100,null=True)
+    tdstype = models.CharField(max_length=100,null=True)
+    tds = models.CharField(max_length=100,null=True)
 
 class payrollcomments(models.Model):
     commentid = models.AutoField(('COMMENTID'), primary_key=True)
