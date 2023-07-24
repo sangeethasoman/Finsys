@@ -37719,12 +37719,11 @@ def deletepayrollemp(request, employeeid):
 @login_required(login_url='regcomp')
 def employee_add_file(request, employeeid):
     employee = payrollemployee.objects.get(cid_id=request.session["uid"], employeeid=employeeid)
-    
+   
     if request.method == 'POST': 
         if len(request.FILES) != 0:
-            if employee.file != "default.jpg":
+            if employee.file != "":
                 os.remove(employee.file.path)
-                
             employee.file = request.FILES['file']
         
         employee.save()
