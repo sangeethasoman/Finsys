@@ -106,6 +106,7 @@ body{
                                 <div class="search">
                                     
                                    <input type="text" class="searchTerm" name="search">
+                                   
                                    <button type="submit" class="searchButton">
                                      <i class="fa fa-search"></i>
                                   </button>
@@ -115,13 +116,20 @@ body{
                              </div>
                              
                         </div>
+                        
                     </form>
                         <div class="col-md-4">
-                           
+                            <select class="form-control btn btn-outline-info dropdown-toggle text-grey" aria-label=".form-select-lg example" style="width: 40%; margin-top: 8px;" name="type">
+                                
+                                <option value="1" selected>All</option>
+                                <option value="2" >Active</option>
+                                <option value="3" >Inactive</option>
+                             </select>
                             </div>
                             <div class="col-md-2" style="width: 40%; margin-top: 8px;">
 
                                 <div class="dropdown">
+                                   
                                     <button type="button" class="btn btn-outline-info dropdown-toggle text-grey"
                                             data-toggle="dropdown">filter by
                                     </button>
@@ -235,6 +243,8 @@ body{
                  XLSX.write(wb, { bookType: type, bookSST: true, type: 'base64' }):
                  XLSX.writeFile(wb, fn || ('Employees.' + (type || 'xlsx')));
             }
-            </script>
+        </script>
+        
+
     {% endif %}
 {% endblock %}

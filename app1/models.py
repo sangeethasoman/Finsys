@@ -1680,7 +1680,7 @@ class payrollemployee(models.Model):
     alias = models.CharField(max_length=100,null=True)
     location = models.CharField(max_length=100,null=True)
     email = models.CharField(max_length=100,null=True)
-    website = models.CharField(max_length=100,null=True)
+   
     mobile = models.CharField(max_length=100,null=True)
     employees = models.CharField(max_length=100,null=True)
     joindate = models.CharField(max_length=100,null=True)
@@ -1698,8 +1698,7 @@ class payrollemployee(models.Model):
     bloodgroup = models.CharField(max_length=100,null=True)
     fathersmothersname = models.CharField(max_length=100,null=True)
     spousename = models.CharField(max_length=100,null=True)
-    address = models.CharField(max_length=100,null=True)
-    generalemail = models.CharField(max_length=100,null=True)
+    
     generalphone = models.CharField(max_length=100,null=True)
     bankdetails = models.CharField(max_length=100,null=True)
     acno = models.CharField(max_length=100,null=True)

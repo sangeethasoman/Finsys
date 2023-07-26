@@ -37490,7 +37490,7 @@ def goaddpayrollemployee(request):
 #Render add payrollemployee page. 
 @login_required(login_url='regcomp')
 def addpayrollemployee(request):
-    try: 
+    #try: 
         cmpId = company.objects.get(id=request.session["uid"]) 
         if request.method == 'POST':
             title = request.POST['title']
@@ -37499,7 +37499,7 @@ def addpayrollemployee(request):
             alias = request.POST['alias']
             location = request.POST['location']
             email = request.POST['email']
-            website = request.POST['website']
+           
             mobile = request.POST['mobile']
             employees = request.POST['employees']
             joindate = request.POST['joindate']
@@ -37521,8 +37521,8 @@ def addpayrollemployee(request):
             bloodgroup = request.POST['bloodgroup']
             fathersmothersname = request.POST['fathersmothersname']
             spousename = request.POST['spousename']
-            address = request.POST['address']
-            generalemail = request.POST['generalemail']
+            
+           
             generalphone = request.POST['generalphone']
             bankdetails = request.POST['bankdetails']
             acno = request.POST['acno']
@@ -37549,10 +37549,11 @@ def addpayrollemployee(request):
             temppincode = request.POST['temppincode']
             tempcountry = request.POST['tempcountry'] 
             adharnumber = request.POST['adharnumber'] 
+            file = request.FILES['file']
             emppayroll = payrollemployee(title=title,firstname=firstname,
                                          lastname=lastname,alias=alias,cid=cmpId,
                                          location=location,
-                                         email=email,website=website,
+                                         email=email,
                                          mobile=mobile,employees=employees,
                                          joindate=joindate,
                                          salarydetails=salarydetails,effectivefrom=effectivefrom,
@@ -37561,8 +37562,8 @@ def addpayrollemployee(request):
                                          designation=designation,function=function,
                                          gender=gender,dateofbirth=dateofbirth,
                                          bloodgroup=bloodgroup,fathersmothersname=fathersmothersname,
-                                         spousename=spousename,address=address,
-                                         generalemail=generalemail,generalphone=generalphone,
+                                         spousename=spousename,
+                                         generalphone=generalphone,
                                          bankdetails=bankdetails,acno=acno,ifsccode=ifsccode,
                                          bankname=bankname,branchname=branchname,
                                          transactiontype=transactiontype,pannumber=pannumber,
@@ -37575,15 +37576,19 @@ def addpayrollemployee(request):
                                          tempstreet=tempstreet,tempcity=tempcity,
                                          tempstate=tempstate,temppincode=temppincode,
                                          tempcountry=tempcountry,payhead=payhead,
-                                         adharnumber=adharnumber)
+                                         adharnumber=adharnumber
+                                        )
             if img1 != 'default':
                 emppayroll.image = img1
+
+            if file !="":
+                 emppayroll.file=file
 
             emppayroll.save()
             return redirect('listpayrollemployee')
            
-    except:
-         return redirect('listpayrollemployee')
+    #except:
+         #return redirect('listpayrollemployee')
 
  #Render employee list page.
 @login_required(login_url='login')
@@ -37615,7 +37620,7 @@ def editpayrollemployee(request,employeeid):
             employee.alias = request.POST['alias']
             employee.location = request.POST['location']
             employee.email = request.POST['email']
-            employee.website = request.POST['website']
+           
             employee.mobile = request.POST['mobile']
             employee.employees = request.POST['employees']
             employee.joindate = request.POST['joindate']
@@ -37640,8 +37645,7 @@ def editpayrollemployee(request,employeeid):
             employee.bloodgroup = request.POST['bloodgroup']
             employee.fathersmothersname = request.POST['fathersmothersname']
             employee.spousename = request.POST['spousename']
-            employee.address = request.POST['address']
-            employee.generalemail = request.POST['generalemail']
+           
             employee.generalphone = request.POST['generalphone']
             employee.bankdetails = request.POST['bankdetails']
             employee.acno = request.POST['acno']
@@ -37678,8 +37682,14 @@ def gopayrollsearch(request):
                 cmp1 = company.objects.get(id=request.session["uid"])
                 employee = payrollemployee.objects.filter(cid_id=request.session["uid"],firstname=request.POST['search'])
                 return render(request,'app1/listemployee.html',{'employee':employee,'cmp1':cmp1})
-        else:
-            return redirect('listpayrollemployee')
+        else: 
+           if request.POST['search'] != "":
+                cmp1 = company.objects.get(id=request.session["uid"])
+                employee = payrollemployee.objects.filter(cid_id=request.session["uid"],pannumber=request.POST['search'])
+                return render(request,'app1/listemployee.html',{'employee':employee,'cmp1':cmp1})
+    else:
+        return redirect('listpayrollemployee')
+        
 
 @login_required(login_url='regcomp')
 def gopayrollfilter(request,filters,values):
