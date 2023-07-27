@@ -7,6 +7,7 @@
             <div class="card-title">
                 <center>
                     <h3 class="mb-0">EDIT EMPLOYEE</h3>
+                    <img class="user-img" id="file-ip-1-preview" src="{{ employee.image.url }}" style="width: 100px;height: 100px;" onerror="this.src='/media/images/default.jpg';this.onerror='';">
                 </center>
             </div>
             <hr />
@@ -18,7 +19,19 @@
             {% if user.is_authenticated %}
             <div class="card-body">
                 <div class="card-title">
-                    <h4 class="mb-0">Employee Information</h4>
+                    <div class="row">
+                    <div class="col-md-4 mt-3"> <h4 class="mb-0">Employee Information</h4></div>
+                    <div class="col-md-4 mt-3">                        
+                        <label for="file">Upload File : </label>
+                        <input type="file" id="file" name="file" class="form-control" value="{{employee.file}}">
+                  </div>
+                  <div class="col-md-4 mt-3"> 
+
+                        <label for="file-ip-1">Upload Image : </label>
+                        <input type="file" id="file-ip-1" name="image" accept="image/*" class="form-control" value="{{employee.image}}"
+                                     onchange="showPreview(event);">
+                  </div>  
+                    </div>
                 </div>
                 <hr />         
                     <div class="row">
@@ -54,32 +67,35 @@
                         </div>
                        
                         <div class="col-md-4 mt-3">
-                            <label for="location">Company Location</label>
+                            <label for="location">Employee Current Location</label>
                             <input type="text" class="form-control" id="location" name="location" value="{{employee.location}}"
                                 style="background-color: #2f516f;color: white;" required>
                            
                         </div>
-                        <div class="col-md-4 mt-3"></div>
-                    </div>
-                   
-                    <div class="row">
                         <div class="col-md-4 mt-3">
-                            <label for="email"> Company Email Id</label>
+                            <label for="email"> Employee Email Id</label>
                             <input type="email" class="form-control" id="email" name="email" value="{{employee.email}}" required
                                 style="background-color: #2f516f;color: white;" placeholder="finsys@mail.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]+">
                             <div class="invalid-feedback">Please provide a valid Email</div>
                         </div>
+                    </div>
+                   
+                    <div class="row">
                         <div class="col-md-4 mt-3">
-                            <label for="website">Website</label>
-                            <input type="text" class="form-control" id="website" placeholder="www.finsys.com" value="{{employee.website}}"
-                                onchange="checkweb(this)" name="website" style="background-color: #2f516f;color: white;">
-                            <div id="warnweb" class="text-danger"></div>
+                            <label for="employeeno">Employee No:</label>
+                                <input type="text" class="form-control" id="employeeno" name="employeeno"  value="{{employee.employeeno}}"
+                                    style="background-color: #2f516f;color: white;" required>
                         </div>
                         <div class="col-md-4 mt-3">
                             <label for="mobile">Mobile</label>
                             <input type="text" class="form-control" id="mobile" onchange="checkphone(this)" value="{{employee.mobile}}"
                                 name="mobile" style="background-color: #2f516f;color: white;" required>
                             <div class="text-danger m-2" id="warnphone"></div>
+                        </div>
+                        <div class="col-md-4 mt-3">
+                            <label for="join_date">Date Of Joining</label>
+                            <input type="date" class="form-control" id="join_date" name="joindate" value="{{employee.joindate}}"
+                                style="background-color: #2f516f;color: white;" required> 
                         </div>
                     </div>
 
@@ -93,348 +109,295 @@
                             </select>
                            
                         </div>
-                        <div class="col-md-4 mt-3">
-                            <label for="join_date">Date Of Joining</label>
-                            <input type="date" class="form-control" id="join_date" name="joindate" value="{{employee.joindate}}"
-                                style="background-color: #2f516f;color: white;" required>
-                           
-                        </div>
                         <div class="col-md-4 mt-3 pt-4">
                             <label>Define Salary Details :</label>&nbsp;&nbsp;
+                            
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="yes" name="salarydetails" 
+                                <input class="form-check-input" type="radio" id="no" name="salarydetails"
+                                    onchange="show2(this.value)" value="No" checked>
+                                <label class="form-check-label">No</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="yes" name="salarydetails"
                                     onchange="show(this.value)" value="Yes">
                                 <label class="form-check-label">Yes</label>
                             </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="no" name="salarydetails"
-                                    onchange="show2(this.value)" value="No">
-                                <label class="form-check-label">No</label>
-                            </div>
+                           
                         </div>
+                        
                     </div>
-                    <div class="row">
-                        <div class="col-12 mt-4">
-                            <div class="form-input" style="background-color: #243e54;">
-                                <div class="preview">
-                                    <img id="file-ip-1-preview" src="{{ employee.image.url }}">
-                                </div>
-                                <label>Do you want to change Profile Image ? <i>Browse here</i><i class="bx bx-arrow-to-bottom"></i> </label>
-                                <input type="file" id="file-ip-1" class="form-control" name="image" accept="image/*" value="{{employee.image}}"
-                                     onchange="showPreview(event);" />
-                            </div>
-                        </div>
-                    </div>
+                   
+
                     <div class="desc" id="Salarydetails" style="display: none;">
+                        <div class="card-title mt-3">
+                            <h5 class="mb-0">Salary Details</h5>
+                        </div>
                         <hr>
                         <div class="row mt-3">
-                            <div class="col-md-4">
-                                <label for="sal_name">Name</label>
-                                <input type="text" readonly class="form-control" id="sal_name" name="sal_name" value="{{employee.sal_name}}"
-                                    style="background-color: #2f516f; color: white;">
+                            <div class="col-3 col-md-4">
+                                <label for="effectivefrom">Effective From</label>
+                                <input type="date" class="form-control" id="effectivefrom" name="effectivefrom" value="{{employee.effectivefrom}}"
+                                    style="background-color: #2f516f; color: white;" min="0" value="0" >
+                                <div class="text-danger m-2" id="effectivefrom"></div>
                             </div>
-                            <div class="col-md-4">
-                                <label for="sal_employees">Employee</label>
-                                <input type="text" readonly class="form-control" id="sal_employees" value="{{employee.sal_employees}}"
-                                    onchange="checkweb(this)" name="sal_employees"
-                                    style="background-color: #2f516f; color: white;">
-                                <div id="sal_employees" class="text-danger"></div>
-                            </div>
-                            <div class="col-md-4">
+                            <div class="col-3 col-md-4">
                                 <label for="payhead">Pay Head</label>
                                 <select name="payhead" id="payhead" class="form-control" value="{{employee.payhead}}">
                                     <option value="Cash">Cash</option>
                                     <option value="BankThrough">Bank</option>
+                                    <option value="Cheque">Cheque</option>
                                 </select>
                                
                             </div>
-                        </div>
-
-                        <div class="row mt-3">
-                            <div class="col-3 md-4">
-                                <label for="effectivefrom">Effective From</label>
-                                <input type="date" class="form-control" id="effectivefrom" name="effectivefrom" value="{{employee.effectivefrom}}"
-                                    style="background-color: #2f516f; color: white;" min="0" value="0">
-                                <div class="text-danger m-2" id="effectivefrom"></div>
-                            </div>
-                            <div class="col-3 md-4 time_based_show">
-                                <label for="hours">Hours</label>
-                                <input type="number" class="form-control" id="hours" name="hours" value="{{employee.hours}}"
-                                    style="background-color: #2f516f; color: white;" min="0" value="0">
-                                <div class="text-danger m-2" id="Hours"></div>
-                            </div>
-                            <div class="col-3 md-4 time_based_show">
-                                <label for="rate">Rate</label>
-                                <input type="number" class="form-control" id="rate" name="rate" value="{{employee.rate}}"
-                                    style="background-color: #2f516f; color: white;" min="0" value="0">
-                                <div class="text-danger m-2" id="Rate"></div>
-                            </div>
                             
-                            <div class="col-3 md-4">
+                            <div class="col-3 col-md-4">
                                 <label for="amount">Amount</label>
                                 <input type="number" class="form-control" id="amount" name="amount" value="{{employee.amount}}"
-                                    style="background-color: #2f516f; color: white;" min="0" value="0">
+                                    style="background-color: #2f516f; color: white;" min="0" value="0" >
                                 <div class="text-danger m-2" id="Amount"></div>
                             </div>
                         </div>
+
+                        <div class="row mt-3" id="time_based_show" style="display: none;">
+                            
+                            <div class="col-3 col-md-4">
+                                <label for="hours">Hours</label>
+                                <input type="number" class="form-control" id="hours" name="hours" value="{{employee.hours}}"
+                                    style="background-color: #2f516f; color: white;" min="0" value="0" >
+                                <div class="text-danger m-2" id="Hours"></div> 
+                            </div> 
+                            <div class="col-3 col-md-4"> 
+                                <label for="rate">Rate</label>
+                                <input type="number" class="form-control" id="rate" name="rate" value="{{employee.rate}}"
+                                    style="background-color: #2f516f; color: white;" min="0" value="0" >
+                                <div class="text-danger m-2" id="Rate"></div>
+                            </div> 
+                        </div>
                     </div>
-            </div>
-            <hr>
+            </div> 
             <div class="card-body">
                 <div class="card-title">
                     <h4 class="mb-0">General Information</h4>
                 </div>
                 <hr>
-                <div class="row gx-1 ">
-
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-6 md-4 mt-3">
-                                <label for="employeeno">Employee No:</label>
-                                <input type="text" class="form-control" id="employeeno" name="employeeno"  value="{{employee.employeeno}}"
-                                    style="background-color: #2f516f;color: white;" required>
-                               
-                            </div>
-                            <div class="col-6 md-4 mt-3">
-                                <label for="designation">Designation</label>
-                                <input type="text" class="form-control" id="designation" name="designation"  value="{{employee.designation}}"
-                                    style="background-color: #2f516f;color: white;" required>
-                               
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 md-4 mt-3">
-                                <label for="function">Function</label>
+                <div class="row mt-3">
+                    <div class="col-3 col-md-4">
+                        <label for="designation">Designation</label>
+                        <input type="text" class="form-control" id="designation" name="designation"   value="{{employee.designation}}"
+                            style="background-color: #2f516f;color: white;" required>
+                    </div>
+                    <div class="col-3 col-md-4">
+                        <label for="function">Function</label>
                                 <input type="text" class="form-control" id="function" name="function"  value="{{employee.function}}"
                                     style="background-color: #2f516f;color: white;">
-                               
-                            </div>
-                            <div class="col-6 md-4 mt-3">
-                                <label for="gender">Gender</label>
+                    </div>
+                    
+                    <div class="col-3 col-md-4">
+                        <label for="gender">Gender</label>
                                 <select name="gender" id="gender" class="form-control"  value="{{employee.gender}}">
                                     <option value="Unknown">Unknown</option>
                                     <option value="Male">Male</option>
                                     <option value="Female">Female</option>
                                     <option value="Others">Others</option>
                                 </select>
-                                
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 md-4 mt-3">
-                                <label for="dateofbirth">Date Of Birth</label>
-                                <input type="date" class="form-control" id="dateofbirth" name="dateofbirth"  value="{{employee.dateofbirth}}"
-                                    style="background-color: #2f516f;color: white;" required>
-                                
-                            </div>
-
-                            <div class="col-6 md-4 mt-3">
-                                <label for="bloodgroup">Blood Group</label>
-                                <select name="bloodgroup" id="bloodgroup" class="form-control"  value="{{employee.bloodgroup}}">
-                                    <option value="O+ve">O+ve</option>
-                                    <option value="O-ve">O-ve</option>
-                                    <option value="A+ve">A+ve</option>
-                                    <option value="B+ve">B+ve</option>
-                                    <option value="AB+ve">AB+ve</option>
-                                    <option value="AB-ve">AB-ve</option>
-                                    <option value="A-ve">A-ve</option>
-                                    <option value="B-ve">B-ve</option>
-                                    <option value="Others">Others</option>
-                                </select>
-                                
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-6 md-4 mt-3">
-                                <label for="fathersmothersname">Father's/Mother's Name</label>
-                                <input type="text" class="form-control" id="fathersmothersname" name="fathersmothersname"  value="{{employee.fathersmothersname}}"
-                                     style="background-color: #2f516f;color: white;" required>
-                                
-                            </div>
-                            <div class="col-6 md-4 mt-3">
-                                <label for="spousename">Spouse Name</label>
-                                <input type="text" class="form-control" id="spousename" name="spousename"  value="{{employee.spousename}}"
-                                    style="background-color: #2f516f;color: white;" required>
-                               
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 md-4 mt-3">
-                                <label for="address">Address</label>
-                                <textarea class="form-control" id="address" name="address" 
-                                    style="background-color: #2f516f;color: white;" required>{{employee.address}}</textarea>
-                                
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6 md-4 mt-3">
-                                <label for="email">Personal Email Id</label>
-                                <input type="email" class="form-control" id="email" name="generalemail"  value="{{employee.generalemail}}"
-                                    style="background-color: #2f516f;color: white;" placeholder="finsys@mail.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" required>
-                                <div class="invalid-feedback">Please provide a valid Email</div>
-                            </div>
-
-                            <div class="col-6 md-4 mt-3">
-                                <label for="phone">Emergency Contact No:</label>
-                                <input type="text" class="form-control" id="phone" onchange="checkphone(this)"  value="{{employee.generalphone}}"
-                                    name="generalphone" style="background-color: #2f516f;color: white;" required>
-                                <div class="text-danger m-2" id="warnphone"></div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-6">
-                        <div class="col -12-md-4 pt-4">
-                            <label for="drp_Bank_Details">Provide Bank Details </label>
-                            <select name="bankdetails" id="drp_Bank_Details" class="form-control"  value="{{employee.bankdetails}}"
-                                onchange="toggleDivVisibility()">
-                                <option value="No">No</option>
-                                <option value="Yes">Yes</option>
-                                <option value="Unknown">Unknown</option>
-                            </select>
-                        </div>
-                        <div class="desc" id="Bank_Details" style="display: none;">
-
-                            <div class="card-body">
-                                <div class="card-title">
-                                    <h5 class="mb-0">For Statutory & Pay roll Reports</h5>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-6 md-4">
-                                        <label for="bank_num">A/C No:</label>
-                                        <input type="text" class="form-control" id="bank_num" name="acno" value="{{employee.acno}}"
-                                            style="background-color: #2f516f; color: white;">
-                                        <div class="text-danger"></div>
-                                    </div>
-                                    <div class="col-6 md-4">
-                                        <label for="IFSCCode">IFSC Code</label>
-                                        <input type="text" class="form-control" id="IFSCCode" name="ifsccode" value="{{employee.ifsccode}}"
-                                            style="background-color: #2f516f; color: white;">
-                                        <div class="text-danger"></div>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col-6 md-4">
-                                        <label for="BankName">Bank Name</label>
-                                        <input type="text" class="form-control" id="BankName" name="bankname" value="{{employee.bankname}}"
-                                            style="background-color: #2f516f; color: white;">
-                                        <div class="text-danger"></div>
-                                    </div>
-
-                                    <div class="col-6 md-4">
-                                        <label for="bank_Branch_Name">Branch Name</label>
-                                        <input type="text" class="form-control" id="bank_Branch_Name" name="branchname" value="{{employee.branchname}}"
-                                            style="background-color: #2f516f; color: white;">
-                                        <div class="text-danger"></div>
-                                    </div>
-                                </div>
-                                <div class="row mt-3">
-                                    <div class="col mt-3">
-                                        <h5 class="mb-0">For Banking</h5>
-                                        <hr>
-                                        <label for="transactiontype" class="mt-3"> Transaction Type</label>
-                                        <select name="transactiontype" id="transactiontype" class="form-control" value="{{employee.transactiontype}}">
-                                            <option value="Unknown">Unknown</option>
-                                            <option value="EndofList">End of List</option>
-                                            <option value="Cheque">Cheque</option>
-                                            <option value="eFundTransfer">e-Fund Transfer</option>
-                                            <option value="ATM">ATM</option>
-                                            <option value="Card">Card</option>
-                                            <option value="ECS">ECS</option>
-                                            <option value="Others">Others</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                            </div>
-
-                        </div>
-                        <div class="card-body">
-                            <div class="card-title">
-                                <h5 class="mb-0"> Statutory Details</h5>
-                                <hr>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <label for="pannumber">PAN Number </label>
-                                    <input type="text" class="form-control" id="pannumber" name="pannumber" value="{{employee.pannumber}}"
-                                        placeholder="ABCDE1234A" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" 
-                                        style="background-color: #2f516f;color: white;" required>
-                                    
-                                </div>
-                                <div class="col">
-                                    <label for="aadhaarnumber">Aadhaar Number </label>
-                                    <input type="text" class="form-control pan" id="aadhaarnumber" name="adharnumber" value="{{employee.adharnumber}}"
-                                        size="20" placeholder="1234 1234 1234" pattern="[0-9]{4} [0-9]{4} [0-9]{4}" 
-                                        style="background-color: #2f516f;color: white;" required>
-                                    
-                                </div>
-                            </div>
-                            &nbsp;
-                            <div class="row">
-                                <div class="col">
-                                    <label for="universalaccountnumber">Universal Account Number </label>
-                                    <input type="text" class="form-control" id="universalaccountnumber" value="{{employee.universalaccountnumber}}"
-                                        name="universalaccountnumber" style="background-color: #2f516f;color: white;" required>
-                                   
-                                </div>
-                                <div class="col">
-                                    <label for="pfaccountnumber">PF Account Number</label>
-                                    <input type="text" class="form-control" id="pfaccountnumber" name="pfaccountnumber" value="{{employee.pfaccountnumber}}"
-                                        style="background-color: #2f516f;color: white;" required>
-                                    
-                                </div>
-                            </div>
-                            &nbsp;
-                            <div class="row">
-                                <div class="col">
-                                    <label for="praccountnumber">PR Account Number</label>
-                                    <input type="text" class="form-control" id="praccountnumber" name="praccountnumber" value="{{employee.praccountnumber}}"
-                                        style="background-color: #2f516f;color: white;" required>
-                                   
-                                </div>
-                                <div class="col">
-                                    <label for="esinumber">ESI Number </label>
-                                    <input type="text" class="form-control" id="esinumber" name="esinumber" value="{{employee.esinumber}}"
-                                        style="background-color: #2f516f;color: white;" required>
-                                    
-                                </div>
-                            </div>
-                            <div class="row mt-3">
-                                <div class="col">
-                                    <label for="tdsapplicable">TDS Applicable</label>
-                                    <select name="tdsapp" id="tdsapplicable" class="form-control"
-                                        onchange="toggleDivTds()">
-                                        <option value="No">No</option>
-                                        <option value="Yes">Yes</option>
-                                    </select>
-                                    
-                                </div>
-                                <div class="col"  id="div-tds" style="display: none;">
-                                    <label for="tdsamtperc">TDS Type</label>
-                                    <select name="tdstype" id="tdsamtperc" class="form-control">
-                                        <option value="amount">Amount</option>
-                                        <option value="percentage">Percentage</option>
-
-                                    </select>
-                                    <label for="tds"></label>
-                                    <input type="text" class="form-control" id="tds" name="tds" value="{{employee.tds}}"
-                                        style="background-color: #2f516f; color: white;">
-                                    
-                                </div>
-                            </div>
-                            
-                        </div>
-
-
-
                     </div>
                 </div>
+                <div class="row mt-3">
+                    <div class="col-3 col-md-4">
+                        <label for="dateofbirth">Date Of Birth</label>
+                        <input type="date" class="form-control" id="dateofbirth" name="dateofbirth"   value="{{employee.dateofbirth}}"
+                            style="background-color: #2f516f;color: white;"required> 
+                    </div>
+                    <div class="col-3 col-md-4">
+                        <label for="bloodgroup">Blood Group</label>
+                        <select name="bloodgroup" id="bloodgroup" class="form-control" value="{{employee.bloodgroup}}">
+                            <option value="O+ve">O+ve</option>
+                            <option value="O-ve">O-ve</option>
+                            <option value="A+ve">A+ve</option>
+                            <option value="B+ve">B+ve</option>
+                            <option value="AB+ve">AB+ve</option>
+                            <option value="AB-ve">AB-ve</option>
+                            <option value="A-ve">A-ve</option>
+                            <option value="B-ve">B-ve</option>
+                            <option value="Others">Others</option>
+                        </select>
+                    </div>
+                    
+                    <div class="col-3 col-md-4">
+                        <label for="fathersmothersname">Father's/Mother's Name</label>
+                        <input type="text" class="form-control" id="fathersmothersname" name="fathersmothersname" value="{{employee.fathersmothersname}}"
+                             style="background-color: #2f516f;color: white;" required>
+                    </div>
+ </div>
+ <div class="row mt-3">
+    <div class="col-3 col-md-4">
+        <label for="spousename">Spouse Name</label>
+        <input type="text" class="form-control" id="spousename" name="spousename"  value="{{employee.spousename}}"
+            style="background-color: #2f516f;color: white;" required>
+    </div>
+    <div class="col-3 col-md-4">
+        <label for="phone">Emergency Contact No:</label>
+        <input type="text" class="form-control" id="phone" onchange="checkphone(this)" value="{{employee.generalphone}}"
+            name="generalphone" style="background-color: #2f516f;color: white;" required>
+        <div class="text-danger m-2 invalid-feedback" id="warnphone">Please provide a valid Number</div>
+    </div>
+    
+    <div class="col-3 col-md-4">
+       
+    </div>
+</div> 
+              
+                <div class="card-title mt-4">
+                    <h4 class="mb-0"> Bank Details</h4>
+                </div>
+                <hr> 
+                            <div class="row gx-1 ">
+            
+                                <div class="col-md-6">
+                                      <div class="card-body">
+                                       
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="pannumber">PAN Number </label>
+                                                <input type="text" class="form-control" id="pannumber" name="pannumber" value="{{employee.pannumber}}"
+                                                    placeholder="ABCDE1234A" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" 
+                                                    style="background-color: #2f516f;color: white;" required>
+                                               
+                                            </div>
+                                            <div class="col">
+                                                <label for="aadhaarnumber">Aadhaar Number </label>
+                                                <input type="text" class="form-control pan" id="aadhaarnumber" name="adharnumber" value="{{employee.adharnumber}}"
+                                                    size=20" placeholder="1234 1234 1234" pattern="[0-9]{4} [0-9]{4} [0-9]{4}" 
+                                                    style="background-color: #2f516f;color: white;" required>
+                                                
+                                            </div>
+                                        </div>
+                                        &nbsp;
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="universalaccountnumber">Universal Account Number </label>
+                                                <input type="text" class="form-control" id="universalaccountnumber" value="{{employee.universalaccountnumber}}"
+                                                    name="universalaccountnumber" style="background-color: #2f516f;color: white;" required>
+                                                
+                                            </div>
+                                            <div class="col">
+                                                <label for="pfaccountnumber">PF Account Number</label>
+                                                <input type="text" class="form-control" id="pfaccountnumber" name="pfaccountnumber"  value="{{employee.pfaccountnumber}}"
+                                                    style="background-color: #2f516f;color: white;" required>
+                                               
+                                            </div>
+                                        </div>
+                                        &nbsp;
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="praccountnumber">PR Account Number</label>
+                                                <input type="text" class="form-control" id="praccountnumber" name="praccountnumber" value="{{employee.praccountnumber}}"
+                                                    style="background-color: #2f516f;color: white;" required>
+                                                
+                                            </div>
+                                            <div class="col">
+                                                <label for="esinumber">ESI Number </label>
+                                                <input type="text" class="form-control" id="esinumber" name="esinumber" value="{{employee.esinumber}}"
+                                                    style="background-color: #2f516f;color: white;" required>
+                                                
+                                            </div>
+                                        </div>
+                                        &nbsp;
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="tdsapplicable">TDS Applicable</label>
+                                                <select name="tdsapp" id="tdsapplicable" class="form-control"
+                                                    onchange="toggleDivTds()">
+                                                    <option value="No">No</option>
+                                                    <option value="Yes">Yes</option>
+                                                </select>
+                                                
+                                            </div>
+                                            <div class="col"  id="div-tds" style="display: none;">
+                                                <label for="tdsamtperc">TDS Type</label>
+                                                <select name="tdstype" id="tdsamtperc" class="form-control" value="{{employee.tds}}">
+                                                    <option value="amount">Amount</option>
+                                                    <option value="percentage">Percentage</option>
+            
+                                                </select>
+                                                <label for="tds"></label>
+                                                <input type="text" class="form-control" id="tds" name="tds"
+                                                    style="background-color: #2f516f; color: white;" value="0">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card-body">
+                                         <div class="row">
+                                            <div class="col">
+                                                <label for="drp_Bank_Details">Provide Bank Details </label>
+                                                <select name="bankdetails" id="drp_Bank_Details" class="form-control" 
+                                                    onchange="toggleDivVisibility()">
+                                                    <option value="No">No</option>
+                                                    <option value="Yes">Yes</option>
+                                                    <option value="Unknown">Unknown</option>
+                                                </select>
+                                            </div> 
+                                        </div>
+                                        &nbsp;
+                                        <div class="desc" id="Bank_Details" style="display: none;">
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="bank_num">A/C No:</label>
+                                                <input type="text" class="form-control" id="bank_num" name="acno" value="{{employee.acno}}"
+                                                    style="background-color: #2f516f; color: white;" >
+                                                <div class="text-danger"></div>
+                                               
+                                            </div>
+                                            <div class="col">
+                                                <label for="IFSCCode">IFSC Code</label>
+                                                <input type="text" class="form-control" id="IFSCCode" name="ifsccode" value="{{employee.ifsccode}}"
+                                                    style="background-color: #2f516f; color: white;" >
+                                                <div class="text-danger"></div>
+                                            </div>
+                                        </div>
+                                        &nbsp;   
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="BankName">Bank Name</label>
+                                                    <input type="text" class="form-control" id="BankName" name="bankname" value="{{employee.bankname}}"
+                                                        style="background-color: #2f516f; color: white;" >
+                                                    <div class="text-danger"></div>
+                                               
+                                            </div>
+                                            <div class="col">
+                                                <label for="bank_Branch_Name">Branch Name</label>
+                                                <input type="text" class="form-control" id="bank_Branch_Name" name="branchname" value="{{employee.branchname}}"
+                                                    style="background-color: #2f516f; color: white;" >
+                                                <div class="text-danger"></div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                        &nbsp;
+                                        <div class="row">
+                                            <div class="col">
+                                                <label for="transactiontype"> Transaction Type</label>
+                                                <select name="transactiontype" id="transactiontype" class="form-control" value="{{employee.transactiontype}}">
+                                                    <option value="Unknown">Unknown</option>
+                                                    <option value="EndofList">End of List</option>
+                                                    <option value="Cheque">Cheque</option>
+                                                    <option value="eFundTransfer">e-Fund Transfer</option>
+                                                    <option value="ATM">ATM</option>
+                                                    <option value="Card">Card</option>
+                                                    <option value="ECS">ECS</option>
+                                                    <option value="Others">Others</option>
+                                                </select>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+             
+                            </div>
                 <hr>
                 <div class="row">
-                    <div class="col-md-6 mt-5">
+                    <div class="col-md-6 mt-2">
                         <div class="row">
                             <div class="col-md-12 card-title">
                                 <h5 class="mb-0">Permanant Address</h5>
@@ -530,7 +493,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 mt-5">
+                    <div class="col-md-6 mt-2">
                         <div class="row">
                             <div class="col-md-12 d-flex">
                                 <h5>Temporary Address</h5>
@@ -787,38 +750,23 @@
 </script>
 </script>
 <script type="text/javascript">
-    function show(str) { 
+       function show(str) { 
         if (document.getElementById('Employees').value != 'Timebased') {
             $('#amount').prop('readonly', false);
-            var elements = document.getElementsByClassName('time_based_show');
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].style.visibility = 'hidden';
-            }
         }
         else {
             $('#amount').prop('readonly', true);
-            var elements = document.getElementsByClassName('time_based_show');
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].style.visibility = 'visible';
-            }
         }
-
-        document.getElementById('sal_name').value = document.getElementById('firstname').value;
-        document.getElementById('sal_employees').value = $('#Employees').find(":selected").text();
         document.getElementById('Salarydetails').style.display = 'none';
         document.getElementById('Salarydetails').style.display = 'block';
     }
 
     function show2(sign) {
-        document.getElementById('sal_name').value = "";
-        document.getElementById('sal_employees').value = "";
         document.getElementById('Salarydetails').style.display = 'block';
-        document.getElementById('Salarydetails').style.display = 'none';
-        document.getElementById('time_based_show').style.display = 'none';
-        document.getElementById('time_based_show').style.display = 'block';
-    }
+        document.getElementById('Salarydetails').style.display = 'none'; 
+    }  
 
-    function toggleDivVisibility() {
+    function toggleDivVisibility() { 
         var selectElement = document.getElementById("drp_Bank_Details");
         var selectedValue = selectElement.value;
         var bankDiv = document.getElementById("Bank_Details");
@@ -843,23 +791,15 @@
     }
 
     function DefineSalaryShow() {
+        var time_based = document.getElementById("time_based_show");
         if (document.getElementById('Employees').value != 'Timebased') {
-            $('#amount').prop('readonly', false);
-            var elements = document.getElementsByClassName('time_based_show');
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].style.visibility = 'hidden';
-            }
+            $('#amount').prop('readonly', false);  
+            time_based.style.display = "none";
         }
         else {
-            $('#amount').prop('readonly', true);
-            var elements = document.getElementsByClassName('time_based_show');
-            for (var i = 0; i < elements.length; i++) {
-                elements[i].style.visibility = 'visible';
-            }
+            $('#amount').prop('readonly', true); 
+            time_based.style.display = "flex";
         }
-
-        document.getElementById('sal_name').value = document.getElementById('firstname').value;
-        document.getElementById('sal_employees').value = $('#Employees').find(":selected").text();
     }
 
     $('#hours, #rate').on('input', function () {
@@ -904,7 +844,6 @@
          toggleDivVisibility();
          toggleDivTds();
         var preview = document.getElementById("file-ip-1-preview"); 
-        preview.style.display = "block";
         preview.style.width = "100px";
         preview.style.height = "100px";
 

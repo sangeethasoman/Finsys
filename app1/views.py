@@ -37490,7 +37490,7 @@ def goaddpayrollemployee(request):
 #Render add payrollemployee page. 
 @login_required(login_url='regcomp')
 def addpayrollemployee(request):
-    #try: 
+    try: 
         cmpId = company.objects.get(id=request.session["uid"]) 
         if request.method == 'POST':
             title = request.POST['title']
@@ -37587,8 +37587,8 @@ def addpayrollemployee(request):
             emppayroll.save()
             return redirect('listpayrollemployee')
            
-    #except:
-         #return redirect('listpayrollemployee')
+    except:
+         return redirect('listpayrollemployee')
 
  #Render employee list page.
 @login_required(login_url='login')
@@ -37630,6 +37630,8 @@ def editpayrollemployee(request,employeeid):
                 employee.image=old
             else:
                 employee.image=new 
+
+
                 
             employee.salarydetails = request.POST['salarydetails']
             employee.effectivefrom = request.POST['effectivefrom']
@@ -37672,6 +37674,8 @@ def editpayrollemployee(request,employeeid):
             employee.temppincode = request.POST['temppincode']
             employee.tempcountry = request.POST['tempcountry'] 
             employee.adharnumber = request.POST['adharnumber'] 
+            if len(request.FILES) != 0:
+                employee.file=request.FILES['file']  
             employee.save()
             return redirect('payrollemployeeprofile',employeeid)
 
@@ -37682,11 +37686,7 @@ def gopayrollsearch(request):
                 cmp1 = company.objects.get(id=request.session["uid"])
                 employee = payrollemployee.objects.filter(cid_id=request.session["uid"],firstname=request.POST['search'])
                 return render(request,'app1/listemployee.html',{'employee':employee,'cmp1':cmp1})
-        else: 
-           if request.POST['search'] != "":
-                cmp1 = company.objects.get(id=request.session["uid"])
-                employee = payrollemployee.objects.filter(cid_id=request.session["uid"],pannumber=request.POST['search'])
-                return render(request,'app1/listemployee.html',{'employee':employee,'cmp1':cmp1})
+       
     else:
         return redirect('listpayrollemployee')
         
@@ -37758,6 +37758,9 @@ def deleteemployeecomments(request,employeeid, commentid):
         return redirect('payrollemployeeprofile', employeeid)
     except:
         return redirect('payrollemployeeprofile', employeeid) 
+
+
+    
 
       
 

@@ -6,7 +6,8 @@
         <div class="card-body">
             <div class="card-title">
                 <center>
-                    <h3 class="mb-0">CREATE EMPLOYEE</h3> <img src="" class="user-img" id="file-ip-1-preview" style="width: 100px;height: 100px;" onerror="this.src='/media/images/default.jpg';this.onerror='';">
+                    <h3 class="mb-0">CREATE EMPLOYEE</h3>
+                    <img src="" class="user-img" id="file-ip-1-preview" style="width: 100px;height: 100px;" onerror="this.src='/media/images/default.jpg';this.onerror='';">
                 </center> 
             </div> 
             <hr />
@@ -20,30 +21,15 @@
                 <div class="card-title">
                     <div class="row">
                         <div class="col-md-4 mt-3"><h4 class="mb-0">Employee Information</h4> </div>
-                        <div class="col-md-4 mt-3">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text" id="inputGroupFileAddon01">Resume</span>
-                                </div>
-                                <div class="custom-file">
-                                  <input type="file" class="custom-file-input" id="File01" name="file"
-                                    aria-describedby="File01">
-                                  <label class="custom-file-label" for="File01">Choose file</label>
-                                </div>
-                              </div>
+                        <div class="col-md-4 mt-3">                        
+                              <label for="file">Upload File : </label>
+                              <input type="file" id="file" name="file" class="form-control">
                         </div>
                         <div class="col-md-4 mt-3"> 
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                  <span class="input-group-text" id="inputGroupFileAddon01">Image</span>
-                                </div>
-                                <div class="custom-file">
-                                  <input type="file" class="custom-file-input" 
-                                    aria-describedby="inputGroupFileAddon01" id="file-ip-1"  name="image" accept="image/*"
-                                    onchange="showPreview(event);" >
-                                  <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
-                                </div>
-                              </div>
+
+                              <label for="file-ip-1">Upload Image : </label>
+                              <input type="file" id="file-ip-1" name="image" accept="image/*" class="form-control"
+                                           onchange="showPreview(event);">
                         </div> 
                     </div>
                            
@@ -812,9 +798,7 @@
             $('#amount').prop('readonly', true); 
             time_based.style.display = "flex";
         }
-
-        document.getElementById('sal_name').value = document.getElementById('firstname').value;
-        document.getElementById('sal_employees').value = $('#Employees').find(":selected").text();
+ 
     }
 
     $('#hours, #rate').on('input', function () {
