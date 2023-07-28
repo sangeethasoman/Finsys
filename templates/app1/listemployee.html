@@ -153,7 +153,6 @@
                 <table class="table table-responsive-md mt-4" id="tbl_exporttable_to_xls">
                     <thead>
                         <tr>
-                            <th hidden>STATUS</th>
                             <th>NAME</th>
                             <th>EMPLOYEE TYPE</th>
                             <th>PAN NO:</th>
@@ -161,14 +160,14 @@
                             <th>COMPANY EMAIL ID</th>
                             <th>SALARY</th>
                             <th>SALARY DATE</th>
-
+                            <th>STATUS</th>
 
                         </tr>
                     </thead>
                     <tbody>
                         {% for emp in employee %}
                         <tr class="table-row " data-href="{% url 'payrollemployeeprofile' emp.employeeid%}">
-                            <td hidden>{{emp.status}}</td>
+                           
                             <td>{{ emp.firstname }} {{ emp.lastname }}</td>
                             <td>{{ emp.employees }}</td>
                             <td>{{ emp.pannumber }}</td>
@@ -176,7 +175,7 @@
                             <td>{{ emp.email }}</td>
                             <td>{{ emp.amount }}</td>
                             <td>{{emp.effectivefrom}}</td>
-
+                            <td>{{emp.status}}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -292,7 +291,7 @@
                         }
                     }
                     else {
-                        if (td[0].innerText.toLowerCase() == isactive) {
+                        if (td[7].innerText.toLowerCase() == isactive) {
                             txtValue = td[j].textContent || td[j].innerText;
                             if (txtValue.toLowerCase().indexOf(filter) > -1) {
                                 rowVisible = true;

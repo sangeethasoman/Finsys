@@ -97,9 +97,9 @@
                         <div class="col-md-4 mt-3">
                            
                             <label for="mobile">Mobile</label>
-                            <input type="text" class="form-control" id="mobile" onchange="checkphone(this)"
-                                name="mobile" style="background-color: #2f516f;color: white;" required>
-                            <div class="text-danger m-2 invalid-feedback" id="warnphone">Please provide a valid Number</div>
+                            <input type="text" class="form-control" id="mobile" 
+                                name="mobile" style="background-color: #2f516f;color: white;" required maxlength="10">
+                            <div class="text-danger m-2 invalid-feedback">Please provide a valid Number</div>
                                 
                            
                         </div>
@@ -248,9 +248,9 @@
     </div>
     <div class="col-3 col-md-4">
         <label for="phone">Emergency Contact No:</label>
-        <input type="text" class="form-control" id="phone" onchange="checkphone(this)"
-            name="generalphone" style="background-color: #2f516f;color: white;" required>
-        <div class="text-danger m-2 invalid-feedback" id="warnphone">Please provide a valid Number</div>
+        <input type="text" class="form-control" id="phone"
+            name="generalphone" style="background-color: #2f516f;color: white;" required maxlength="10">
+        <div class="text-danger m-2 invalid-feedback" id="">Please provide a valid Number</div>
     </div>
     
     <div class="col-3 col-md-4">
@@ -488,7 +488,7 @@
                             <div class="col-md-6 mt-3">
                                 <div class="form-row">
                                     <label for="pinco">Pin Code</label>
-                                    <input type="text" class="form-control" id="pinco" name="pincode"
+                                    <input type="text" class="form-control" id="pinco" name="pincode" maxlength="6"
                                         style="background-color: #2f516f;color: white;" placeholder="PIN code" required>
                                     <div class="invalid-feedback">Please provide a valid Pin Code</div>
                                 </div>
@@ -586,7 +586,7 @@
                             <div class="col-md-6 mt-3">
                                 <div class="form-row">
                                     <label for="temppinco">Pin Code</label>
-                                    <input type="text" class="form-control" id="temppinco" name="temppincode"
+                                    <input type="text" class="form-control" id="temppinco" name="temppincode" maxlength="6"
                                         style="background-color: #2f516f;color: white;" placeholder="PIN code" required>
                                     <div class="invalid-feedback">Please provide a valid Pin Code</div>
                                 </div>
@@ -725,17 +725,6 @@
         } else {
             document.getElementById('warnweb').innerHTML = 'Please provide a valid Website Address';
             alert('Please provide a valid Website Address')
-        }
-    }
-
-    function checkphone(element) {
-        var phoneinput = element.value;
-        var phoneregexp = "[0-9]{10}";
-        if (phoneinput.match(phoneregexp)) {
-            document.getElementById('warnphone').innerHTML = '';
-        } else {
-            document.getElementById('warnphone').innerHTML = 'Please provide a valid Phone Number';
-            alert('Please provide a valid Phone Number')
         }
     }
 </script>

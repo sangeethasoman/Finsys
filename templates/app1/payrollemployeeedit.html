@@ -88,7 +88,7 @@
                         </div>
                         <div class="col-md-4 mt-3">
                             <label for="mobile">Mobile</label>
-                            <input type="text" class="form-control" id="mobile" onchange="checkphone(this)" value="{{employee.mobile}}"
+                            <input type="text" class="form-control" id="mobile" maxlength="10" value="{{employee.mobile}}"
                                 name="mobile" style="background-color: #2f516f;color: white;" required>
                             <div class="text-danger m-2" id="warnphone"></div>
                         </div>
@@ -237,7 +237,7 @@
     </div>
     <div class="col-3 col-md-4">
         <label for="phone">Emergency Contact No:</label>
-        <input type="text" class="form-control" id="phone" onchange="checkphone(this)" value="{{employee.generalphone}}"
+        <input type="text" class="form-control" id="phone" maxlength="10" value="{{employee.generalphone}}"
             name="generalphone" style="background-color: #2f516f;color: white;" required>
         <div class="text-danger m-2 invalid-feedback" id="warnphone">Please provide a valid Number</div>
     </div>
@@ -315,13 +315,13 @@
                                             </div>
                                             <div class="col"  id="div-tds" style="display: none;">
                                                 <label for="tdsamtperc">TDS Type</label>
-                                                <select name="tdstype" id="tdsamtperc" class="form-control" value="{{employee.tds}}">
+                                                <select name="tdstype" id="tdsamtperc" class="form-control" value="{{employee.tdstype}}">
                                                     <option value="amount">Amount</option>
                                                     <option value="percentage">Percentage</option>
             
                                                 </select>
                                                 <label for="tds"></label>
-                                                <input type="text" class="form-control" id="tds" name="tds"
+                                                <input type="text" class="form-control" id="tds" name="tds" value="{{employee.tds}}"
                                                     style="background-color: #2f516f; color: white;" value="0">
                                                 
                                             </div>
@@ -478,7 +478,7 @@
                             <div class="col-md-6 mt-3">
                                 <div class="form-row">
                                     <label for="pinco">Pin Code</label>
-                                    <input type="text" class="form-control" id="pinco" name="pincode"  value="{{employee.pincode}}"
+                                    <input type="text" class="form-control" id="pinco" name="pincode" maxlength="6"  value="{{employee.pincode}}"
                                         style="background-color: #2f516f;color: white;" placeholder="PIN code" required>
                                     <div class="invalid-feedback">Please provide a valid Pin Code</div>
                                 </div>
@@ -576,7 +576,7 @@
                             <div class="col-md-6 mt-3">
                                 <div class="form-row">
                                     <label for="temppinco">Pin Code</label>
-                                    <input type="text" class="form-control" id="temppinco" name="temppincode"  value="{{employee.temppincode}}"
+                                    <input type="text" class="form-control" id="temppinco" name="temppincode" maxlength="6"  value="{{employee.temppincode}}"
                                         style="background-color: #2f516f;color: white;" placeholder="PIN code" required>
                                     <div class="invalid-feedback">Please provide a valid Pin Code</div>
                                 </div>
@@ -718,16 +718,7 @@
         }
     }
 
-    function checkphone(element) {
-        var phoneinput = element.value;
-        var phoneregexp = "[0-9]{10}";
-        if (phoneinput.match(phoneregexp)) {
-            document.getElementById('warnphone').innerHTML = '';
-        } else {
-            document.getElementById('warnphone').innerHTML = 'Please provide a valid Phone Number';
-            alert('Please provide a valid Phone Number')
-        }
-    }
+    
 </script>
 <script>
     (function () {

@@ -318,7 +318,7 @@
                             data-target="#exampleModal">Attach file</a>
                         {% if employee.file != "" %}
                         <a class="dropdown-item fa fa-download" style="cursor: pointer;" download
-                            href="{{employee.file }}">Download
+                            href="{{employee.file.url }}">Download
                             file</a>
                         {% endif %}
 
@@ -329,60 +329,7 @@
         </div>
     </div>
 
-    <!-- <form id="form_post" >
-            <label>From</label><input type="date" id="fdate" name="fdate"  > 
-            <label>To</label><input type="date" id="ldate" name="ldate" >
-            <button class="btn" type="submit"> Search</button>
-            </form> -->
-    <div class="card radius-15" id="form1" style="display: none;">
-        <div class="card-body">
-
-            {% csrf_token %}
-            <div class="row">
-                <div class="col-sm-4">
-                    <label style="text-align:left ">Report period</label><br>
-                    <form id="form_post" class="needs-validation" novalidate>
-                        <select class="form-control" id="filterstyle" onclick="filterDate(this)" list="hosting-plan"
-                            type="text">
-
-                            <option><span class="bx bx-right-arrow-alt"></span>Custom</option>
-                        </select>
-                </div>
-
-                <div class="col-sm-4" id="frdate" style="display: none;">
-                    <label for="from">From</label>
-                    <input type="date" class="form-control" id="fdate" name="fdate"
-                        style="background-color: #2f516f;color: white;">
-                </div>
-                <div class="col-sm-4" id="todate" style="display: none;">
-                    <label for="from">To</label>
-                    <input type="date" class="form-control" id="ldate" name="ldate"
-                        style="background-color: #2f516f;color: white;">
-                </div>
-                <div class="col-md-3"></div>
-            </div>
-            <br>
-            <br>
-            <div class="row">
-                <div class="col-md-5"></div>
-                <div class="col-md-2">
-
-                </div>
-
-                <div class="col-md-2">
-
-                    <button class="btn btn-outline-info  rounded-pill w-100" type="submit">Search</button>
-                </div>
-                <div class="col-md-2">
-                    <a class="fa fa-print" style="padding: 10px; cursor: pointer; float: right; "
-                        href="javascript:generatePDF()" id="downloadButton"> PDF</a>
-                </div>
-            </div>
-            </form>
-        </div>
-    </div>
-
-
+    
     <div class="card card-registration card-registration-2" style="border-radius: 15px;">
         <div class="card-body p-0">
 
@@ -396,97 +343,103 @@
                                 <h1 class="fw-bold mb-0 text-black">{{ employee.title }}. {{ employee.firstname }} {{ employee.lastname }}</h1>
                                   <img src="{{ employee.image.url }}" style="width: 15%; height: 97px; border-radius: 50px">
                             </div> 
-                            <hr class="my-4">
-                            
-                            <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                <div class="col-md-4">
-                                    <h4 style="border-bottom: 1px solid rgba(128, 128, 128, 0.6); width: fit-content;">
-                                        Personal Details</h4>
-                                </div>
-                               
-                            </div>
-                            <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                <div class="col-md-2 mt-3">
-                                    <h6 class="mb-0">Date Of Birth</h6>
-                                </div>
-                                <div class="col-md-2 mt-3">
-                                    <p class="mb-0"> {{ employee.dateofbirth }}</p>
-                                </div>
-                                <div class="col-md-2 mt-3 vl">
-                                    <h6 class="mb-0">Blood Group</h6>
-                                </div>
-                                <div class="col-md-2 mt-3">
-                                    <p class="mb-0">{{ employee.bloodgroup }}</p>
-                                </div>
-                                <div class="col-md-2 mt-3 vl">
-                                    <h6 class="mb-0">Gender</h6>
-                                </div>
-                                <div class="col-md-2 mt-3">
-                                    <p class="mb-0">{{ employee.gender }}</p>
-                                </div>
-                            </div>  <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                <div class="col-md-2 mt-3">
-                                    <h6 class="mb-0">Father's/Mother's Name</h6>
-                                </div>
-                                <div class="col-md-2 mt-3">
-                                    <p class="mb-0">  {{ employee.fathersmothersname }}</p>
-                                </div>
-                                <div class="col-md-2 mt-3 vl">
-                                    <h6 class="mb-0">Spouse Name</h6>
-                                </div>
-                                <div class="col-md-2 mt-3">
-                                    <p class="mb-0">{{ employee.spousename }}</p>
-                                </div>
-                                <div class="col-md-2 mt-3 vl">
-                                    <h6 class="mb-0">Emergency Contact No:</h6>
-                                </div>
-                                <div class="col-md-2 mt-3">
-                                    <p class="mb-0">{{ employee.generalphone }}</p>
-                                </div>
-                            </div> 
                             
                             <hr class="my-4">
-                            <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                <div class="col-md-4 mt-3">
-                                    <h4 style="border-bottom: 1px solid rgba(128, 128, 128, 0.6); width: fit-content;">
-                                    Address </h4>
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <div class="row">
+                                        <div class="col mt-3"><h4 class="mb-0">Employee Information</h4> </div> 
+                                    </div>
+                                           
                                 </div>
-                                <div class="col-md-4 mt-3"></div>
-                                <div class="col-md-4 mt-3"></div>
+                                <hr />         
+                                    <div class="row">
+                                        <div class="col-md-4 mt-3">
+                                            <label for="title"><h6>Date Of Birth : </h6></label>  
+                                            <label for="title">{{ employee.dateofbirth }}</label>
+                                            
+                                        </div>
+                                        <div class="col-md-4 mt-3 vl">
+                                            <label for="title"><h6>Blood Group : </h6></label>  
+                                            <label for="title">{{ employee.bloodgroup }}</label>
+                                           
+                                        </div>
+                                        <div class="col-md-4 mt-3 vl">
+                                            <label for="title"><h6>Gender : </h6></label>  
+                                            <label for="title">{{ employee.gender }}</label>
+                                            
+                                        </div>
+                                    </div>
 
-                                <div class="col-md-2 mt-3">
-                                    <h6 class="mb-0">Street</h6>
+                                    <div class="row">
+                                        <div class="col-md-4 mt-3">
+                                            <label for="title"><h6>Father's/Mother's Name : </h6></label>  
+                                            <label for="title">{{ employee.fathersmothersname }}</label>
+                                            
+                                        </div>
+                                        <div class="col-md-4 mt-3 vl">
+                                            <label for="title"><h6>Spouse Name : </h6></label>  
+                                            <label for="title">{{ employee.spousename }}</label>
+                                           
+                                        </div>
+                                        <div class="col-md-4 mt-3 vl">
+                                            <label for="title"><h6>Emergency Contact No:  </h6></label>  
+                                            <label for="title">{{ employee.generalphone }}</label>
+                                            
+                                        </div>
+                                    </div>
+    
+                            </div>
+                            
+                            <div class="card-body">
+                                <div class="card-title">
+                                    <div class="row">
+                                        <div class="col mt-3"><h4 class="mb-0">Address</h4> </div> 
+                                    </div>
+                                           
                                 </div>
-                                <div class="col-md-4 mt-3">
-                                    <p class="mb-0">{{ employee.street }}</p>
-                                </div>
-                                <div class="col-md-2 mt-3 vl">
-                                    <h6 class="mb-0">City</h6>
-                                </div>
-                                <div class="col-md-4 mt-3">
-                                    <p class="mb-0">{{ employee.city }}</p>
+                                <hr /> 
+                            <div class="row">
+                                <div class="col-md-8 mt-3">
+                                    <label for="title"><h6>Street : </h6></label>  
+                                    <label for="title">{{ employee.street }}</label>                                 
                                 </div>
                             </div>
-                            <div class="row mb-4 d-flex justify-content-between align-items-center">
-                                <div class="col-md-2 mt-3">
-                                    <h6 class="mb-0">State</h6>
+                            <div class="row">
+                                <div class="col-md-4 mt-3">
+                                    <label for="title"><h6>City : </h6></label>  
+                                    <label for="title">{{ employee.city }}</label>
+                                    
                                 </div>
-                                <div class="col-md-2 mt-3">
-                                    <p class="mb-0">{{ employee.state }}</p>
+                                <div class="col-md-4 mt-3 vl">
+                                    <label for="title"><h6>State : </h6></label>  
+                                    <label for="title">{{ employee.state }}</label>
+                                    
                                 </div>
-                                <div class="col-md-2 mt-3 vl">
-                                    <h6 class="mb-0">Pincode</h6>
+                                <div class="col-md-4 mt-3 vl">
+                                    <label for="title"><h6>Country : </h6></label>  
+                                    <label for="title">{{ employee.country }}</label>
+                                   
                                 </div>
-                                <div class="col-md-2 mt-3">
-                                    <p class="mb-0">{{ employee.pincode }}</p>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 mt-3">
+                                    <label for="title"><h6>Pincode : </h6></label>  
+                                    <label for="title">{{ employee.pincode }}</label>
+                                    
                                 </div>
-                                <div class="col-md-2 mt-3 vl">
-                                    <h6 class="mb-0">Country</h6>
+                                <div class="col-md-4 mt-3">
+                                  
+                                   
                                 </div>
-                                <div class="col-md-2 mt-3">
-                                    <p class="mb-0">{{ employee.country }}</p>
+                                <div class="col-md-4 mt-3">
+                                    
+                                    
                                 </div>
-                            </div>  
+                                
+                            </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-lg-4 bg-grey">
@@ -494,6 +447,10 @@
 
                             <h3 class="fw-bold mb-2 mt-2 pt-1">Employee Details</h3>
                             <hr class="my-4">
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Status</h6>
+                                {{ employee.status }}
+                            </div>
                             <div class="d-flex justify-content-between mb-4">
                                 <h6 class="">Designation</h6>
                                 {{ employee.designation }}
