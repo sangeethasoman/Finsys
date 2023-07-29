@@ -348,7 +348,7 @@
                             <div class="card-body">
                                 <div class="card-title">
                                     <div class="row">
-                                        <div class="col mt-3"><h4 class="mb-0">Employee Information</h4> </div> 
+                                        <div class="col mt-3"><h4 class="mb-0">Personal Information</h4> </div> 
                                     </div>
                                            
                                 </div>
@@ -463,18 +463,12 @@
                                 <h6 class="">Function</h6>
                                 {{ employee.function }}
                             </div>
-                            <div class="d-flex justify-content-between mb-4">
-                                <h6 class="">Employee Type</h6>
-                                {{ employee.employees }}
-                            </div>
+                           
                             <div class="d-flex justify-content-between mb-4">
                                 <h6 class="">Date Of Joining</h6>
                                 {{ employee.joindate }}
                             </div>
-                            <div class="d-flex justify-content-between mb-4">
-                                <h6 class="">Salary Effective From</h6>
-                                {{ employee.effectivefrom }}
-                            </div>
+                           
                             <div class="d-flex justify-content-between mb-4">
                                 <h6 class="">Contact</h6>
                                 {{ employee.mobile }}
@@ -483,6 +477,42 @@
                                 <h6 class="">Email</h6>
                                 {{ employee.email }}
                             </div>
+                            {% if employee.salarydetails == "Yes"%}
+                            <h3 class="fw-bold mb-2 mt-2 pt-1">Salary Details</h3>
+                            <hr class="my-4">
+                           
+                            
+                           
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Employee Type</h6>
+                                {{ employee.employees }}
+                            </div>
+                           
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Salary Effective From</h6>
+                                {{ employee.effectivefrom }}
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Pay Head</h6>
+                                {{ employee.payhead }}
+                            </div>
+                            {% if employee.employees == "Timebased"%}
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Hours</h6>
+                                {{ employee.hours }}
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Rate</h6>
+                                {{ employee.rate }}
+                            </div>
+                            {% endif %}
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Amount</h6>
+                                {{ employee.amount }}
+                            </div>
+                           
+                            {% endif %}
+          
                             
           
                          

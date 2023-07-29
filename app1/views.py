@@ -37549,7 +37549,11 @@ def addpayrollemployee(request):
             temppincode = request.POST['temppincode']
             tempcountry = request.POST['tempcountry'] 
             adharnumber = request.POST['adharnumber'] 
-            file = request.FILES['file']
+            try:
+                file = request.FILES['file']
+            except:
+                file = '' 
+            
             emppayroll = payrollemployee(title=title,firstname=firstname,
                                          lastname=lastname,alias=alias,cid=cmpId,
                                          location=location,
@@ -37588,7 +37592,7 @@ def addpayrollemployee(request):
             return redirect('listpayrollemployee')
            
     except:
-         return redirect('listpayrollemployee')
+        return redirect('listpayrollemployee')
 
  #Render employee list page.
 @login_required(login_url='login')
@@ -37739,6 +37743,21 @@ def employee_add_file(request, employeeid):
         employee.save()
     
     return redirect('payrollemployeeprofile', employeeid)
+
+@login_required(login_url='regcomp')
+def employee_salarydetails(request, employeeid):
+    employee = payrollemployee.objects.get(cid_id=request.session["uid"], employeeid=employeeid)
+   
+    if request.method == 'POST': 
+        if len(request.FILES) != 0:
+            if employee.file != "":
+                os.remove(employee.file.path)
+            employee.file = request.FILES['file']
+        
+        employee.save()
+    
+    return redirect('payrollemployeeprofile', employeeid)
+
 
 
 @login_required(login_url='regcomp')
