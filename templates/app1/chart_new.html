@@ -16,27 +16,38 @@
                 <div class="row mt-2 mb-2">
                     <div class="col-md-6">
                         <label for="acctyp">Account Type</label>
-                        <select name="acctype" id="select1"
-                                class="custom-select-md form-control w-100">
+                        <select name="acctype" id="Account_type"
+                                class="custom-select-md form-control w-100"  onchange="AccountTypeChange()">
+
                                
-                                <option >Account Receivable</option>
-                                <option>Current Assets</option>
-                                <option>Bank</option>
-                                <option>Fixed Assets</option>
-                                <option>Non-Current Assets</option>
-                                <option>Accounts Payable</option>
-                                <option>Credit Card</option>
-                                <option>Current Liabilities</option>
-                                <option>Non-Current Liabilities</option>
-                                <option>Equity</option>
-                                <option>Income</option>
-                                <option>Other Incomes</option>
-                                <option>Cost Of Goods Sold</option>
-                                <option>Expenses</option>
-                                <option>Other Expenses</option>
-                                <option>Undeposited Funds</option>
-                                <option>Stock(New)</option>
-                                <option>Cash</option>
+                               
+                                    <optgroup label="Assets" style="background-color: rgb(114, 114, 244);">Assets</optgroup>
+                                    <option style="padding-left:15px" value="other_asset" id="Other_Asset"> Other Asset </option>
+                                    <option style="padding-left:15px" value="other_current_asset" id="Other_Current_Asset"> Other Current Asset </option>
+                                    <option style="padding-left:15px" value="cash" id="Cash"> Cash </option>
+                                    <option style="padding-left:15px" value="bank" id="Bank"> Bank </option>
+                                    <option style="padding-left:15px" value="fixed_asset" id="Fixed_Asset"> Fixed Asset </option>
+                                    <option style="padding-left:15px" value="stock" id="Stock"> Stock</option>
+                                    <option style="padding-left:15px" value="payment_clearing" id="Payment_Clearing"> Payment Clearing</option>
+                                    <optgroup label="Liability"style="background-color: rgb(114, 114, 244);">Liability</optgroup>
+                                    <option style="padding-left:30px" value="other_current_liability" id="Other_Current_Liability">Other Current Liability </option>
+                                    <option style="padding-left:15px" value="credit_card" id="Credit_Card"> Credit Card </option>
+                                    <option style="padding-left:15px" value="long_term" id="Long_Term"> Long Term Liability </option>
+                                    <option style="padding-left:15px" value="other_liability" id="Other_Liability"> Other Liability </option>
+                                    <option style="padding-left:15px" value="overseas_tax" id="Overseas_Tax"> Overseas Tax Payable </option>
+                                    <optgroup label="Equity" style="background-color: rgb(114, 114, 244);">Equity</optgroup>
+                                    <option style="padding-left:15px" value="equity" id="Equity"> Equity </option>
+                                    <optgroup label="Income" style="background-color: rgb(114, 114, 244);">Income</optgroup>
+                                    <option style="padding-left:15px" value="income" id="Income"> Income </option>
+                                    <option style="padding-left:15px" value="other_income" id="Other_Income"> Other Income </option>
+                                    <optgroup label="Expense"style="background-color: rgb(114, 114, 244);">Expense</optgroup>
+                                    <option style="padding-left:15px" value="expense" id="Expense"> Expense </option>
+                                    <option style="padding-left:15px" value="goods_sold" id="Goods_Sold"> Cost Of Goods Sold </option>
+                                    <option style="padding-left:15px" value="other_expense" id="Other_Expense"> Other Expense </option>
+                                    
+                                    
+                                 
+                              
                                 
                                
                             
@@ -62,9 +73,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-6 mt-2">
-                        <textarea class="form-control mt-2" name="Type details" cols="20"
-                        rows="10" style="font-size: small;" disabled>Use Cash and Cash Equivalents to track cash or assets that can be converted into cash immediately. For example, marketable securities and Treasury bills.</textarea>
+                    <div class="col-md-6 mt-2"> 
+                        <div id="acnt-desc" class="form-control" style="font-size: small; background-color: rgb(0 0 0 / 39%);opacity: 1; height: 200px;"></div>
                     </div>
                     <div class="col-md-6 mt-2">
                         <div class="mt-2">
@@ -292,10 +302,12 @@
                         <div class="col-md-5"></div>
                         <div class="col-md-4"></div>
                         <div class="col-md-3">
-                            <button type="submit" class="btn btn-outline-info">Save and
-                                close
-                            </button>
+                            <button type="submit" class="btn btn-outline-info">Save</button>
+                                
+                           
+                            <button type="submit" class="btn btn-outline-info">Close</button>
                         </div>
+                       
                     </div>
                 </div>
                 
@@ -318,6 +330,119 @@
                     $select.attr('disabled', 'disabled');
                 }
             });
+
+            document.getElementById("acnt-desc").innerHTML=`
+                                                            <b>Asset</b> <br> Track special assets like goodwill and other intangible assets<br/>
+                                                            <ul>
+                                                                <li>1.knsdf</li>
+                                                                <li>2.knabsf</li>
+                                                            </ul>
+                                                            `;
         });
+    </script>
+
+    <script>
+        function AccountTypeChange() {
+        var selectElement = document.getElementById("Account_type");
+        var selectedValue = selectElement.value;
+        var Acnt_desc = document.getElementById("acnt-desc");
+debugger
+        switch(selectedValue) {
+
+                case "other_asset":
+                    Acnt_desc.innerHTML=`
+                                                            <b>Asset</b> <br> Track special assets like goodwill and other intangible assets<br/>
+                                                           
+                                                            `;
+                    break;
+                case "other_current_asset":
+                    Acnt_desc.innerHTML=`
+                                                            <b>Asset</b> <br> Any short term asset that can be converted into cash or cash equivalents easily<br/>
+                                                            <ul>
+                                                                <li>1.Prepaid expenses</li>
+                                                                <li>2.Stocks and Mutual Funds</li>
+                                                            </ul>
+                                                            `;
+                    break;
+                case "cash":
+                    Acnt_desc.innerHTML=`
+                                                            <b>Asset</b> <br> To keep track of cash and other cash equivalents like petty cash, undeposited funds, etc.<br/>
+                                                           
+                                                            `;
+                    break;
+                case "bank":
+                    Acnt_desc.innerHTML=`
+                                                            <b>Asset</b> <br> To keep track of bank accounts like Savings, Checking, and Money Market accounts<br/>
+                                                           
+                                                            `;
+                    break;
+                case "fixed_asset":
+                    Acnt_desc.innerHTML=`
+                                                            <b>Asset</b> <br> Any long term investment or an asset that cannot be converted into cash easily like:<br/>
+                                                            <ul>
+                                                                <li>1.Land and Buildings</li>
+                                                                <li>2.Plant, Machinery and Equipment</li>
+                                                                <li>3.Computers</li>
+                                                                <li>3.Furniture</li>
+                                                            </ul>
+                                                            `;
+                    break;
+                case "stock":
+                    Acnt_desc.innerHTML=`
+                                                            <b>Asset</b> <br> To keep track of your inventory assets.<br/>
+                                                           
+                                                            `;
+                    break;
+                case "payment_clearing":
+                    Acnt_desc.innerHTML=`
+                                                            <b>Asset</b> <br> To keep track of funds moving in and out via payment processors like Stripe, PayPal, etc.<br/>
+                                                           
+                                                            `;
+                    break;
+                case "other_current_liability":
+                    Acnt_desc.innerHTML=`
+                                                            <b>Liability</b> <br> Any short term liability like:<br/>
+                                                            <ul>
+                                                                <li>1.Customer Deposits</li>
+                                                                <li>2.Tax Payable</li>
+                                                                
+                                                            </ul>
+                                                            `;
+                    break;
+                case "credit_card":
+                    Acnt_desc.innerHTML=`
+                                                            <b>Liability</b> <br>Create a trail of all your credit card transactions by creating a credit card account<br/>
+                                                           
+                                                            `;
+                    break;
+                case "long_term":
+                    Acnt_desc.innerHTML=`
+                                                            <b>Liability</b> <br> Liabilities that mature after a minimum period of one year like Notes Payable, Debentures, and Long Term Loans<br/>
+                                                           
+                                                            `;
+                    break;
+                case "other_liability":
+                    Acnt_desc.innerHTML=`
+                                                            <b>Liability</b> <br>Obligation of an entity arising from past transactions or events which would require repayment.<br/>
+                                                            <ul>
+                                                                <li>1.Tax to be paid</li>
+                                                                <li>2.Loan to be Repaid</li>
+                                                                <li>3.Loan to be Repaid</li>
+                                                                
+                                                            </ul>
+                                                            `;
+                    break;
+                case "overseas_tax":
+                    Acnt_desc.innerHTML=`
+                                                            <b>Liability</b> <br> To keep track of funds moving in and out via payment processors like Stripe, PayPal, etc.<br/>
+                                                           
+                                                            `;
+                    break;
+                default:
+                    Acnt_desc.innerHTML="other asset";
+        }
+
+         
+    }
     </script>
 {% endblock %}
