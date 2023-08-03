@@ -61,7 +61,7 @@
                             <tbody>
                             {% for acoun in account1s %}
                                 {% if acoun.cid_id == cmp1.cid %}
-                                    <tr>
+                                    <tr class="table-row" data-href="{% url 'chartacnt_overview' acoun.accounts1id %}">
                                         <td>{{ acoun.name }}</td>
                                         <td>{{ acoun.acctype }}</td>
                                         
@@ -142,6 +142,13 @@
                     }
                 }
             }
+        </script>
+        <script>
+            $(document).ready(function ($) {
+                $(".table-row").dblclick(function () {
+                    window.document.location = $(this).data("href");
+                });
+            });
         </script>
     {% endif %}
 {% endblock %}

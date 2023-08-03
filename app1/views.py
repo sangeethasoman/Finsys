@@ -37778,7 +37778,25 @@ def deleteemployeecomments(request,employeeid, commentid):
     except:
         return redirect('payrollemployeeprofile', employeeid) 
 
+#render chart acnt overview page
+@login_required(login_url='login')
+def chartacnt_overview(request,accountsid): 
+  print(accountsid)
+  cmp1 = company.objects.get(id=request.session["uid"])
+  account1s = accounts1.objects.get(cid_id=request.session["uid"],accounts1id=accountsid)
+  return render(request,'app1/chartacnt_overview.html',{'account1s': account1s,'cmp1': cmp1})
 
+@login_required(login_url='regcomp')
+def active_account(request,accountsid,status):
+    
+    account1s = accounts1.objects.get(cid_id=request.session["uid"],accounts1id=accountsid)
+    if status == "Active":
+        account1s.status="Active"
+    else:
+         account1s.status="Inactive"
+
+    account1s.save()
+    return redirect('chartacnt_overview',account1s)
     
 
       
