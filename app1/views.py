@@ -37781,10 +37781,13 @@ def deleteemployeecomments(request,employeeid, commentid):
 #render chart acnt overview page
 @login_required(login_url='login')
 def chartacnt_overview(request,accountsid): 
-  print(accountsid)
   cmp1 = company.objects.get(id=request.session["uid"])
+  prodobj = ProductModel.objects.all()
+  itemobj = ItemModel.objects.all()
   account1s = accounts1.objects.get(cid_id=request.session["uid"],accounts1id=accountsid)
-  return render(request,'app1/chartacnt_overview.html',{'account1s': account1s,'cmp1': cmp1})
+  context = {'account1s': account1s, 'Product': prodobj,
+                   'Items': itemobj, 'cmp1': cmp1}
+  return render(request,'app1/chartacnt_overview.html',context)
 
 @login_required(login_url='regcomp')
 def active_account(request,accountsid,status):
@@ -37796,7 +37799,7 @@ def active_account(request,accountsid,status):
          account1s.status="Inactive"
 
     account1s.save()
-    return redirect('chartacnt_overview',account1s)
+    return redirect('chartacnt_overview',accountsid)
     
 
       

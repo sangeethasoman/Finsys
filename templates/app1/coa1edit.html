@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="card p-3">
-            <form method="post" action="{% url 'acc1update' account1s.accounts1id %}" id="accountForm>
+            <form  action="{% url 'acc1update' account1s.accounts1id %}" id="accountForm" method="POST">
                 {% csrf_token %}
                 <div class="row mt-2 mb-2">
                     <div class="col-md-6">
@@ -106,7 +106,7 @@
                     <div class="col-md-6 mt-2">
                         <div class="mt-2">
                             <div>
-                                <label for="asof">as of</label>
+                                <label for="asof">As of</label>
                                 <input type="date" name="asof" id="asof" class="form-control" value="{{ account1s.asof | date:'Y-m-d'}}">
                             </div>
                         </div>

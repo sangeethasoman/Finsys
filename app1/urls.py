@@ -866,8 +866,10 @@ urlpatterns = [
     path('employee_add_file/<int:employeeid>', views.employee_add_file, name='employee_add_file'),
     path('employeecomments/<int:employeeid>', views.employeecomments, name='employeecomments'),
     path('deleteemployeecomments/<int:employeeid>/<int:commentid>', views.deleteemployeecomments, name='deleteemployeecomments'),
-    path('chartacnt_overview/<int:accountsid>', views.chartacnt_overview, name='chartacnt_overview'),
     
+    #chart of account
+    path('chartacnt_overview/<int:accountsid>', views.chartacnt_overview, name='chartacnt_overview'),
+    path('active_account/<int:accountsid>/<str:status>/', views.active_account, name='active_account'),
    
 
 ]

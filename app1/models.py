@@ -860,6 +860,7 @@ class accounts1(models.Model):
     balance = models.FloatField(default=0.0, null=True)
     dbbalance=models.FloatField(default=0.0, null=True)
     asof = models.DateField(null=True)
+    status = models.CharField(max_length=100,default='Active')
 
 
 class expenseaccount(models.Model):

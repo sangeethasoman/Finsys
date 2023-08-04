@@ -154,7 +154,7 @@
             <div class="card-title">
                 <center>
                    
-                    <h2 class="mb-0">Account Overview</h2>
+                    <h2 class="mb-0">ACCOUNT OVERVIEW</h2>
                     
                 </center>
                 <hr>
@@ -168,17 +168,17 @@
                     <div>
                         <center>
                             
-                            <a href="{% url 'acc1update' account1s.accounts1id  %}"
+                            <a href="{% url 'coa1edit' account1s.accounts1id %}" 
                                 class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
                                 role="button">
                                 Edit
                             </a>&nbsp;&nbsp;&nbsp;
                             {% if account1s.status == "Active"%}
-                            <a href=""
+                            <a href="{% url 'active_account' account1s.accounts1id 'Inactive' %}"
                                 class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
                                 role="button">Inactivate</a> &nbsp;&nbsp;&nbsp;
                             {% else %}
-                            <a href=""
+                            <a href="{% url 'active_account' account1s.accounts1id 'Active' %}"
                                 class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
                                 role="button">Activate</a> &nbsp;&nbsp;&nbsp;
                             {% endif %}
