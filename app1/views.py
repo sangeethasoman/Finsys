@@ -957,6 +957,7 @@ def createaccount(request):
 
     cmp1 = company.objects.get(id=request.session["uid"])
     acctype = request.POST.get('acctype')
+   
         
     name = request.POST.get('name')
     description = request.POST.get('description')                           
@@ -1048,6 +1049,7 @@ def acc1update(request, accounts1id):
     cmp1 = company.objects.get(id=request.session['uid'])
     if request.method == 'POST':
         acctype = request.POST.get('acctype')
+        detype = request.POST.get('detype')
             
         name = request.POST.get('name')
         description = request.POST.get('description')                           
@@ -1064,6 +1066,7 @@ def acc1update(request, accounts1id):
         
         
         acc.acctype=acctype
+        acc.detype=detype
         acc.name=name
         acc.description=description
         acc.balance=balance

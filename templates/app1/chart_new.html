@@ -17,7 +17,7 @@
                     <div class="col-md-6">
                         <label for="acctyp">Account Type</label>
                         <select name="acctype" id="Account_type"
-                                class="custom-select-md form-control w-100"  onchange="AccountTypeChange()">
+                                class="custom-select-md form-control w-100"  onchange="AccountTypeChange(this)">
 
                                
                                
@@ -74,7 +74,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-6 mt-2"> 
-                        <div id="acnt-desc" class="form-control" style="font-size: small; background-color: rgb(0 0 0 / 39%);opacity: 1; height: 200px;"></div>
+                        <div id="acnt-desc" class="form-control" name="detype" style="font-size: small; background-color: rgb(0 0 0 / 39%);opacity: 1; height: 200px;"></div>
                     </div>
                     <div class="col-md-6 mt-2">
                         <div class="mt-2">
@@ -342,10 +342,15 @@
     </script>
 
     <script>
-        function AccountTypeChange() {
+        function AccountTypeChange(selectBox) {
         var selectElement = document.getElementById("Account_type");
         var selectedValue = selectElement.value;
         var Acnt_desc = document.getElementById("acnt-desc");
+debugger  
+            var groups = selectElement.getElementsByTagName ("optgroup"); 
+
+            var values = Array.from(document.querySelectorAll('select[name="Account_type"] > optgroup')).map(el => el.getAttribute('value'));
+
 
         switch(selectedValue) {
 
