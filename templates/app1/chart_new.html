@@ -16,7 +16,8 @@
                 <div class="row mt-2 mb-2">
                     <div class="col-md-6">
                         <label for="acctyp">Account Type</label>
-                        <select name="acctype" id="Account_type"
+                        <input type="text" value="Assets" id="acctype" name="acctype" hidden>
+                        <select name="detype" id="Account_type"
                                 class="custom-select-md form-control w-100"  onchange="AccountTypeChange(this)">
 
                                
@@ -29,7 +30,7 @@
                                     <option style="padding-left:15px" value="Fixed Asset"> Fixed Asset </option>
                                     <option style="padding-left:15px" value="Stock"> Stock</option>
                                     <option style="padding-left:15px" value="Payment Clearing"> Payment Clearing</option>
-                                    <optgroup label="Liability"style="background-color: rgb(114, 114, 244);">Liability</optgroup>
+                                    <optgroup label="Liability" style="background-color: rgb(114, 114, 244);">Liability</optgroup>
                                     <option style="padding-left:30px" value="Other Current Liability">Other Current Liability </option>
                                     <option style="padding-left:15px" value="Credit Card"> Credit Card </option>
                                     <option style="padding-left:15px" value="Long Term Liability"> Long Term Liability </option>
@@ -333,25 +334,20 @@
 
             document.getElementById("acnt-desc").innerHTML=`
                                                             <b>Asset</b> <br> Track special assets like goodwill and other intangible assets<br/>
-                                                            <ul>
-                                                                <li>1.knsdf</li>
-                                                                <li>2.knabsf</li>
-                                                            </ul>
-                                                            `;
+                                                           
+                                                           `;
         });
     </script>
 
     <script>
+       
         function AccountTypeChange(selectBox) {
         var selectElement = document.getElementById("Account_type");
         var selectedValue = selectElement.value;
         var Acnt_desc = document.getElementById("acnt-desc");
-debugger  
-            var groups = selectElement.getElementsByTagName ("optgroup"); 
-
-            var values = Array.from(document.querySelectorAll('select[name="Account_type"] > optgroup')).map(el => el.getAttribute('value'));
-
-
+        var acctype = document.getElementById("acctype");
+ 
+          
         switch(selectedValue) {
 
                 case "Other Asset":
@@ -359,6 +355,7 @@ debugger
                                                             <b>Asset</b> <br> Track special assets like goodwill and other intangible assets<br/>
                                                            
                                                             `;
+                                                            acctype.value="Asset";
                     break;
                 case "Other Current Asset":
                     Acnt_desc.innerHTML=`
@@ -368,18 +365,21 @@ debugger
                                                                 <li>2.Stocks and Mutual Funds</li>
                                                             </ul>
                                                             `;
+                                                            acctype.value="Asset";
                     break;
                 case "Cash":
                     Acnt_desc.innerHTML=`
                                                             <b>Asset</b> <br> To keep track of cash and other cash equivalents like petty cash, undeposited funds, etc.<br/>
                                                            
                                                             `;
+                                                            acctype.value="Asset";
                     break;
                 case "Bank":
                     Acnt_desc.innerHTML=`
                                                             <b>Asset</b> <br> To keep track of bank accounts like Savings, Checking, and Money Market accounts<br/>
                                                            
                                                             `;
+                                                            acctype.value="Asset";
                     break;
                 case "Fixed Asset":
                     Acnt_desc.innerHTML=`
@@ -391,18 +391,21 @@ debugger
                                                                 <li>3.Furniture</li>
                                                             </ul>
                                                             `;
+                                                            acctype.value="Asset";
                     break;
                 case "Stock":
                     Acnt_desc.innerHTML=`
                                                             <b>Asset</b> <br> To keep track of your inventory assets.<br/>
                                                            
                                                             `;
+                                                            acctype.value="Asset";
                     break;
                 case "Payment Clearing":
                     Acnt_desc.innerHTML=`
                                                             <b>Asset</b> <br> To keep track of funds moving in and out via payment processors like Stripe, PayPal, etc.<br/>
                                                            
                                                             `;
+                                                            acctype.value="Asset";
                     break;
                 case "Other Current Liability":
                     Acnt_desc.innerHTML=`
@@ -413,18 +416,21 @@ debugger
                                                                 
                                                             </ul>
                                                             `;
+                                                            acctype.value="Liability"
                     break;
                 case "Credit Card":
                     Acnt_desc.innerHTML=`
                                                             <b>Liability</b> <br>Create a trail of all your credit card transactions by creating a credit card account<br/>
                                                            
                                                             `;
+                                                            acctype.value="Liability"
                     break;
                 case "Long Term Liability":
                     Acnt_desc.innerHTML=`
                                                             <b>Liability</b> <br> Liabilities that mature after a minimum period of one year like Notes Payable, Debentures, and Long Term Loans<br/>
                                                            
                                                             `;
+                                                            acctype.value="Liability"
                     break;
                 case "Other Liability":
                     Acnt_desc.innerHTML=`
@@ -436,24 +442,28 @@ debugger
                                                                 
                                                             </ul>
                                                             `;
+                                                            acctype.value="Liability"
                     break;
                 case "Overseas Tax Payable":
                     Acnt_desc.innerHTML=`
                                                             <b>Liability</b> <br> To keep track of funds moving in and out via payment processors like Stripe, PayPal, etc.<br/>
                                                            
                                                             `;
+                                                            acctype.value="Liability"
                     break;
                 case "Equity":
                     Acnt_desc.innerHTML=`
                                                             <b>Equity</b> <br>Owners or stakeholders interest on the assets of the business after deducting all the liabilities<br/>
                                                            
                                                             `;
+                                                            acctype.value="Equity"
                     break;
                 case "Income":
                     Acnt_desc.innerHTML=`
                                                             <b>Income</b> <br>Income or Revenue earned from normal business activities like sale of goods and services to customers<br/>
                                                            
                                                             `;
+                                                            acctype.value="Income"
                     break;
                 case "Other Income":
                     Acnt_desc.innerHTML=`
@@ -465,6 +475,7 @@ debugger
                                                                 
                                                             </ul>
                                                             `;
+                                                            acctype.value="Income"
                     break;
                 case "Expense":
                     Acnt_desc.innerHTML=`
@@ -478,6 +489,7 @@ debugger
                                                                 
                                                             </ul>
                                                             `;
+                                                            acctype.value="Expense"
                     break;
                 case "Cost Of Goods Sold":
                     Acnt_desc.innerHTML=`
@@ -489,6 +501,7 @@ debugger
                                                                 
                                                             </ul>
                                                             `;
+                                                            acctype.value="Expense"
                     break;
                 case "Other Expense":
                     Acnt_desc.innerHTML=`
@@ -500,6 +513,7 @@ debugger
                                                                 
                                                             </ul>
                                                             `;
+                                                            acctype.value="Expense"
                     break;
 
                 default:
