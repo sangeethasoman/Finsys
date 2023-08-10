@@ -991,7 +991,7 @@ def gocoa(request):
         prodobj = ProductModel.objects.all()
         itemobj = ItemModel.objects.all()
         acounts = accounts.objects.filter(cid=cmp1)
-        account1s = accounts1.objects.filter(cid=cmp1)
+        account1s = accounts1.objects.filter(cid=cmp1).order_by('name')
         toda = date.today()
         tod = toda.strftime("%Y-%m-%d")
         return render(request, 'app1/coa.html',
