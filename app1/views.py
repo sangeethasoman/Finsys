@@ -1212,11 +1212,19 @@ def gocoa(request):
         if(account1s_count>0):
             for i in range(len(accountsecond)):
                 for j in range(1):
-                    account = accounts1.objects.filter(cid=cmp1,name=accountsecond[i][2]) 
-                    if(account[0].acctype == accountsecond[i][0] and account[0].detype == accountsecond[i][1] and account[0].name == accountsecond[i][2]):
-                        print( accountsecond[i][2],'-same')
-                    else:
-                        print( accountsecond[i][2],'-Not same')
+                    account = accounts1.objects.filter(cid=cmp1,acctype = accountsecond[i][0],detype = accountsecond[i][1],name = accountsecond[i][2]) 
+                    if(account.count()>0):  
+                        if(account[0].description != accountsecond[i][3]):
+                             acc = accounts1.objects.get(accounts1id=account[0].accounts1id, cid=cmp1)
+                             acc.description = accountsecond[i][3] 
+                             acc.save() 
+                    else: 
+                            accounts1model = accounts1(cid=cmp1, acctype=accountsecond[i][0],
+                                                    detype=accountsecond[i][1], name=accountsecond[i][2], description=accountsecond[i][3],
+                                                    gst='', deftaxcode='', balance=0.0,
+                                                    asof=tod)
+                            accounts1model.save()
+                    
              
         else:
             for i in range(len(accountsecond)):
