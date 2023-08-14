@@ -38079,7 +38079,7 @@ def chartacnt_overview(request,accountsid):
   cmp1 = company.objects.get(id=request.session["uid"])
   prodobj = ProductModel.objects.all()
   itemobj = ItemModel.objects.all()
-  account1s = accounts1.objects.get(cid_id=request.session["uid"],accounts1id=accountsid)
+  account1s = accounts1.objects.get(cid_id=cmp1,accounts1id=accountsid)
   context = {'account1s': account1s, 'Product': prodobj,
                    'Items': itemobj, 'cmp1': cmp1}
   return render(request,'app1/chartacnt_overview.html',context)
