@@ -172,15 +172,16 @@
                                 class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
                                 role="button">
                                 Edit
-                            </a>&nbsp;&nbsp;&nbsp;
+                            </a>&nbsp;&nbsp;&nbsp; 
                             {% if account1s.status == "Active"%}
-                            <a href="{% url 'active_account' account1s.accounts1id 'Inactive' %}"
-                                class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
-                                role="button">Inactivate</a> &nbsp;&nbsp;&nbsp;
-                            {% else %}
-                            <a href="{% url 'active_account' account1s.accounts1id 'Active' %}"
+                      
+                            <a href="{% url 'active_account' account1s.accounts1id 'Inctive' %}"
                                 class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
                                 role="button">Activate</a> &nbsp;&nbsp;&nbsp;
+                            {% else %}
+                            <a href="{% url 'active_account' account1s.accounts1id 'Active' %}"
+                            class=" fa fa-pencil btn btn-outline-info rounded-pill text-grey mt-3 mb-3"
+                            role="button">Inactivate</a> &nbsp;&nbsp;&nbsp;
                             {% endif %}
 
 
@@ -264,6 +265,10 @@
                             <div class="d-flex justify-content-between mb-4">
                                 <h6 class="">Account Name</h6>
                                 {{ account1s.name }}
+                            </div>
+                            <div class="d-flex justify-content-between mb-4">
+                                <h6 class="">Status</h6>
+                                {{ account1s.status }}
                             </div>
                             <div class="d-flex justify-content-between mb-4">
                                 <h6 class="">Credit</h6>

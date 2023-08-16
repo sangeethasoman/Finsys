@@ -127,7 +127,7 @@
                             <button type="submit" class="btn btn-outline-info">Save</button>
                                 
                            
-                            <a type="submit" class="btn btn-outline-info" onclick="clearForm()">Close</a>
+                            <a type="submit" class="btn btn-outline-info"  href="{% url 'chartacnt_overview' account1s.accounts1id %}">Close</a>
                         </div>
                     </div>
                 </div>
@@ -336,11 +336,7 @@
     }
 
      
-}
-function clearForm() {
-        const form = document.getElementById('accountForm');
-        form.reset();
-}
+} 
 </script>
 {% endblock %}
 
